@@ -10,8 +10,16 @@ class TrickTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/');
-
+        
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Hello World');
+        $this->assertCount(15, $crawler->filter('h2.trick-name'));
+    }
+    
+    public function testTitle():void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Liste des tricks');
     }
 }
