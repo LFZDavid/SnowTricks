@@ -7,9 +7,16 @@
 
 {% block body %}
 	<section id="homepage-img">
-		<div class="homepage-img"></div>
+		<div class="homepage-band">
+			<h2 class="homepage-band-text">Board to be wild...</h2>
+		</div>
+		<a href="#trick-list">
+			<i class="bi bi-arrow-down-square"></i>
+		</a>
 	</section>
-	<h1>Liste des tricks</h1>
+	<section id="trick-list">
+		<h1>Liste des tricks</h1>
+	</section>
 
 	{% for trick in tricks %}
 		<h2 class="trick-name">{{trick.name}}</h2>

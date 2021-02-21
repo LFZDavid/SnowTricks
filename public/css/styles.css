@@ -7,7 +7,7 @@
     background-color: #efebda;
 }
 .nav-links{
-    margin-right: 100px;
+    margin: auto 100px auto 0px;
 }
 
 .nav-links> ul{
@@ -29,13 +29,35 @@
     color: black;
 }
 
-
 /* HOMEPAGE */
 section#homepage-img{
-height: 50rem;
+    height: 55rem;
     width: 100%;
     background-image: url('/img/homepage.jpg');
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.homepage-band{
+    position: relative;
+    top: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+}
+
+.homepage-band-text{
+    color: #efebda;
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    font-style: italic;
+}
+
+#homepage-img>a>.bi-arrow-down-square{
+    font-size: 3em;
+    color: black;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
 }
