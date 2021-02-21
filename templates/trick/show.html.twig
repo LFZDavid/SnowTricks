@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{parent()}}
+	{{trick.name}}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid">
+
+		<pre>
+        {{ dump(trick) }}
+    </pre>
+
+	</div>
+{% endblock %}
