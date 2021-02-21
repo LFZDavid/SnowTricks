@@ -10,9 +10,11 @@
 		<div class="homepage-band">
 			<h2 class="homepage-band-text">Board to be wild...</h2>
 		</div>
-		<a href="#trick-list">
-			<i class="bi bi-arrow-down-square"></i>
-		</a>
+		<div class="trick-list-scroll-btn scroll-down">
+			<a href="#trick-list">
+				<i class="bi bi-arrow-down-square"></i>
+			</a>
+		</div>
 	</section>
 	<section id="trick-list">
 		<h1>Liste des tricks</h1>
@@ -31,11 +33,11 @@
 					</div>
 				</div>
 			{% endfor %}
-			<div>
-				<a class="btn btn-outline-primary" href="{{asset('/')}}{{tricks|length + 15}}">Load more...</a>
+			<div class="trick-list-bottom">
+				<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
 			</div>
 		</div>
-		<div class="trick-list-scroll-up-btn">
+		<div class="trick-list-scroll-btn">
 			<a href="#trick-list">
 				<i class="bi bi-arrow-up-square"></i>
 			</a>

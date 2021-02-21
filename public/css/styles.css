@@ -37,6 +37,9 @@ section#homepage-img{
     background-position: top;
     background-repeat: no-repeat;
     background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .homepage-band{
@@ -54,13 +57,6 @@ section#homepage-img{
     font-style: italic;
 }
 
-#homepage-img>a>.bi-arrow-down-square{
-    font-size: 3em;
-    color: black;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
 
 #trick-list{
     display: flex;
@@ -68,15 +64,24 @@ section#homepage-img{
     justify-content: space-evenly;
 }
 
-.trick-list-scroll-up-btn{
+.trick-list-scroll-btn{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-
+    margin-right: 30px;
 }
 
-.trick-list-scroll-up-btn>a>.bi-arrow-up-square{
+.bi-arrow-up-square,
+.bi-arrow-down-square
+{
     font-size: 3em;
     color: black;
 
+}
+
+.trick-list-bottom{
+    margin : 30px auto; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
