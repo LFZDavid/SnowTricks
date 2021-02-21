@@ -16,31 +16,33 @@
 			</a>
 		</div>
 	</section>
-	<section id="trick-list">
-		<h1>Liste des tricks</h1>
-		<div class="row tricks">
-			{% for trick in tricks %}
-				<div class="col-md-2 col-xs-10 {{ (loop.index)%5 == 1 ? 'offset-md-1' : '' }}">
-					<div class="card">
-						<img class="card-img-top" src="{{asset('/img/tricks/default.jpg')}}">
-						<div class="card-body">
-							<a href="#">
-								<h5 class="card-title trick-name">
-									{{trick.name}}
-								</h5>
-							</a>
+	<div class="container-fluid">
+		<section id="trick-list">
+			<h1>Liste des tricks</h1>
+			<div class="row tricks">
+				{% for trick in tricks %}
+					<div class="col-md-2 col-xs-10 {{ (loop.index)%5 == 1 ? 'offset-md-1' : '' }}">
+						<div class="card">
+							<img class="card-img-top" src="{{asset('/img/tricks/default.jpg')}}">
+							<div class="card-body">
+								<a href="#">
+									<h5 class="card-title trick-name">
+										{{trick.name}}
+									</h5>
+								</a>
+							</div>
 						</div>
 					</div>
+				{% endfor %}
+				<div class="trick-list-bottom">
+					<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
 				</div>
-			{% endfor %}
-			<div class="trick-list-bottom">
-				<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
 			</div>
-		</div>
-		<div class="trick-list-scroll-btn">
-			<a href="#trick-list">
-				<i class="bi bi-arrow-up-square"></i>
-			</a>
-		</div>
-	</section>
+			<div class="trick-list-scroll-btn">
+				<a href="#trick-list">
+					<i class="bi bi-arrow-up-square"></i>
+				</a>
+			</div>
+		</section>
+	</div>
 {% endblock %}

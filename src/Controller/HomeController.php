@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/{nb<\d+>}", name="home")
      */
-    public function index(int $nb = 15): Response
+    public function index(?int $nb = 15): Response
     {
         $tricks = $this->repo->findBy(
             [],

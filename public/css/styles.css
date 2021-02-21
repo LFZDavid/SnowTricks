@@ -29,6 +29,20 @@
     color: black;
 }
 
+/* FOOTER */
+#footer{
+    background-color: #efebda;
+    height: 50px; 
+}
+
+.copyright{
+    margin-left: 30px;
+    padding-top: 20px;
+}
+.copyright>h5{
+    font-size: 16px;
+}
+
 /* HOMEPAGE */
 section#homepage-img{
     height: 55rem;
