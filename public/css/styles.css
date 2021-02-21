@@ -1,0 +1,41 @@
+/* GLOBLAL */
+
+
+
+/* NAVBAR */
+.navbar{
+    background-color: #efebda;
+}
+.nav-links{
+    margin-right: 100px;
+}
+
+.nav-links> ul{
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-link{
+    padding: 5px;
+}
+
+.nav-link::after{
+    content: "|";
+}
+
+.navbar>div>a,
+.navbar>div>div>ul>li>a{
+    text-decoration: none;
+    color: black;
+}
+
+
+/* HOMEPAGE */
+section#homepage-img{
+height: 50rem;
+    width: 100%;
+    background-image: url('/img/homepage.jpg');
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
