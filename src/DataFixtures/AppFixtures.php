@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Trick;
+use App\Entity\Media;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -18,6 +19,12 @@ class AppFixtures extends Fixture
             ->setDescription('Description du Trick n° '.$i)
             ->setCreatedAt(new DateTime());
             $manager->persist($trick);
+
+            $media = new Media();
+            $media
+            ->setUrl('https://picsum.photos/150/150?random='.$i)
+            ->setTrick($trick);
+            $manager->persist($media);
         }
 
         $manager->flush();
