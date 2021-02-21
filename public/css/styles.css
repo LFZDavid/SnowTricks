@@ -61,3 +61,22 @@ section#homepage-img{
     bottom: 20px;
     right: 20px;
 }
+
+#trick-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.trick-list-scroll-up-btn{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+
+}
+
+.trick-list-scroll-up-btn>a>.bi-arrow-up-square{
+    font-size: 3em;
+    color: black;
+
+}
