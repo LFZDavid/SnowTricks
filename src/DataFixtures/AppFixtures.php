@@ -25,11 +25,13 @@ class AppFixtures extends Fixture
             $trick->setSlug($slug);
             $manager->persist($trick);
 
-            $media = new Media();
-            $media
-            ->setUrl('https://picsum.photos/150/150?random='.$i)
-            ->setTrick($trick);
-            $manager->persist($media);
+            for($j = 0; $j < rand(1,3); $j++) {
+                $media = new Media();
+                $media
+                ->setUrl('https://picsum.photos/150/150?random='.rand(1,60))
+                ->setTrick($trick);
+                $manager->persist($media);
+            }
         }
 
         $manager->flush();

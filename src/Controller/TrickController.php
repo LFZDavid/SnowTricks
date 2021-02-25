@@ -18,12 +18,11 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{id}", name="trick_show")
+     * @Route("/trick/{slug}", name="trick_show")
      */
-    public function show(int $id):Response
+    public function show(string $slug):Response
     {
-        $trick = $this->repo->find($id);
-
+        $trick = $this->repo->findOneBy(['slug' => $slug]);
         return $this->render('trick/show.html.twig',[
             'trick' => $trick,
         ]);
