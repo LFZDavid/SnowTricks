@@ -19,8 +19,7 @@ class AppFixtures extends Fixture
             $trick = new Trick();
             $trick
             ->setName('Trick n° '.$i)
-            ->setDescription('Description du Trick n° '.$i)
-            ->setCreatedAt(new DateTime());
+            ->setDescription('Description du Trick n° '.$i);
             $slug = (string) $slugger->slug((string) $trick->getName())->lower();
             $trick->setSlug($slug);
             $manager->persist($trick);
@@ -28,10 +27,11 @@ class AppFixtures extends Fixture
             for($j = 0; $j < rand(1,3); $j++) {
                 $media = new Media();
                 $media
-                ->setUrl('https://picsum.photos/150/150?random='.rand(1,60))
-                ->setTrick($trick);
+                ->setUrl('https://picsum.photos/150/150?random='.rand(1,60));
+                $trick->addMedia($media);
                 $manager->persist($media);
             }
+
         }
 
         $manager->flush();

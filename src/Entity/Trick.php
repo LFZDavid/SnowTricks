@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TrickRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -42,7 +43,7 @@ class Trick
     /**
      * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true)
      */
-    private $Medias;
+    private $medias;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -51,7 +52,8 @@ class Trick
 
     public function __construct()
     {
-        $this->Medias = new ArrayCollection();
+        $this->createdAt = new DateTime();
+        $this->medias = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,13 +114,13 @@ class Trick
      */
     public function getMedias(): Collection
     {
-        return $this->Medias;
+        return $this->medias;
     }
 
     public function addMedia(Media $media): self
     {
-        if (!$this->Medias->contains($media)) {
-            $this->Medias[] = $media;
+        if (!$this->medias->contains($media)) {
+            $this->medias[] = $media;
             $media->setTrick($this);
         }
 
@@ -127,7 +129,7 @@ class Trick
 
     public function removeMedia(Media $media): self
     {
-        if ($this->Medias->removeElement($media)) {
+        if ($this->medias->removeElement($media)) {
             // set the owning side to null (unless already changed)
             if ($media->getTrick() === $this) {
                 $media->setTrick(null);

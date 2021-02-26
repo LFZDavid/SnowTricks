@@ -1,5 +1,7 @@
 /* GLOBLAL */
+
 :root {
+    --navbar-mobile-height: 9vh;
     --navbar-height: 6vh;
     --footer-height: 6vh;
 }
@@ -12,6 +14,11 @@
 
 #body-block {
     flex: 2;
+}
+
+/* FOOTER */
+#footer {
+    display: none;
 }
 
 /* NAVBAR */
@@ -37,26 +44,10 @@
     font-size: 2em;
 }
 
-
 .navbar>div>a,
 .navbar>div>div>ul>li>a{
     text-decoration: none;
     color: black;
-}
-
-
-/* FOOTER */
-#footer{
-    background-color: #efebda;
-    min-height: var(--footer-height);
-}
-
-.copyright{
-    margin-left: 30px;
-    padding-top: 20px;
-}
-.copyright>h5{
-    font-size: 16px;
 }
 
 /* HOMEPAGE */
@@ -120,22 +111,30 @@ section#homepage-img{
 /* PAGES */
 
 .bg-block {
-    min-height: calc(100vh - var(--footer-height) - var(--navbar-height));
-    background-image: url('/img/homepage.jpg');
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 50vh;
+    min-height: calc(100vh - var(--navbar-mobile-height));
 }
 
 .trick-block {
-    padding : 10vh 6vh;
-    width: 70%;
+    padding: 10px 0 calc(var(--navbar-mobile-height)) 0;
+    width: 100%;
 }
 
+.trick-block>.card>img {
+    height: 30vh;
+}
+
+.see-medias-btn {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px auto;
+}
 
 /* MEDIA QUERIES*/
 
 @media (max-width:992px){
+
+    /* NAVBAR */
     .no_mobile{
         display: none;
     }
@@ -145,7 +144,7 @@ section#homepage-img{
         bottom: 0;
         z-index: 999;
         padding: 0px;
-        height: 9vh;
+        min-height: var(--navbar-mobile-height);
     }
     
     .nav-links{
@@ -157,8 +156,10 @@ section#homepage-img{
         flex-direction: row;
         justify-content: space-evenly;
     }
+
 }
 
+/* desktop */
 @media (min-width: 992px) {
     .nav-link::after{
         content: "|";
@@ -166,4 +167,38 @@ section#homepage-img{
     .nav-link-icon{
         display: none;
     }
+    
+    /* FOOTER */
+    #footer{
+        display: block;
+        background-color: #efebda;
+        min-height: var(--footer-height);
+    }
+
+    .copyright{
+        margin-left: 30px;
+        padding-top: 20px;
+    }
+    .copyright>h5{
+        font-size: 16px;
+    }
+
+    /* PAGES */
+    .bg-block {
+        background-image: url('/img/homepage.jpg');
+        background-position: top;
+        background-repeat: no-repeat;
+        background-size: 100% 50vh;
+        min-height: calc(100vh - var(--footer-height) - var(--navbar-height));
+    }
+
+    .trick-block {
+        padding : 10vh var(--navbar-height);
+        width: 70%;
+    }
+
+    .see-medias-btn {
+        display: none;
+    }
+
 }
