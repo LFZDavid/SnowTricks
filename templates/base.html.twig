@@ -26,8 +26,10 @@
 <body>
 	<div id="main">
 		{% include "/includes/header.html.twig" %}
-		{% block body %}
-		{% endblock %}
+		<div id="body-block">
+			{% block body %}
+			{% endblock %}
+		</div>
 		{% include "/includes/footer.html.twig" %}
 	</div>
 </body>
