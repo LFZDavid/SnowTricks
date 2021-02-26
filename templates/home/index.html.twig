@@ -6,9 +6,47 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Liste des tricks</h1>
-
-	{% for trick in tricks %}
-		<h2 class="trick-name">{{trick.name}}</h2>
-	{% endfor %}
+	<section id="homepage-img">
+		<div class="homepage-band">
+			<h2 class="homepage-band-text">Board to be wild...</h2>
+		</div>
+		<div class="trick-list-scroll-btn scroll-down">
+			<a href="#trick-list">
+				<i class="bi bi-arrow-down-square"></i>
+			</a>
+		</div>
+	</section>
+	<div class="container-fluid">
+		<section id="trick-list">
+			<h1>Liste des tricks</h1>
+			<div class="row tricks">
+				{% for trick in tricks %}
+					<div class="col-md-2 col-xs-10 {{ (loop.index)%5 == 1 ? 'offset-md-1' : '' }}">
+						<div class="card">
+							{% if trick.medias is not empty %}
+								<img class="card-img-top" src="{{asset(trick.medias[0].url)}}">
+							{% else %}
+								<img class="card-img-top" src="{{asset('/img/tricks/default.jpg')}}">
+							{% endif %}
+							<div class="card-body">
+								<a href="#">
+									<h5 class="card-title trick-name">
+										{{trick.name}}
+									</h5>
+								</a>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+				<div class="trick-list-bottom">
+					<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
+				</div>
+			</div>
+			<div class="trick-list-scroll-btn">
+				<a href="#trick-list">
+					<i class="bi bi-arrow-up-square"></i>
+				</a>
+			</div>
+		</section>
+	</div>
 {% endblock %}

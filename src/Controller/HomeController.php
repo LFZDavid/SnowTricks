@@ -17,14 +17,14 @@ class HomeController extends AbstractController
         $this->repo = $repo;
     }
     /**
-     * @Route("/", name="home")
+     * @Route("/{nb<\d+>}", name="home")
      */
-    public function index(): Response
+    public function index(?int $nb = 15): Response
     {
         $tricks = $this->repo->findBy(
             [],
             ["createdAt" => "DESC"],
-            15
+            $nb
         );
 
         return $this->render('home/index.html.twig', [
