@@ -1,8 +1,36 @@
 {% extends 'base.html.twig' %}
 
+{% if edit %}
+	{% set title = "Modification de : "~trick.name %}
+{% else %}
+	{% set title = "Creation d'un Trick" %}
+{% endif %}
+
 {% block title %}
 	{{parent()}}
-
+	{{title}}
 {% endblock %}
 
-{% block body %}{% endblock %}
+{% block body %}
+
+	<div class="container-fluid bg-block">
+		<div class="container trick-block">
+			<div class="card">
+				<img src="" alt="" class="img-fluid">
+				<h1 class="card-title">{{title}}</h1>
+				<div class="card-body">
+					{{ form_start(formTrick)}}
+					{{form_row(formTrick.name,{'attr': {'placeholder':'Nom du trick'}})}}
+					{{form_row(formTrick.description,{'attr':{ 'placeholder':'Description'}})}}
+					<div class="form-control">
+						<input type="submit" value="Envoyer" class="btn btn-success">
+					</div>
+					{{ form_end(formTrick)}}
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+{% endblock %}
