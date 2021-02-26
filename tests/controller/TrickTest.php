@@ -21,4 +21,11 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('h1','Trick n° 19');
 
     }
+
+    public function testGetForm(): void
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET',"/trick/create");
+        $this->assertResponseIsSuccessful();
+    }
 }

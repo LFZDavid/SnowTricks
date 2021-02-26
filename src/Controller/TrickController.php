@@ -11,6 +11,16 @@ class TrickController extends AbstractController
 {
 
     /**
+     * @Route("/trick/create", name="trick_form")
+     */
+    public function form(?Trick $trick):Response
+    {
+        return $this->render('trick/form.html.twig',[
+            'trick' => $trick,
+        ]);
+    }
+    
+    /**
      * @Route("/trick/{slug}", name="trick_show")
      */
     public function show(Trick $trick):Response
@@ -19,4 +29,5 @@ class TrickController extends AbstractController
             'trick' => $trick,
         ]);
     }
+
 }
