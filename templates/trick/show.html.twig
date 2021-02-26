@@ -12,8 +12,20 @@
 			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 			<h1 class="card-title">{{trick.name}}</h1>
 			<div class="card-body">
-				<div class="see-medias-btn">
-					<button class="btn btn-secondary">Voir les medias</button>
+				<div class="see-medias-btn dropduwn">
+					<button class="btn btn-secondary dorpdown-toggle" type="button" id="dropdownMedias"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Voir les medias
+					</button>
+					<ul class="dropdown-menu" aria-labelleby="dropdownMedias">
+						{% for media in trick.medias.toArray %}
+						<li>
+							<a href="{{asset(media.url)}}" target="_blank">
+								<img class="img-thumbnail dropdown-item" src="{{asset(media.url)}}">
+							</a>
+							{% endfor %}
+						</li>
+					</ul>
 				</div>
 				<div class="trick-medias no_mobile">
 					<div class="row">
