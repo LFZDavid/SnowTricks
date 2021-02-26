@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Homepage{% endblock %}
+{% block title %}
+	{{parent()}}
+	Liste des tricks
+{% endblock %}
 
 {% block body %}
+	<h1>Liste des tricks</h1>
 
+	{% for trick in tricks %}
+		<h2 class="trick-name">{{trick.name}}</h2>
+	{% endfor %}
 {% endblock %}
