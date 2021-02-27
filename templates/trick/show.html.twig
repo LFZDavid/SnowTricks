@@ -1,38 +1,42 @@
 {% extends 'base.html.twig' %}
 
+{% if edit is not defined %}
+	{% set title = trick.name %}
+{% endif %}
+
 {% block title %}
 	{{parent()}}
-	{{trick.name}}
+	{{title}}
 {% endblock %}
 
 {% block body %}
 	<div class="container-fluid bg-block">
 		<div class="container trick-block">
 			<div class="card">
+				<div class="card edit-trick-btns edit-trick-btns-main">
+					{% if edit is not defined %}
+						<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+							<i class="bi bi-pencil-fill"></i>
+						</a>
+						<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+							<i class="bi bi-trash-fill"></i>
+						</a>
+					{% else %}
+						<a href="#">
+							<i class="bi bi-pencil-fill"></i>
+						</a>
+						<a href="#">
+							<i class="bi bi-trash-fill"></i>
+						</a>
+					{% endif %}
+				</div>
 				{% if trick.medias is not empty %}
-					<div class="card edit-trick-btns edit-trick-btns-main">
-						{% if edit is not defined %}
-							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
-								<i class="bi bi-pencil-fill"></i>
-							</a>
-							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
-								<i class="bi bi-trash-fill"></i>
-							</a>
-						{% else %}
-							<a href="#">
-								<i class="bi bi-pencil-fill"></i>
-							</a>
-							<a href="#">
-								<i class="bi bi-trash-fill"></i>
-							</a>
-						{% endif %}
-					</div>
 					<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 				{% else %}
 					<img src="{{asset('/img/tricks/default.jpg')}}">
 				{% endif %}
 				<div class="card-title-band">
-					<h1 class="card-title trick-title">{{trick.name}}</h1>
+					<h1 class="card-title trick-title">{{title}}</h1>
 				</div>
 				<div class="card-body">
 					<div class="see-medias-btn dropduwn">

@@ -36,9 +36,7 @@ class Trick
      * @ORM\Column(type="text")
      * @Assert\Length(
      *  min = 3, 
-     *  max = 255, 
-     *  minMessage = "Trop court! min :{{ limit }}",
-     *  maxMessage = "Trop long! max :{{ limit }}",
+     *  minMessage = "Trop court! min :{{ limit }}"
      * )
      */
     private $description;
