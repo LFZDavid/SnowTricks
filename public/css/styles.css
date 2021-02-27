@@ -153,21 +153,23 @@ section#homepage-img{
 }
 
 .edit-trick-btns {
-    align-self: flex-end;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    width: 10%;
-    z-index: 2;
     height: 30px;
+    margin-left: 30%;
+    align-self: flex-end;
+}
+
+.edit-trick-btns-main {
+    width: 10%;
     margin-top: 5px;
     margin-bottom: -35px;
+    z-index: 2;
 }
 
 /* FORM */
-.trick-form {
-    max-width: 70%;
-}
+
 .form-btns {
     display: flex;
     justify-content: flex-end;
@@ -242,6 +244,11 @@ section#homepage-img{
 
     .see-medias-btn {
         display: none;
+    }
+
+    /* FORM */
+    .trick-form {
+        max-width: 70%;
     }
 
 }

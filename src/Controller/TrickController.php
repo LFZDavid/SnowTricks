@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +18,7 @@ class TrickController extends AbstractController
      * @Route("/trick/create", name="trick_create")
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function form(?Trick $trick, Request $request,  SluggerInterface $slugger):Response
+    public function form(?Trick $trick, Request $request,  SluggerInterface $slugger, EntityManagerInterface $manager):Response
     {
         if(!$trick) {
             $trick = new Trick;
@@ -31,8 +32,10 @@ class TrickController extends AbstractController
             $slug = (string) $slugger->slug((string) $trick->getName())->lower();
             $trick->setSlug($slug);
             
-            //todo : treatment
-            //todo : redirections
+            $manager->persist($trick);
+            $manager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('trick/form.html.twig',[

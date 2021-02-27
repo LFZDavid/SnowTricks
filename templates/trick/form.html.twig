@@ -10,8 +10,11 @@
 	{{title}}
 {% endblock %}
 
-
-{% block medias %}{% endblock %}
+{% block medias %}
+	{% if edit %}
+		{{parent()}}
+	{% endif %}
+{% endblock %}
 
 {% block form %}
 	<div class="container trick-form">

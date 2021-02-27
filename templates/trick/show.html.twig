@@ -10,16 +10,23 @@
 		<div class="container trick-block">
 			<div class="card">
 				{% if trick.medias is not empty %}
-					{% if edit is not defined %}
-						<div class="card edit-trick-btns">
+					<div class="card edit-trick-btns edit-trick-btns-main">
+						{% if edit is not defined %}
 							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
 								<i class="bi bi-pencil-fill"></i>
 							</a>
 							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
 								<i class="bi bi-trash-fill"></i>
 							</a>
-						</div>
-					{% endif %}
+						{% else %}
+							<a href="#">
+								<i class="bi bi-pencil-fill"></i>
+							</a>
+							<a href="#">
+								<i class="bi bi-trash-fill"></i>
+							</a>
+						{% endif %}
+					</div>
 					<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 				{% else %}
 					<img src="{{asset('/img/tricks/default.jpg')}}">
@@ -48,6 +55,14 @@
 								{% for media in trick.medias.toArray %}
 									<div class="col-md-2">
 										<img class="img-thumbnail" src="{{asset(media.url)}}">
+										<div class="card edit-trick-btns">
+											<a href="#">
+												<i class="bi bi-pencil-fill"></i>
+											</a>
+											<a href="#">
+												<i class="bi bi-trash-fill"></i>
+											</a>
+										</div>
 									</div>
 								{% endfor %}
 							{% endblock %}
