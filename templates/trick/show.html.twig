@@ -11,9 +11,12 @@
 			<div class="card">
 				{% if trick.medias is not empty %}
 					{% if edit is not defined %}
-						<div class="card">
+						<div class="card edit-trick-btns">
 							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
 								<i class="bi bi-pencil-fill"></i>
+							</a>
+							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+								<i class="bi bi-trash-fill"></i>
 							</a>
 						</div>
 					{% endif %}

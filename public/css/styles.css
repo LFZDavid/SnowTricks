@@ -152,6 +152,26 @@ section#homepage-img{
     text-align: center;
 }
 
+.edit-trick-btns {
+    align-self: flex-end;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 10%;
+    z-index: 2;
+    height: 30px;
+    margin-top: 5px;
+    margin-bottom: -35px;
+}
+
+/* FORM */
+.trick-form {
+    max-width: 70%;
+}
+.form-btns {
+    display: flex;
+    justify-content: flex-end;
+}
 
 /* MEDIA QUERIES*/
 
