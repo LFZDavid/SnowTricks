@@ -22,9 +22,23 @@ class TrickTest extends WebTestCase
 
     }
 
-    public function testGetForm(): void
+    public function testGetCreateForm(): void
     {
         $client = static::createClient();
+        $crawler = $client->request('GET',"/trick/create");
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testGetEditForm(): void
+    {
+        $client = static::createClient();
+        $fakeTrick = new Trick();
+        $fakeTrick->setSlug('trick-n-19');
+        $crawler = $client->request(
+            'GET',
+            "/trick/".$fakeTrick->getSlug()."/edit"
+        );
+        $this->assertResponseIsSuccessful();
         $crawler = $client->request('GET',"/trick/create");
         $this->assertResponseIsSuccessful();
     }

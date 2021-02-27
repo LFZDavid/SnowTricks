@@ -4,6 +4,9 @@
     --navbar-mobile-height: 9vh;
     --navbar-height: 6vh;
     --footer-height: 6vh;
+    --card-img-height: 30vh;
+    --color-snow-white: #efebda;
+    --band-height: 45px;
 }
 
 #main {
@@ -24,7 +27,7 @@
 /* NAVBAR */
 .navbar{
     min-height: var(--navbar-height);
-    background-color: #efebda;
+    background-color: var(--color-snow-white);
     width: 100%;
     
 }
@@ -71,7 +74,7 @@ section#homepage-img{
 }
 
 .homepage-band-text{
-    color: #efebda;
+    color: var(--color-snow-white);
     text-align: center;
     font-weight: bold;
     font-size: 2rem;
@@ -120,7 +123,7 @@ section#homepage-img{
 }
 
 .trick-block>.card>img {
-    height: 30vh;
+    height: var(--card-img-height);
 }
 
 .see-medias-btn {
@@ -129,6 +132,26 @@ section#homepage-img{
     justify-content: center;
     margin: 20px auto;
 }
+
+.trick-block>.card {
+    display:flex;
+    flex-direction: column;
+}
+
+.card-title-band {
+    height: var(--band-height);
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(5px);
+    margin-top: calc(var(--card-img-height)/-2);
+    margin-bottom: calc((var(--card-img-height)/2) - var(--band-height));
+    z-index: 2;
+}
+
+.card-title-band>.card-title {
+    color:var(--color-snow-white);
+    text-align: center;
+}
+
 
 /* MEDIA QUERIES*/
 

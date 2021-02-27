@@ -1,58 +1,73 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-{{parent()}}
-{{trick.name}}
+	{{parent()}}
+	{{trick.name}}
 {% endblock %}
 
 {% block body %}
-<div class="container-fluid bg-block">
-	<div class="container trick-block">
-		<div class="card">
-			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
-			<h1 class="card-title">{{trick.name}}</h1>
-			<div class="card-body">
-				<div class="see-medias-btn dropduwn">
-					<button class="btn btn-secondary dorpdown-toggle" type="button" id="dropdownMedias"
-						data-bs-toggle="dropdown" aria-expanded="false">
-						Voir les medias
-					</button>
-					<ul class="dropdown-menu" aria-labelleby="dropdownMedias">
-						{% for media in trick.medias.toArray %}
-						<li>
-							<a href="{{asset(media.url)}}" target="_blank">
-								<img class="img-thumbnail dropdown-item" src="{{asset(media.url)}}">
+	<div class="container-fluid bg-block">
+		<div class="container trick-block">
+			<div class="card">
+				{% if trick.medias is not empty %}
+					{% if edit is not defined %}
+						<div class="card">
+							<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+								<i class="bi bi-pencil-fill"></i>
 							</a>
-							{% endfor %}
-						</li>
-					</ul>
-				</div>
-				<div class="trick-medias no_mobile">
-					<div class="row">
-						{% for media in trick.medias.toArray %}
-						<div class="col-md-2">
-							<img class="img-thumbnail" src="{{asset(media.url)}}">
 						</div>
-						{% endfor %}
-					</div>
-				</div>
-				<div class="trick-desc">
-					<p>{{trick.description}}</p>
-				</div>
-				<div class="trick-infos">
-					<span class="badge bg-secondary created-at-badge">
-						Créé le :
-						{{trick.createdAt|date('d/m/Y')}}
-					</span>
-					{% if trick.updatedAt %}
-					<span class="badge bg-success updated-at-badge">
-						Mis à jour le :
-						{{trick.updatedAt|date('d/m/Y')}}
-					</span>
 					{% endif %}
+					<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+				{% else %}
+					<img src="{{asset('/img/tricks/default.jpg')}}">
+				{% endif %}
+				<div class="card-title-band">
+					<h1 class="card-title trick-title">{{trick.name}}</h1>
+				</div>
+				<div class="card-body">
+					<div class="see-medias-btn dropduwn">
+						<button class="btn btn-secondary dorpdown-toggle" type="button" id="dropdownMedias" data-bs-toggle="dropdown" aria-expanded="false">
+							Voir les medias
+						</button>
+						<ul class="dropdown-menu" aria-labelleby="dropdownMedias">
+							{% for media in trick.medias.toArray %}
+								<li>
+									<a href="{{asset(media.url)}}" target="_blank">
+										<img class="img-thumbnail dropdown-item" src="{{asset(media.url)}}">
+									</a>
+								{% endfor %}
+							</li>
+						</ul>
+					</div>
+					<div class="trick-medias no_mobile">
+						<div class="row">
+							{% block medias %}
+								{% for media in trick.medias.toArray %}
+									<div class="col-md-2">
+										<img class="img-thumbnail" src="{{asset(media.url)}}">
+									</div>
+								{% endfor %}
+							{% endblock %}
+						</div>
+					</div>
+					<div class="trick-desc">
+						<p>{{trick.description}}</p>
+					</div>
+					<div class="trick-infos">
+						<span class="badge bg-secondary created-at-badge">
+							Créé le :
+							{{trick.createdAt|date('d/m/Y')}}
+						</span>
+						{% if trick.updatedAt %}
+							<span class="badge bg-success updated-at-badge">
+								Mis à jour le :
+								{{trick.updatedAt|date('d/m/Y')}}
+							</span>
+						{% endif %}
+					</div>
+					{% block form %}{% endblock %}
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 {% endblock %}
