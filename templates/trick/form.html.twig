@@ -15,18 +15,18 @@
 	<div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
 		<button type="button" class="add_item_link col-md-2" data-collection-holder-class="medias">Add a media</button>
 		{% for media in formTrick.medias %}
-			<div class="col-md-2">
-				<img class="img-thumbnail" src="{{media.vars.value.url}}" alt="">
+			<div class="col-md-2" id="div_{{media.vars.id}}">
+				<img class="img-thumbnail" src="{{media.vars.value.url}}">
 				<div class="card edit-trick-btns">
-					<a href="#">
+					<a class="edit-media-link" href="#" data-id="{{media.vars.id}}">
 						<i class="bi bi-pencil-fill"></i>
 					</a>
-					<a href="#">
+					<a href="#" class="delete-media-link" data-id="{{media.vars.id}}">
 						<i class="bi bi-trash-fill"></i>
 					</a>
 				</div>
+				{{ form_widget(media.url, {"attr":{"hidden":true}})}}
 			</div>
-			{{ form_row(media.url) }}
 		{% endfor %}
 
 	</div>
