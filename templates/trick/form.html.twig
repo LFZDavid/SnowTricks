@@ -11,19 +11,34 @@
 {% endblock %}
 
 {% block medias %}
-	{% if edit %}
-		{{parent()}}
-	{% endif %}
+	{{ form_start(formTrick)}}
+	<div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
+		<button type="button" class="add_item_link col-md-2" data-collection-holder-class="medias">Add a media</button>
+		{% for media in formTrick.medias %}
+			<div class="col-md-2">
+				<img class="img-thumbnail" src="{{media.vars.value.url}}" alt="">
+				<div class="card edit-trick-btns">
+					<a href="#">
+						<i class="bi bi-pencil-fill"></i>
+					</a>
+					<a href="#">
+						<i class="bi bi-trash-fill"></i>
+					</a>
+				</div>
+			</div>
+			{{ form_row(media.url) }}
+		{% endfor %}
+
+	</div>
 {% endblock %}
 
 {% block form %}
 	<div class="container trick-form">
-		{{ form_start(formTrick)}}
 		{{form_row(formTrick.name,{'attr': {'placeholder':'Nom du trick'}})}}
 		{{form_row(formTrick.description,{'attr':{ 'placeholder':'Description', 'rows':8}})}}
-		<div class="form-btns">
-			<input type="submit" value="Sauvegarder" class="btn btn-success">
-		</div>
+
+		{{form_row(formTrick.save)}}
+
 		{{ form_end(formTrick)}}
 	</div>
 {% endblock %}

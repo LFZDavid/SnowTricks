@@ -54,23 +54,25 @@
 						</ul>
 					</div>
 					<div class="trick-medias no_mobile">
-						<div class="row">
-							{% block medias %}
+						{% block medias %}
+							<div class="row">
 								{% for media in trick.medias.toArray %}
 									<div class="col-md-2">
 										<img class="img-thumbnail" src="{{asset(media.url)}}">
-										<div class="card edit-trick-btns">
-											<a href="#">
-												<i class="bi bi-pencil-fill"></i>
-											</a>
-											<a href="#">
-												<i class="bi bi-trash-fill"></i>
-											</a>
-										</div>
+										{% if edit is defined %}
+											<div class="card edit-trick-btns">
+												<a href="#">
+													<i class="bi bi-pencil-fill"></i>
+												</a>
+												<a href="#">
+													<i class="bi bi-trash-fill"></i>
+												</a>
+											</div>
+										{% endif %}
 									</div>
 								{% endfor %}
-							{% endblock %}
-						</div>
+							</div>
+						{% endblock %}
 					</div>
 					<div class="trick-desc">
 						<p>{{trick.description}}</p>
