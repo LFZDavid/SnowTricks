@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Trick;
 use App\Form\TrickType;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -29,6 +30,7 @@ class TrickController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()) {
 
+            $trick->setUpdatedAt(new DateTime());
             $slug = (string) $slugger->slug((string) $trick->getName())->lower();
             $trick->setSlug($slug);
             

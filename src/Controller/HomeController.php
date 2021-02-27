@@ -19,7 +19,10 @@ class HomeController extends AbstractController
     {
         $tricks = $repo->findBy(
             [],
-            ["createdAt" => "DESC"],
+            [
+                "updatedAt"=>"DESC",
+                "createdAt" => "DESC"
+            ],
             $nb
         );
 
