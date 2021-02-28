@@ -157,8 +157,7 @@ section#homepage-img{
     flex-direction: row;
     justify-content: space-evenly;
     height: 30px;
-    margin-left: 30%;
-    align-self: flex-end;
+    
 }
 
 .edit-trick-btns-main {
@@ -167,6 +166,13 @@ section#homepage-img{
     margin-bottom: -35px;
     z-index: 2;
 }
+
+.trick-media {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
 
 /* FORM */
 
@@ -247,8 +253,14 @@ section#homepage-img{
     }
 
     /* FORM */
+    
     .trick-form {
         max-width: 70%;
+    }
+
+    .edit-trick-btns {
+        align-self: flex-end;
+        margin-left: 30%;
     }
 
 }

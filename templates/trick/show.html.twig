@@ -40,25 +40,16 @@
 				</div>
 				<div class="card-body">
 					<div class="see-medias-btn dropduwn">
-						<button class="btn btn-secondary dorpdown-toggle" type="button" id="dropdownMedias" data-bs-toggle="dropdown" aria-expanded="false">
+						<button class="btn btn-secondary" type="button" id="dropdownMedias">
 							Voir les medias
 						</button>
-						<ul class="dropdown-menu" aria-labelleby="dropdownMedias">
-							{% for media in trick.medias.toArray %}
-								<li>
-									<a href="{{asset(media.url)}}" target="_blank">
-										<img class="img-thumbnail dropdown-item" src="{{asset(media.url)}}">
-									</a>
-								{% endfor %}
-							</li>
-						</ul>
 					</div>
 					<div class="trick-medias no_mobile">
 						{% block medias %}
 							<div class="row">
 								{% for media in trick.medias.toArray %}
-									<div class="col-md-2">
-										<img class="img-thumbnail" src="{{asset(media.url)}}">
+									<div class="col-md-2 col-sm-12 trick-media">
+										<img class=" img-thumbnail" src=" {{asset(media.url)}} ">
 										{% if edit is defined %}
 											<div class="card edit-trick-btns">
 												<a href="#">
