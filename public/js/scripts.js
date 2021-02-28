@@ -17,7 +17,7 @@ $(document).ready(function () {
 
     });
 
-    /**Allow add Media */
+    /** Add Media */
     var $mediasCollectionHolder = $('.medias');
     $mediasCollectionHolder.data('index', $mediasCollectionHolder.find('input').length);
 
@@ -38,7 +38,18 @@ $(document).ready(function () {
         var $newFormItem = $('<div class="col-md-2"></div>').append(newForm);
 
         $collectionHolder.append($newFormItem);
+
+        // add a delete link to the new form
+        addTagFormDeleteLink($newFormLi);
     }
 
+    /** Delete Media */
+
+    $('.delete-media-link>.bi-trash-fill').on('click', function (e) {
+        e.preventDefault();
+        const mediaId = e.target.parentNode.dataset.id;
+        $('#div_' + mediaId).remove();
+
+    });
 
 });
