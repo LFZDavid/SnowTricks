@@ -37,10 +37,10 @@ $(document).ready(function () {
 
         var $newFormItem = $('<div class="col-md-2"></div>').append(newForm);
 
+        ($newFormItem.find('input')[0]).setAttribute('placeholder', 'url...');
+
         $collectionHolder.append($newFormItem);
 
-        // add a delete link to the new form
-        addTagFormDeleteLink($newFormLi);
     }
 
     /** Delete Media */
