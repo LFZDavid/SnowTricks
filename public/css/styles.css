@@ -157,6 +157,7 @@ section#homepage-img{
     flex-direction: row;
     justify-content: space-evenly;
     height: 30px;
+    align-self: flex-end;
     
 }
 
@@ -259,7 +260,7 @@ section#homepage-img{
     }
 
     .edit-trick-btns {
-        align-self: flex-end;
+        
         margin-left: 30%;
     }
 

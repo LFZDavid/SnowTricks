@@ -52,7 +52,7 @@ class Trick
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
      */
     private $medias;
 

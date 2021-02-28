@@ -20,6 +20,9 @@ class TrickType extends AbstractType
                 'entry_type' => MediaType::class,
                 'allow_add' => true,
                 'allow_delete' => true,
+                'required' => false,
+                'by_reference' => false,
+                
             ])
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
         ;

@@ -13,11 +13,10 @@
 {% block medias %}
 	{{ form_start(formTrick)}}
 	<div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
-		<button type="button" class="add_item_link col-md-2" data-collection-holder-class="medias">Add a media</button>
 		{% for media in formTrick.medias %}
 			<div class="col-md-2" id="div_{{media.vars.id}}">
 				<img class="img-thumbnail" src="{{media.vars.value.url}}">
-				{{ form_widget(media.url, {"attr":{"hidden":true}})}}
+				{{ form_widget(media.url, {"attr":{"hidden":true, "class":"media-link-input"}})}}
 				<div class="card edit-trick-btns">
 					<a class="edit-media-link" href="#" data-id="{{media.vars.id}}">
 						<i class="bi bi-pencil-fill"></i>
@@ -28,7 +27,7 @@
 				</div>
 			</div>
 		{% endfor %}
-
+		<button type="button" class="add_media_link col-md-2" data-collection-holder-class="medias">Add a media</button>
 	</div>
 {% endblock %}
 
