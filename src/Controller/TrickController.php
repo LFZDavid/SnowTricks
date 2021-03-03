@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HomeController extends AbstractController
+class TrickController extends AbstractController
 {
 
     private $repo;
@@ -16,19 +16,15 @@ class HomeController extends AbstractController
     {
         $this->repo = $repo;
     }
-    /**
-     * @Route("/{nb<\d+>}", name="home")
-     */
-    public function index(?int $nb = 15): Response
-    {
-        $tricks = $this->repo->findBy(
-            [],
-            ["createdAt" => "DESC"],
-            $nb
-        );
 
-        return $this->render('home/index.html.twig', [
-            'tricks' => $tricks,
+    /**
+     * @Route("/trick/{slug}", name="trick_show")
+     */
+    public function show(string $slug):Response
+    {
+        $trick = $this->repo->findOneBy(['slug' => $slug]);
+        return $this->render('trick/show.html.twig',[
+            'trick' => $trick,
         ]);
     }
 }

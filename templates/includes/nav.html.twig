@@ -1,9 +1,36 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{asset('home')}}">
+        <a class="navbar-brand no_mobile" href="{{asset('/')}}">
             <img src="/docs/5.0/assets/brand/bootstrap-logo.svg" alt="" width="30" height="24"
                 class="d-inline-block align-top">
             SnowTricks
         </a>
+        <div class="nav-links">
+            <ul>
+                <li class="nav-link">
+                    <a href="{{asset('/')}}">
+                        <span class="nav-link-text no_mobile">Home</span>
+                        <i class="bi bi-house-fill nav-link-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="{{asset('/')}}">
+                        <span class="nav-link-text no_mobile">Tricks</span>
+                        <i class="bi bi-bookmark-fill nav-link-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-link">
+                    <a href="{{asset('/')}}">
+                        <span class="nav-link-text no_mobile">SignIn</span>
+                        <i class="bi bi-box-arrow-in-right nav-link-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-link no_mobile">
+                    <a href="{{asset('/')}}">
+                        <span class="nav-link-text no_mobile">SignUp</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
