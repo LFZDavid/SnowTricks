@@ -190,6 +190,10 @@ section#homepage-img{
    display: none; 
 }
 
+.add_media_link {
+    margin-top: 10px;
+}
+
 /* MEDIA QUERIES*/
 
 @media (max-width:992px){

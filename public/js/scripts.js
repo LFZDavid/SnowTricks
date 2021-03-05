@@ -33,7 +33,7 @@ $(document).ready(function () {
         newForm = newForm.replace(/__name__/g, index);
         $collectionHolder.data('index', index + 1);
 
-        var $newFormItem = $('<div class="col-md-2"></div>').append(newForm);
+        var $newFormItem = $('<div class="row"></div>').append(newForm);
 
         ($newFormItem.find('input')[0]).setAttribute('placeholder', 'url...');
 
