@@ -1,88 +1,53 @@
-{% extends 'base.html.twig' %}
+{% extends '/trick/base.html.twig' %}
 
-{% if edit is not defined %}
-	{% set title = trick.name %}
-{% endif %}
-
-{% block title %}
-	{{parent()}}
-	{{title}}
-{% endblock %}
-
-{% block body %}
-	<div class="container-fluid bg-block">
-		<div class="container trick-block">
-			<div class="card">
-				<div class="card edit-trick-btns edit-trick-btns-main">
-					{% if edit is not defined %}
-						<a href="{{path("trick_edit", {'slug':trick.slug})}}">
-							<i class="bi bi-pencil-fill"></i>
-						</a>
-						<a href="{{path("trick_edit", {'slug':trick.slug})}}">
-							<i class="bi bi-trash-fill"></i>
-						</a>
-					{% else %}
-						<a href="#">
-							<i class="bi bi-pencil-fill"></i>
-						</a>
-						<a href="#">
-							<i class="bi bi-trash-fill"></i>
-						</a>
-					{% endif %}
+{% block trick_content %}
+	<div class="card edit-trick-btns edit-trick-btns-main">
+		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+			<i class="bi bi-pencil-fill"></i>
+		</a>
+		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+			<i class="bi bi-trash-fill"></i>
+		</a>
+	</div>
+	{% if trick.medias is not empty %}
+		<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+	{% else %}
+		<img src="{{asset('/img/tricks/default.jpg')}}">
+	{% endif %}
+	<div class="card-title-band">
+		<h1 class="card-title trick-title">{{title}}</h1>
+	</div>
+	<div class="card-body">
+		<div class="see-medias-btn dropduwn">
+			<button class="btn btn-secondary" type="button" id="dropdownMedias">
+				Voir les medias
+			</button>
+		</div>
+		<div class="trick-medias no_mobile">
+			{% block medias %}
+				<div class="row">
+					{% for media in trick.medias.toArray %}
+						<div class="col-md-2 col-sm-12 trick-media">
+							<img class=" img-thumbnail" src=" {{asset(media.url)}} ">
+						</div>
+					{% endfor %}
 				</div>
-				{% if trick.medias is not empty %}
-					<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
-				{% else %}
-					<img src="{{asset('/img/tricks/default.jpg')}}">
-				{% endif %}
-				<div class="card-title-band">
-					<h1 class="card-title trick-title">{{title}}</h1>
-				</div>
-				<div class="card-body">
-					<div class="see-medias-btn dropduwn">
-						<button class="btn btn-secondary" type="button" id="dropdownMedias">
-							Voir les medias
-						</button>
-					</div>
-					<div class="trick-medias no_mobile">
-						{% block medias %}
-							<div class="row">
-								{% for media in trick.medias.toArray %}
-									<div class="col-md-2 col-sm-12 trick-media">
-										<img class=" img-thumbnail" src=" {{asset(media.url)}} ">
-										{% if edit is defined %}
-											<div class="card edit-trick-btns">
-												<a href="#">
-													<i class="bi bi-pencil-fill"></i>
-												</a>
-												<a href="#">
-													<i class="bi bi-trash-fill"></i>
-												</a>
-											</div>
-										{% endif %}
-									</div>
-								{% endfor %}
-							</div>
-						{% endblock %}
-					</div>
-					<div class="trick-desc">
-						<p>{{trick.description}}</p>
-					</div>
-					<div class="trick-infos">
-						<span class="badge bg-secondary created-at-badge">
-							Créé le :
-							{{trick.createdAt|date('d/m/Y')}}
-						</span>
-						{% if trick.updatedAt %}
-							<span class="badge bg-success updated-at-badge">
-								Mis à jour le :
-								{{trick.updatedAt|date('d/m/Y')}}
-							</span>
-						{% endif %}
-					</div>
-					{% block form %}{% endblock %}
-				</div>
-			</div>
+			{% endblock %}
+		</div>
+		<div class="trick-desc">
+			<p>{{trick.description}}</p>
+		</div>
+		<div class="trick-infos">
+			<span class="badge bg-secondary created-at-badge">
+				Créé le :
+				{{trick.createdAt|date('d/m/Y')}}
+			</span>
+			{% if trick.updatedAt %}
+				<span class="badge bg-success updated-at-badge">
+					Mis à jour le :
+					{{trick.updatedAt|date('d/m/Y')}}
+				</span>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

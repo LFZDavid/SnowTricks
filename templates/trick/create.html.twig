@@ -1,0 +1,11 @@
+{% extends 'trick/show.html.twig' %}
+
+{% set title = "Creation d'un Trick" %}
+
+{% block medias %}
+	{% include "trick/_media_form.html.twig" %}
+{% endblock %}
+
+{% block form %}
+	{% include "trick/_form.html.twig" %}
+{% endblock %}
