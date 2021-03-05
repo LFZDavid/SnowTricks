@@ -26,7 +26,9 @@ class FileUploader
         try {
             $file->move($this->getTargetDirectory(), $fileName);
         } catch (FileException $e) {
-            //todo : handle exception if something happens during file upload
+
+            return $e->getMessage();
+            //todo : handle exception and display message in front
         }
 
         return '/img/tricks/'.$fileName;
