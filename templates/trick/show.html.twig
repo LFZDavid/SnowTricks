@@ -10,7 +10,9 @@
 		</a>
 	</div>
 	{% if trick.medias is not empty %}
-		<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+		{% block main_img %}
+			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+		{% endblock %}
 	{% else %}
 		<img src="{{asset('/img/tricks/default.jpg')}}">
 	{% endif %}

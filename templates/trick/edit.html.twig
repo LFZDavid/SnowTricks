@@ -1,11 +1,40 @@
-{% extends 'trick/show.html.twig' %}
+{% extends 'trick/base.html.twig' %}
 
 {% set title = "Modification de : "~trick.name %}
 
-{% block medias %}
-	{% include "trick/_media_form.html.twig" %}
-{% endblock %}
+{% block trick_content %}
+	<div class="card edit-trick-btns edit-trick-btns-main">
+		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+			<i class="bi bi-pencil-fill"></i>
+		</a>
+		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+			<i class="bi bi-trash-fill"></i>
+		</a>
+	</div>
+	{% if trick.medias is not empty %}
+		{% block main_img %}
+			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+		{% endblock %}
+	{% else %}
+		<img src="{{asset('/img/tricks/default.jpg')}}">
+	{% endif %}
+	<div class="card-title-band">
+		<h1 class="card-title trick-title">{{title}}</h1>
+	</div>
+	<div class="card-body">
+		<div class="see-medias-btn dropduwn">
+			<button class="btn btn-secondary" type="button" id="dropdownMedias">
+				Voir les medias
+			</button>
+		</div>
+		<div class="trick-medias no_mobile">
+			{% block medias %}
+				{% include "/trick/_media_form.html.twig" %}
+			{% endblock %}
+		</div>
+	</div>
 
-{% block form %}
-	{% include "trick/_form.html.twig" %}
+	{% block form %}
+		{% include "/trick/_form.html.twig" %}
+	{% endblock %}
 {% endblock %}

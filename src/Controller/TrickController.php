@@ -20,8 +20,8 @@ class TrickController extends AbstractController
 {
 
     /**
-     * @Route("/trick/create", name="trick_create", methods={"POST"})
-     * @Route("/trick/{slug}/edit", name="trick_edit", methods={"POST"})
+     * @Route("/trick/create", name="trick_create")
+     * @Route("/trick/{slug}/edit", name="trick_edit")
      */
     public function form(?Trick $trick, Request $request,  SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader):Response
     {
@@ -52,17 +52,15 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        if($trick->getId()){
+           return $this->getEditForm($trick);
+        }
 
-        // return $this->render('trick/form.html.twig',[
-        //     'trick' => $trick,
-        //     'formTrick' => $form->createView(),
-        //     'edit' => $trick->getId() !== null,
-        // ]);
+        return $this->getCreateForm();
+
     }
 
-    /**
-     * @Route("/trick/create", name="trick_create", methods={"GET"})
-     */
+    
     public function getCreateForm(): Response
     {
         $trick = new Trick;
@@ -72,9 +70,6 @@ class TrickController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/trick/{slug}/edit", name="trick_edit", methods={"POST"})
-     */
     public function getEditForm(?Trick $trick): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
@@ -85,7 +80,7 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}", name="trick_show")
+     * @Route("/trick/{slug}", name="trick_show", methods="GET")
      */
     public function show(Trick $trick):Response
     {
