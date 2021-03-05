@@ -1,0 +1,29 @@
+{% extends 'trick/show.html.twig' %}
+
+{% if edit %}
+	{% set title = "Modification de : "~trick.name %}
+{% else %}
+	{% set title = "Creation d'un Trick" %}
+{% endif %}
+
+{% block title %}
+	{{title}}
+{% endblock %}
+
+{% block medias %}
+	{% if edit %}
+		{{parent()}}
+	{% endif %}
+{% endblock %}
+
+{% block form %}
+	<div class="container trick-form">
+		{{ form_start(formTrick)}}
+		{{form_row(formTrick.name,{'attr': {'placeholder':'Nom du trick'}})}}
+		{{form_row(formTrick.description,{'attr':{ 'placeholder':'Description', 'rows':8}})}}
+		<div class="form-btns">
+			<input type="submit" value="Sauvegarder" class="btn btn-success">
+		</div>
+		{{ form_end(formTrick)}}
+	</div>
+{% endblock %}

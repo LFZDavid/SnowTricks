@@ -10,20 +10,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
 
-    private $repo;
+    const DEFAULT_PAGINATE = 15;
 
-    public function __construct(TrickRepository $repo)
-    {
-        $this->repo = $repo;
-    }
     /**
      * @Route("/{nb<\d+>}", name="home")
      */
-    public function index(?int $nb = 15): Response
+    public function index(int $nb = self::DEFAULT_PAGINATE, TrickRepository $repo): Response
     {
-        $tricks = $this->repo->findBy(
+        $tricks = $repo->findBy(
             [],
-            ["createdAt" => "DESC"],
+            [
+                "updatedAt"=>"DESC",
+                "createdAt" => "DESC"
+            ],
             $nb
         );
 

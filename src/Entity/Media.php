@@ -23,12 +23,7 @@ class Media
     private $url;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $TrickId;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="Medias")
+     * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
