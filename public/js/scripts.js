@@ -11,9 +11,7 @@ $(document).ready(function () {
     $('.edit-media-link>.bi-pencil-fill').on('click', function (e) {
         e.preventDefault();
         const mediaId = e.target.parentNode.dataset.id;
-        this.remove();
-        $('#div_' + mediaId).removeClass('col-md-2').addClass('col-12');
-        $('#' + mediaId + "_url").removeAttr('hidden');
+        $('#div_' + mediaId).find('.upload-input').slideToggle();
 
     });
 

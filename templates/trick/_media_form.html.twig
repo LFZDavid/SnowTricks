@@ -3,8 +3,8 @@
 	{% for media in formTrick.medias %}
 		<div class="col-md-2" id="div_{{media.vars.id}}">
 			<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
-			<div class="form-group">
-				{{ form_widget(media.file)}}
+			<div class="input-group input-group-sm mb-3 upload-input">
+				{{ form_widget(media.file, {'attr':{"class":"form-control"}})}}
 			</div>
 			<div class="card edit-trick-btns">
 				<a class="edit-media-link" href="#" data-id="{{media.vars.id}}">
@@ -16,7 +16,11 @@
 			</div>
 		</div>
 	{% endfor %}
-	<button type="button" class="add_media_link col-md-2" data-collection-holder-class="medias">
-		<i class="bi bi-plus-square"></i>
-	</button>
+</div>
+<div class="row">
+	<div class="form-group">
+		<button type="button" class="btn btn-primary add_media_link col-md-2" data-collection-holder-class="medias">
+			<i class="bi bi-plus-square"></i>
+		</button>
+	</div>
 </div>
