@@ -39,7 +39,6 @@ class TrickTest extends WebTestCase
             "/trick/".$fakeTrick->getSlug()."/edit"
         );
         $this->assertResponseIsSuccessful();
-        $crawler = $client->request('GET',"/trick/create");
-        $this->assertResponseIsSuccessful();
+        
     }
 }

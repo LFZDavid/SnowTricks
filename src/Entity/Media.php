@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=MediaRepository::class)
@@ -21,6 +22,8 @@ class Media
      * @ORM\Column(type="string", length=255)
      */
     private $url;
+
+    private $file;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")
@@ -54,6 +57,17 @@ class Media
     {
         $this->trick = $trick;
 
+        return $this;
+    }
+
+    public function getFile(): ?UploadedFile
+    {
+        return $this->file;
+    }
+
+    public function setFile(UploadedFile $file): self
+    {
+        $this->file = $file;
         return $this;
     }
 }

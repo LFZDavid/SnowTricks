@@ -2,16 +2,18 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Media;
 use App\Entity\Trick;
 use App\Form\MediaType;
 use App\Form\TrickType;
-use DateTime;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
@@ -21,20 +23,29 @@ class TrickController extends AbstractController
      * @Route("/trick/create", name="trick_create")
      * @Route("/trick/{slug}/edit", name="trick_edit")
      */
-    public function form(?Trick $trick, Request $request,  SluggerInterface $slugger, EntityManagerInterface $manager):Response
+    public function form(?Trick $trick, Request $request,  SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader):Response
     {
-        if(!$trick) {
-            $trick = new Trick;
-        }
-
+        $trick = $trick ?? new Trick;
+        
         $form = $this->createForm(TrickType::class, $trick);
-
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
 
+            /** @var UploadedFile $imgFiles */
+            $imgFiles = $form->get('medias')->getData();
+
+            foreach ($imgFiles as $imgFile) {
+                if($file = $imgFile->getFile()) {
+                    $imgFileName = $fileUploader->upload($file);
+                    $imgFile->setUrl($imgFileName);
+                }
+
+                // todo : throw errors ?
+            }
+            
             $trick->setUpdatedAt(new DateTime());
-            $slug = (string) $slugger->slug((string) $trick->getName())->lower();
+            $slug = $slugger->slug($trick->getName())->lower();
             $trick->setSlug($slug);
             
             $manager->persist($trick);

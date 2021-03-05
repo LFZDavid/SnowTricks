@@ -15,8 +15,10 @@
 	<div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
 		{% for media in formTrick.medias %}
 			<div class="col-md-2" id="div_{{media.vars.id}}">
-				<img class="img-thumbnail" src="{{media.vars.value.url}}">
-				{{ form_widget(media.url, {"attr":{"hidden":true, "class":"media-link-input"}})}}
+				<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
+				<div class="form-group">
+					{{ form_widget(media.file)}}
+				</div>
 				<div class="card edit-trick-btns">
 					<a class="edit-media-link" href="#" data-id="{{media.vars.id}}">
 						<i class="bi bi-pencil-fill"></i>
