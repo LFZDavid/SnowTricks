@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Media;
 use App\Entity\Trick;
+use App\Form\MediaType;
 use App\Form\TrickType;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +28,7 @@ class TrickController extends AbstractController
         }
 
         $form = $this->createForm(TrickType::class, $trick);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
