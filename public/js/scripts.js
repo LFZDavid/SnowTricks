@@ -56,22 +56,17 @@ $(document).ready(function () {
 
         newForm = newForm.replace(/__name__/g, index);
         $collectionHolder.data('index', index + 1);
-
         var $newFormItem = $('<div class="row"></div>').append(newForm);
-
         ($newFormItem.find('input')[0]).setAttribute('placeholder', 'url...');
-
         $collectionHolder.append($newFormItem);
 
     }
 
     /** Delete Media */
-
     $('.delete-media-link>.bi-trash-fill').on('click', function (e) {
         e.preventDefault();
         const mediaId = e.target.parentNode.dataset.id;
         $('#div_' + mediaId).remove();
 
     });
-
 });

@@ -1,15 +1,23 @@
 {{ form_start(formTrick)}}
 <div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
 	{% for media in formTrick.medias %}
+		{% set is_image = media.vars.value.type == 'img' %}
+		{% set is_video = media.vars.value.type == 'video' %}
 		<div class="col-md-2" id="div_{{media.vars.id}}">
 			<div class="media-contain">
-				{% if loop.first %}
+				{% if loop.first and is_image %}
 					<span class="badge bg-success main-img-badge">Main</span>
 				{% endif %}
 				<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
 			</div>
 			<div class="input-group input-group-sm mb-3 upload-input">
-				{{ form_widget(media.file, {'attr':{"class":"form-control"}})}}
+				{{ form_row(media.type, {'attr':{'data-idmedia':media.vars.id}})}}
+			</div>
+			<div class="input-group input-group-sm mb-3 upload-input">
+				{{ form_row(media.file)}}
+			</div>
+			<div class="input-group input-group-sm mb-3 upload-input">
+				{{ form_row(media.url)}}
 			</div>
 			<div class="card edit-trick-btns">
 				<a class="edit-media-link" href="#" data-id="{{media.vars.id}}">

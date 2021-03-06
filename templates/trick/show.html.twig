@@ -9,7 +9,7 @@
 			<i class="bi bi-trash-fill"></i>
 		</a>
 	</div>
-	{% if trick.medias is not empty %}
+	{% if trick.medias is not empty and trick.medias[0].type == "img" %}
 		{% block main_img %}
 			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 		{% endblock %}
@@ -29,8 +29,13 @@
 			{% block medias %}
 				<div class="row">
 					{% for media in trick.medias.toArray %}
-						<div class="col-md-2 col-sm-12 trick-media">
-							<img class=" img-thumbnail" src=" {{asset(media.url)}} ">
+						<div class="col-lg-2 col-md-6 col-sm-12 trick-media">
+							{% if media.type == 'img' %}
+								<img class="img-thumbnail" src=" {{asset(media.url)}} ">
+							{% elseif media.type == 'video' %}
+								<embed src="{{asset(media.url|replace({'watch?v=':'embed/'}))}}" type="video/webm"/>
+							{% endif %}
+
 						</div>
 					{% endfor %}
 				</div>

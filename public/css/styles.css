@@ -186,7 +186,6 @@ section#homepage-img{
 
 .upload-input {
    margin-bottom: 0px!important;
-   height: 35px;
    display: none; 
 }
 
@@ -200,6 +199,10 @@ section#homepage-img{
 .main-img-badge {
     position: absolute;
     right: 0px;
+}
+
+.form-rest {
+    display: none;
 }
 
 /* MEDIA QUERIES*/
