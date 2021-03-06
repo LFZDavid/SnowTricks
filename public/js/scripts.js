@@ -11,7 +11,7 @@ $(document).ready(function () {
         e.preventDefault();
         var $medias = $('.medias').children();
         if ($medias.length > 0) {
-            $('.trick-medias.no_mobile').slideToggle(500, function () {
+            $('.trick-medias.no_mobile').slideDown(500, function () {
                 $('#div_trick_medias_0').toggleClass('col-md-2').find('.upload-input').slideToggle();
             });
         }
