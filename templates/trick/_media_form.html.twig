@@ -2,7 +2,12 @@
 <div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
 	{% for media in formTrick.medias %}
 		<div class="col-md-2" id="div_{{media.vars.id}}">
-			<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
+			<div class="media-contain">
+				{% if loop.first %}
+					<span class="badge bg-success main-img-badge">Main</span>
+				{% endif %}
+				<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
+			</div>
 			<div class="input-group input-group-sm mb-3 upload-input">
 				{{ form_widget(media.file, {'attr':{"class":"form-control"}})}}
 			</div>

@@ -6,6 +6,31 @@ $(document).ready(function () {
         $('.trick-medias.no_mobile').slideToggle();
     });
 
+    /** Edit Main Image btn */
+    $('.edit-main-img-btns>a>.bi-pencil-fill').on('click', function (e) {
+        e.preventDefault();
+        var $medias = $('.medias').children();
+        if ($medias.length > 0) {
+            $('.trick-medias.no_mobile').slideToggle(500, function () {
+                $('#div_trick_medias_0').toggleClass('col-md-2').find('.upload-input').slideToggle();
+            });
+        }
+    });
+
+    /** Delete Main Image btn */
+    $('.edit-main-img-btns>a>.bi-trash-fill').on('click', function (e) {
+        e.preventDefault();
+        $medias = $('.medias').children();
+        if ($medias.length > 0) {
+            $('.trick-medias.no_mobile').slideToggle(500, function () {
+                $('#div_trick_medias_0').remove();
+            });
+            if ($medias.length <= 1) {
+                $('.main-img').attr('src', '/img/tricks/default.jpg');
+            }
+        }
+
+    });
 
     /** Trick Medias form */
     $('.edit-media-link>.bi-pencil-fill').on('click', function (e) {

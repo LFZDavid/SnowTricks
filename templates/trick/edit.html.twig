@@ -3,17 +3,17 @@
 {% set title = "Modification de : "~trick.name %}
 
 {% block trick_content %}
-	<div class="card edit-trick-btns edit-trick-btns-main">
-		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+	<div class="card edit-trick-btns edit-trick-btns-main edit-main-img-btns">
+		<a href="#">
 			<i class="bi bi-pencil-fill"></i>
 		</a>
-		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+		<a onclick="alert('Etes-vous sûre ?')" href="#">
 			<i class="bi bi-trash-fill"></i>
 		</a>
 	</div>
 	{% if trick.medias is not empty %}
 		{% block main_img %}
-			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+			<img class="main-img" src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 		{% endblock %}
 	{% else %}
 		<img src="{{asset('/img/tricks/default.jpg')}}">

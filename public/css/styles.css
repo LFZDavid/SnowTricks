@@ -194,6 +194,14 @@ section#homepage-img{
     margin-top: 10px;
 }
 
+.media-contain {
+    position: relative;
+}
+.main-img-badge {
+    position: absolute;
+    right: 0px;
+}
+
 /* MEDIA QUERIES*/
 
 @media (max-width:992px){
