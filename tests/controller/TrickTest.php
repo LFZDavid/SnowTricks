@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TrickTest extends WebTestCase
@@ -41,4 +42,17 @@ class TrickTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         
     }
+
+    public function testCreateTrick(): void
+    {
+        $datetime = new DateTime();
+        $client = static::createClient();
+        $client->request('POST', '/trick/create',[
+            'name' => 'trick Test'.$datetime->format('Y-m-d H:i'),
+            'description' => 'Contenu du trick test...'
+        ]);
+        
+        $this->assertResponseIsSuccessful();
+    }
+
 }
