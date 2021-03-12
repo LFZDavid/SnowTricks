@@ -21,9 +21,9 @@ class Media
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $url;
+    private ?string $url;
 
-    private $file;
+    private ?UploadedFile $file;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")

@@ -8,12 +8,14 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class FileUploader
 {
-    private $targetDirectory;
-    private $slugger;
+    private string $targetDirectory;
+    private SluggerInterface $slugger;
+    private string $targetDirectoryRelativePath;
 
-    public function __construct($targetDirectory, SluggerInterface $slugger)
+    public function __construct(string $targetDirectory, string $targetDirectoryRelativePath, SluggerInterface $slugger)
     {
         $this->targetDirectory = $targetDirectory;
+        $this->targetDirectoryRelativePath = $targetDirectoryRelativePath;
         $this->slugger = $slugger;
     }
 
@@ -24,17 +26,17 @@ class FileUploader
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
         try {
-            $file->move($this->getTargetDirectory(), $fileName);
+            $file->move($this->targetDirectory, $fileName);
         } catch (FileException $e) {
 
             return $e->getMessage();
             //todo : handle exception and display message in front
         }
 
-        return '/img/tricks/'.$fileName;
+        return $this->targetDirectoryRelativePath.'/'.$fileName;
     }
 
-    public function getTargetDirectory()
+    public function getTargetDirectory(): string
     {
         return $this->targetDirectory;
     }
