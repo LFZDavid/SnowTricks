@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% if trick is defined %}
+	{% set title = trick.name %}
+{% endif %}
+
+{% block title %}
+	{{parent()}}
+	{{title}}
+{% endblock %}
+
+{% block body %}
+	<div class="container-fluid bg-block">
+		<div class="container trick-block">
+			<div class="card">
+				{% block trick_content %}{% endblock %}
+			</div>
+		</div>
+	</div>
+{% endblock %}

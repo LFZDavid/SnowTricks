@@ -158,6 +158,8 @@ section#homepage-img{
     justify-content: space-evenly;
     height: 30px;
     align-self: flex-end;
+    margin-top: 5px;
+    margin-bottom: 15px;
     
 }
 
@@ -180,6 +182,24 @@ section#homepage-img{
 .form-btns {
     display: flex;
     justify-content: flex-end;
+}
+
+.upload-input {
+   margin-bottom: 0px!important;
+   height: 35px;
+   display: none; 
+}
+
+.add_media_link {
+    margin-top: 10px;
+}
+
+.media-contain {
+    position: relative;
+}
+.main-img-badge {
+    position: absolute;
+    right: 0px;
 }
 
 /* MEDIA QUERIES*/

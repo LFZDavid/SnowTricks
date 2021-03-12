@@ -1,0 +1,26 @@
+{% extends 'trick/base.html.twig' %}
+
+{% set title = "Creation d'un Trick" %}
+
+{% block trick_content %}
+	<img src="{{asset('/img/tricks/default.jpg')}}">
+	<div class="card-title-band">
+		<h1 class="card-title trick-title">{{title}}</h1>
+	</div>
+	<div class="card-body">
+		<div class="see-medias-btn dropduwn">
+			<button class="btn btn-secondary" type="button" id="dropdownMedias">
+				Voir les medias
+			</button>
+		</div>
+		<div class="trick-medias no_mobile">
+			{% block medias %}
+				{% include "/trick/_media_form.html.twig" %}
+			{% endblock %}
+		</div>
+	</div>
+
+	{% block form %}
+		{% include "/trick/_form.html.twig" %}
+	{% endblock %}
+{% endblock %}
