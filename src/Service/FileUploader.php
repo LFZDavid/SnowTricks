@@ -2,20 +2,21 @@
 
 namespace App\Service;
 
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Entity\Media;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileUploader
 {
-    private string $targetDirectory;
+    private string $publicDirectory;
     private SluggerInterface $slugger;
-    private string $targetDirectoryRelativePath;
+    private string $imgRelativeDirectory;
 
-    public function __construct(string $targetDirectory, string $targetDirectoryRelativePath, SluggerInterface $slugger)
+    public function __construct(string $publicDirectory, string $imgRelativeDirectory, SluggerInterface $slugger)
     {
-        $this->targetDirectory = $targetDirectory;
-        $this->targetDirectoryRelativePath = $targetDirectoryRelativePath;
+        $this->publicDirectory = $publicDirectory;
+        $this->imgRelativeDirectory = $imgRelativeDirectory;
         $this->slugger = $slugger;
     }
 
@@ -25,20 +26,23 @@ class FileUploader
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
+        $filepath = $this->publicDirectory . $this->imgRelativeDirectory;
+
         try {
-            $file->move($this->targetDirectory, $fileName);
+            $file->move($filepath, $fileName);
         } catch (FileException $e) {
 
             return $e->getMessage();
             //todo : handle exception and display message in front
         }
 
-        return $this->targetDirectoryRelativePath.'/'.$fileName;
+        return $this->imgRelativeDirectory. '/' . $fileName;
     }
 
-    public function getTargetDirectory(): string
+    public function deleteFile(Media $media)
     {
-        return $this->targetDirectory;
+        $file = $this->publicDirectory . $media->getUrl();
+        unlink($file);
     }
 
 }

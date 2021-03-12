@@ -67,7 +67,7 @@ class Media
 
     public function getFile(): ?UploadedFile
     {
-        return $this->file;
+        return $this->file ?? null;
     }
 
     public function setFile(UploadedFile $file): self
