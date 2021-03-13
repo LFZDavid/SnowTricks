@@ -49,7 +49,6 @@ class TrickTest extends WebTestCase
         $datetime = new DateTime();
         $client = static::createClient();
         
-        
         $crawler = $client->request('GET', '/trick/create');
         
         $buttonCrawlerNode = $crawler->filter('form');
@@ -60,17 +59,23 @@ class TrickTest extends WebTestCase
         $form = $buttonCrawlerNode->form();
         $form['trick[name]'] = $trickName;
         $form['trick[description]'] = $trickContent;
-        $form['trick[category]'] = '1';
+        $form['trick[category]'] = '';
 
         $client->submit($form);
         $client->followRedirect();
-
         $this->assertResponseIsSuccessful();
         
         /**Check if trick is added in homepage */
         $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5.trick-name', $trickName);
+                
+        /**Delete trick */
+        // Go to edit form
+        // Delete Trick
+        // Follow redirection to home
+        // Assert Trick is delete (404 on url)
+
     }
 
 }
