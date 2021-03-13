@@ -2,7 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Trick;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,6 +26,15 @@ class TrickType extends AbstractType
                 'required' => false,
                 'by_reference' => false,
                 
+            ])
+            ->add('category', EntityType::class,[
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => '--Aucune catégorie--',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('c')
+                    ->orderBy('c.id', 'ASC');
+                },
             ])
             ->add('save', SubmitType::class, ['label' => 'Enregistrer'])
         ;
