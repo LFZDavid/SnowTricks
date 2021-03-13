@@ -45,14 +45,32 @@ class TrickTest extends WebTestCase
 
     public function testCreateTrick(): void
     {
+        /**Create trick test */
         $datetime = new DateTime();
         $client = static::createClient();
-        $client->request('POST', '/trick/create',[
-            'name' => 'trick Test'.$datetime->format('Y-m-d H:i'),
-            'description' => 'Contenu du trick test...'
-        ]);
         
+        
+        $crawler = $client->request('GET', '/trick/create');
+        
+        $buttonCrawlerNode = $crawler->filter('form');
+
+        $trickName = 'trick Test'.rand(100000,999999);
+        $trickContent = 'Contenu du trick test...'.$datetime->format('Y-m-d H:i');
+
+        $form = $buttonCrawlerNode->form();
+        $form['trick[name]'] = $trickName;
+        $form['trick[description]'] = $trickContent;
+        $form['trick[category]'] = '1';
+
+        $client->submit($form);
+        $client->followRedirect();
+
         $this->assertResponseIsSuccessful();
+        
+        /**Check if trick is added in homepage */
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h5.trick-name', $trickName);
     }
 
 }
