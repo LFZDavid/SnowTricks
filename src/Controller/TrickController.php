@@ -75,6 +75,22 @@ class TrickController extends AbstractController
     }
 
     /**
+     * @Route("/trick/{slug}/delete", name="trick_delete", methods="DELETE")
+     */
+    public function delete(Trick $trick, Request $request, EntityManagerInterface $manager):Response
+    {
+        //todo : check token
+        // if($this->isCsrfTokenValid('delete'.$trick->getName(), $request->get('_token'))) {
+
+            $manager->remove($trick);
+            $manager->flush();
+            return $this->redirectToRoute('home');
+        // }
+
+        return new Response('token invalid', 500);
+    }
+
+    /**
      * @Route("/trick/{slug}", name="trick_show", methods="GET")
      */
     public function show(Trick $trick):Response

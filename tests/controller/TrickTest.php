@@ -2,9 +2,10 @@
 
 namespace App\Tests;
 
+use DateTime;
 use App\Entity\Trick;
 use App\Repository\TrickRepository;
-use DateTime;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TrickTest extends WebTestCase
@@ -78,14 +79,29 @@ class TrickTest extends WebTestCase
         /**Go to edit form */
         $crawler = $client->request('GET', $trickUri.'/edit');
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.delete-trick-btn');
         
         /**Click on delete btn */
-        $this->assertSelectorExists('.btn-danger .delete-trick-btn');
-        
-        //** Check if trick is deleted */
-        // Follow redirection to home
-        // Assert Trick is delete (404 on url)
+        $deleteBtn = $crawler->selectButton('Supprimer');
+        $form = $deleteBtn->form();
 
+        /**set slug for route arg */
+        $slugger = new AsciiSlugger();
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+
+        $client->submit($form, [], ["slug" => $slug]);
+        
+        //** Check redirection to home */
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('h2.homepage-band-text');
+
+        //** Check if trick is deleted */
+        $crawler = $client->request('GET', $trickUri);
+        $this->assertResponseStatusCodeSame(404);
+        
+        // Assert Trick is delete (404 on url)
+        
     }
 
 }
