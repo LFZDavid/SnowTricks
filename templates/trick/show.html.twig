@@ -5,7 +5,7 @@
 		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
 			<i class="bi bi-pencil-fill"></i>
 		</a>
-		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+		<a href="{{path("trick_edit", {'slug':trick.slug})}}" id="delete-trick-from-show-btn">
 			<i class="bi bi-trash-fill"></i>
 		</a>
 	</div>
@@ -62,4 +62,5 @@
 			{% endif %}
 		</div>
 	</div>
+	{% include "trick/_delete_form.html.twig" %}
 {% endblock %}

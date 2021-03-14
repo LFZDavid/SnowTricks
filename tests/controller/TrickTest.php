@@ -82,7 +82,7 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('.delete-trick-btn');
         
         /**Click on delete btn */
-        $deleteBtn = $crawler->selectButton('Supprimer');
+        $deleteBtn = $crawler->selectButton('Delete Trick');
         $form = $deleteBtn->form();
 
         /**set slug for route arg */
@@ -99,8 +99,7 @@ class TrickTest extends WebTestCase
         //** Check if trick is deleted */
         $crawler = $client->request('GET', $trickUri);
         $this->assertResponseStatusCodeSame(404);
-        
-        
+            
     }
 
 }

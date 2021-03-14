@@ -1,8 +1,7 @@
 <form method="POST" action="{{path('trick_delete', {'slug': trick.slug})}}">
-	<input
-	type="hidden" name="_method" value="DELETE">
+	<input type="hidden" name="_method" value="DELETE">
 	{# <input type="hidden" name="_token" value="csrf_token('delete' ~ trick.name)"> #}
-	<button type="submit" class="btn btn-danger delete-trick-btn" onclick="return confirm('Etes->vous sûre ?')" name="delete_form_submit">
-		<strong>Supprimer</strong>
-	</button>
+	{# hidden btn activate by fake-btn #}
+		<div class="form-group" style="display:none;"> <button type="submit" class="delete-trick-btn" onclick="return confirm('Etes->vous sûre de vouloir supprimer ce trick ?')" name="delete_form_submit">Delete Trick</button>
+	</div>
 </form>

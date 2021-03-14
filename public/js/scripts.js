@@ -103,4 +103,10 @@ $(document).ready(function () {
 
     });
 
+    /** Trigger Delete Trick btn */
+    $(document).on('click', '.fake-delete-trick-btn, #delete-trick-from-show-btn', function (e) {
+        e.preventDefault();
+        $('.delete-trick-btn').trigger('click');
+    })
+
 });
