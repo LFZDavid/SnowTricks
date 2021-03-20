@@ -8,11 +8,15 @@ use App\Entity\Trick;
 use App\Entity\Media;
 use DateTime;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements FixtureGroupInterface
 {
+
+   
+
     private $videos_link = [
         "https://www.youtube.com/embed/SQyTWk7OxSI",
         "https://www.youtube.com/embed/YFRl91m6WS8",
@@ -35,6 +39,11 @@ class AppFixtures extends Fixture
         "one foot",        
         "old school",        
     ];
+
+    public static function getGroups(): array
+    {
+        return ['dev','test'];
+    }
 
     public function load(ObjectManager $manager)
     {
