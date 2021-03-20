@@ -1,4 +1,3 @@
-{{ form_start(formTrick)}}
 <div class="row medias" data-prototype="{{ form_widget(formTrick.medias.vars.prototype)|e('html_attr') }}">
 	{% for media in formTrick.medias %}
 		{% set is_image = media.vars.value.type == 'img' %}

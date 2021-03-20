@@ -7,6 +7,7 @@
 	<div class="card-title-band">
 		<h1 class="card-title trick-title">{{title}}</h1>
 	</div>
+	{{ form_start(formTrick)}}
 	<div class="card-body">
 		<div class="see-medias-btn dropduwn">
 			<button class="btn btn-secondary" type="button" id="dropdownMedias">
@@ -23,4 +24,5 @@
 	{% block form %}
 		{% include "/trick/_form.html.twig" %}
 	{% endblock %}
+	{{ form_end(formTrick)}}
 {% endblock %}

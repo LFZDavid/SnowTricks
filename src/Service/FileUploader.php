@@ -42,7 +42,9 @@ class FileUploader
     public function deleteFile(Media $media)
     {
         $file = $this->publicDirectory . $media->getUrl();
-        unlink($file);
+        if(file_exists($file)) {
+            unlink($file);
+        }
     }
 
 }
