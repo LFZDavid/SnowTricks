@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\Comment;
 use App\Entity\Trick;
 use App\Entity\Media;
 use DateTime;
@@ -73,10 +74,17 @@ class AppFixtures extends Fixture
             }
             
             /** Add Category */
-            
             $TrickCategory = $categoriesCollection[array_rand($categoriesCollection, 1)];
             $trick->setCategory($TrickCategory);
 
+            /** Add Comment */
+            for ($l=0; $l < rand(0,25); $l++) { 
+                $comment = new Comment();
+                $comment
+                ->setCreatedAt(new DateTime())
+                ->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
+                $trick->addComment($comment);
+            }
 
             $manager->persist($trick);
         }
