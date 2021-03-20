@@ -81,7 +81,6 @@ class AppFixtures extends Fixture
             for ($l=0; $l < rand(0,25); $l++) { 
                 $comment = new Comment();
                 $comment
-                ->setCreatedAt(new DateTime())
                 ->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
                 $trick->addComment($comment);
             }
