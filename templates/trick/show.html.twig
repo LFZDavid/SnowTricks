@@ -55,6 +55,9 @@
 					{{trick.updatedAt|date('d/m/Y')}}
 				</span>
 			{% endif %}
+			<span class="badge bg-info category-badge">
+				{{trick.category.name|capitalize}}
+			</span>
 		</div>
 	</div>
 {% endblock %}

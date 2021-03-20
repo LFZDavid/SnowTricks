@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Category;
 use App\Entity\Trick;
 use App\Entity\Media;
 use DateTime;
@@ -24,9 +25,26 @@ class AppFixtures extends Fixture
         "https://www.youtube.com/embed/-kOsKKsJ_SE",
     ];
 
+    private array $categories = [
+        "grab",        
+        "rotation",        
+        "flip",        
+        "rotation désaxée",        
+        "slide",        
+        "one foot",        
+        "old school",        
+    ];
+
     public function load(ObjectManager $manager)
     {
         $slugger = new AsciiSlugger();
+
+        /** Add categories */
+        foreach ($this->categories as $categoryName) {
+            $category = New Category();
+            $category->setName($categoryName);
+            $categoriesCollection[] = $category;
+        }
 
         for($i = 1; $i<20;$i++) {
             $trick = new Trick();
@@ -54,6 +72,12 @@ class AppFixtures extends Fixture
                 $trick->addMedia($video);
             }
             
+            /** Add Category */
+            
+            $TrickCategory = $categoriesCollection[array_rand($categoriesCollection, 1)];
+            $trick->setCategory($TrickCategory);
+
+
             $manager->persist($trick);
         }
 
