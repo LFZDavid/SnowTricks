@@ -80,8 +80,7 @@ class AppFixtures extends Fixture
             /** Add Comment */
             for ($l=0; $l < rand(0,25); $l++) { 
                 $comment = new Comment();
-                $comment
-                ->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
+                $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
                 $trick->addComment($comment);
             }
 

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% set default_img_url = "/img/tricks/default.jpg" %}
+
 {% if trick is defined %}
 	{% set title = trick.name %}
 {% endif %}

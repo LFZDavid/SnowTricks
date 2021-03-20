@@ -68,7 +68,7 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist"})
      */
     private $category;
 

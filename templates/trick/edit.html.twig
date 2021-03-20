@@ -16,7 +16,7 @@
 			<img class="main-img" src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
 		{% endblock %}
 	{% else %}
-		<img src="{{asset('/img/tricks/default.jpg')}}">
+		<img src="{{asset(default_img_url)}}">
 	{% endif %}
 	<div class="card-title-band">
 		<h1 class="card-title trick-title">{{title}}</h1>

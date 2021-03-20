@@ -102,4 +102,17 @@ class TrickTest extends WebTestCase
             
     }
 
+    // public function testDisplayCommentList()
+    // {
+    //     $client = static::createClient();
+    //     /**Get create form */
+    //     $crawler = $client->request('GET', '/');
+    //     $trickUri = $crawler->filter('.trick-link')->attr('href');
+    //     $crawler = $client->request('GET', $trickUri);
+    //     // $this->assertResponseIsSuccessful();
+    //     // $this->assertSelectorExists('h1.trick-title');
+
+    //     // $this->assertSelectorExists('div.comments-block');
+    // }
+
 }

@@ -7,7 +7,16 @@
 				{% if loop.first and is_image %}
 					<span class="badge bg-success main-img-badge">Main</span>
 				{% endif %}
-				<img class="img-thumbnail" src="{{media.vars.value.url ?? " "}}">
+				{% if trick is defined %}
+					{% set img_url = media.vars.value.url %}
+				{% else %}
+					{% set img_url = default_img_url %}
+				{% endif %}
+				{% if is_image %}
+					<img class="img-thumbnail" src="{{asset(img_url)}}">
+				{% elseif is_video %}
+					<img class="img-thumbnail" src="{{asset('/img/video-logo.png')}}">
+				{% endif %}
 			</div>
 			<div class="input-group input-group-sm mb-3 upload-input">
 				{{ form_row(media.type, {'attr':{'data-idmedia':media.vars.id}})}}

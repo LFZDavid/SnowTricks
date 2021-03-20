@@ -37,7 +37,7 @@ $(document).ready(function () {
         e.preventDefault();
         const mediaId = e.target.parentNode.dataset.id;
         $('#div_' + mediaId).toggleClass('col-md-2').find('.upload-input').slideToggle();
-        $('#' + mediaId + '_type').prop('disabled', 'disabled');
+        // $('#' + mediaId + '_type').prop('disabled', 'disabled');
 
         var typeValue = $('#' + mediaId + '_type')[0].value;
         if (typeValue == 1) {
@@ -90,7 +90,6 @@ $(document).ready(function () {
     $(document).on('change', '.media-type', function (e) {
 
         /**hide all fields */
-        $('.trick-img, .trick-video').hide();
         var idMedia = this.parentNode.parentNode.getAttribute('id');
 
         if (this.value == 1) { //image

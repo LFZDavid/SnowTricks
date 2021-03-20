@@ -58,9 +58,4 @@ services:
                 event: 'prePersist'
                 entity: 'App\Entity\Trick'
     
-    App\EventListener\CreateCommentListener:
-        tags:
-            -
-                name: 'doctrine.orm.entity_listener'
-                event: 'prePersist'
-                entity: 'App\Entity\Comment'
+    
