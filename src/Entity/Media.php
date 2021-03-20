@@ -21,15 +21,20 @@ class Media
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $url;
+    private ?string $url;
 
-    private $file;
+    private ?UploadedFile $file;
 
     /**
      * @ORM\ManyToOne(targetEntity=Trick::class, inversedBy="medias")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;
+
+    /**
+     * @ORM\Column(type="string", length=20)
+     */
+    private $type;
 
     public function getId(): ?int
     {
@@ -62,12 +67,24 @@ class Media
 
     public function getFile(): ?UploadedFile
     {
-        return $this->file;
+        return $this->file ?? null;
     }
 
     public function setFile(UploadedFile $file): self
     {
         $this->file = $file;
+        return $this;
+    }
+
+    public function getType(): ?string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): self
+    {
+        $this->type = $type;
+
         return $this;
     }
 }

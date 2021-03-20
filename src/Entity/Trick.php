@@ -8,9 +8,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TrickRepository::class)
+ * @UniqueEntity(
+ * fields="name",
+ * errorPath="name",
+ * message="Ce nom est déjà pris !"
+ * )
  */
 class Trick
 {
@@ -52,7 +58,7 @@ class Trick
     private $updatedAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Media::class, mappedBy="trick", orphanRemoval=true, cascade={"persist", "remove"})
      */
     private $medias;
 
@@ -141,7 +147,6 @@ class Trick
     public function removeMedia(Media $media): self
     {
         if ($this->medias->removeElement($media)) {
-            // set the owning side to null (unless already changed)
             if ($media->getTrick() === $this) {
                 $media->setTrick(null);
             }

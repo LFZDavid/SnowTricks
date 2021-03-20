@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    img_directory: '%kernel.project_dir%/public/img/tricks'
+    public_directory: '%kernel.project_dir%/public'
+    img_relative_directory: '/img/tricks'
 
 services:
     # default configuration for services in *this* file
@@ -33,5 +34,26 @@ services:
 
     App\Service\FileUploader:
         arguments:
-            $targetDirectory: '%img_directory%'
+            $publicDirectory: '%public_directory%'
+            $imgRelativeDirectory: '%img_relative_directory%'
     
+    App\EventListener\DeleteImgListener:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'postRemove'
+                entity: 'App\Entity\Media'
+
+    App\EventListener\UpdateTrickListener:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'preUpdate'
+                entity: 'App\Entity\Trick'
+
+    App\EventListener\CreateTrickListener:
+        tags:
+            -
+                name: 'doctrine.orm.entity_listener'
+                event: 'prePersist'
+                entity: 'App\Entity\Trick'

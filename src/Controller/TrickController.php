@@ -35,9 +35,6 @@ class TrickController extends AbstractController
                 }
             }
             
-            $slug = $slugger->slug($trick->getName())->lower();
-            $trick->setSlug($slug);
-            
             $manager->persist($trick);
             $manager->flush();
             
@@ -66,14 +63,8 @@ class TrickController extends AbstractController
                     $imgFile->setUrl($imgFileName);
                 }
             }
-            
-            $trick->setUpdatedAt(new DateTime());
-            $slug = $slugger->slug($trick->getName())->lower();
-            $trick->setSlug($slug);
-            
-            $manager->persist($trick);
+
             $manager->flush();
-            
             return $this->redirectToRoute('home');
         }
 
