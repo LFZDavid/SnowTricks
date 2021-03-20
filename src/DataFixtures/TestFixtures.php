@@ -2,32 +2,28 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Category;
-use App\Entity\Comment;
 use App\Entity\Trick;
-use App\Entity\Media;
-use DateTime;
-use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\String\Slugger\AsciiSlugger;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class TestFixtures extends Fixture implements FixtureGroupInterface
+class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-
     public static function getGroups(): array
     {
         return ['test'];
     }
-    
+
     public function load(ObjectManager $manager)
     {
-        $slugger = new AsciiSlugger();
-        $trick = new Trick();
-        $trick
-        ->setName('Trick fixtures test')
-        ->setDescription('Description du Trick fixtures test');
-        $manager->persist($trick);
+        $trickName = 'Trick fixtures test';
+        $testTrick = new Trick();
+        $testTrick->setName($trickName)
+            ->setDescription('Description du Trick fixtures test');
+        $manager->persist($testTrick);
+
+
         $manager->flush();
     }
 
