@@ -9,12 +9,12 @@ use App\Entity\Comment;
 use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\FixtureInterface;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class AppFixtures extends Fixture implements FixtureGroupInterface
+class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-
     private $videos_link = [
         "https://www.youtube.com/embed/SQyTWk7OxSI",
         "https://www.youtube.com/embed/YFRl91m6WS8",
@@ -29,18 +29,18 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
     ];
 
     private array $categories = [
-        "grab",        
-        "rotation",        
-        "flip",        
-        "rotation désaxée",        
-        "slide",        
-        "one foot",        
-        "old school",        
+        "grab",
+        "rotation",
+        "flip",
+        "rotation désaxée",
+        "slide",
+        "one foot",
+        "old school",
     ];
 
     public static function getGroups(): array
     {
-        return ['dev'];
+        return ['dev', 'test'];
     }
 
     public function load(ObjectManager $manager)
@@ -49,12 +49,12 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
         /** Add categories */
         foreach ($this->categories as $categoryName) {
-            $category = New Category();
+            $category = new Category();
             $category->setName($categoryName);
             $categoriesCollection[] = $category;
         }
 
-        for($i = 1; $i<20;$i++) {
+        for ($i = 1; $i<20;$i++) {
             $trick = new Trick();
             $trick
             ->setName('Trick n° '.$i)
@@ -63,20 +63,20 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             $trick->setSlug($slug);
             
             /** Add img */
-            for($j = 0; $j < rand(1,3); $j++) {
+            for ($j = 0; $j < rand(1, 3); $j++) {
                 $img = new Media();
                 $img
                 ->setType('img')
-                ->setUrl('https://picsum.photos/150/150?random='.rand(1,60));
+                ->setUrl('https://picsum.photos/150/150?random='.rand(1, 60));
                 $trick->addMedia($img);
             }
 
             /** Add video */
-            for ($k=0; $k < rand(0,3); $k++) { 
+            for ($k=0; $k < rand(0, 3); $k++) {
                 $video = new Media();
                 $video
                 ->setType('video')
-                ->setUrl($this->videos_link[rand(0,9)]);
+                ->setUrl($this->videos_link[rand(0, 9)]);
                 $trick->addMedia($video);
             }
             
@@ -85,7 +85,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
             $trick->setCategory($TrickCategory);
 
             /** Add Comment */
-            for ($l=0; $l < rand(0,25); $l++) { 
+            for ($l=0; $l < rand(0, 25); $l++) {
                 $comment = new Comment();
                 $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
                 $trick->addComment($comment);
@@ -96,5 +96,4 @@ class AppFixtures extends Fixture implements FixtureGroupInterface
 
         $manager->flush();
     }
-
 }

@@ -3,99 +3,127 @@
 namespace App\Tests;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TrickTest extends WebTestCase
 {
-
     use FixturesTrait;
 
-    public function testFindTrickFixture()
+    public function testHomepageHaveLessThanSixteenTrick()
     {
         $client = static::createClient();
 
         $this->loadFixtures([
             'App\DataFixtures\TestFixtures'
-        ],true);
-        
-        $trickName = 'Trick fixtures test';
-        $trickSlug = 'trick-fixtures-test';
+        ], true);
 
-        $crawler = $client->request('GET', '/trick/'.$trickSlug);
+        $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', $trickName);
-                
+        $this->assertLessThan(16, 'h5.trick-title');
+    }
+    
+    public function testHomepagePagination()
+    {
+        $client = static::createClient();
+        
+        $crawler = $client->request('GET', '/100');
+        $this->assertResponseIsSuccessful();
     }
 
-    // public function testCreateAndDeleteTrick(): void
-    // {
-    //     //**Create trick test */
-    //     $datetime = new DateTime();
-    //     $client = static::createClient();
-    //     /**Get create form */
-    //     $crawler = $client->request('GET', '/trick/create');
-    //     /**Get form */
-    //     $buttonCrawlerNode = $crawler->filter('form');
-    //     /**Fill and submit form */
-    //     $form = $buttonCrawlerNode->form();
-    //     $trickName = 'trick Test'.rand(100000,999999);
-    //     $form['trick[name]'] = $trickName;
-    //     $form['trick[description]'] = 'Contenu du trick test...'.$datetime->format('Y-m-d H:i');
-    //     $form['trick[category]'] = '';
-    //     $client->submit($form);
-    //     $client->followRedirect();
-    //     $this->assertResponseIsSuccessful();
+    public function testFindTrickInHomepage()
+    {
+        $client = static::createClient();
         
-    //     //**Check if trick is added in homepage */
-    //     $crawler = $client->request('GET', '/');
-    //     $this->assertResponseIsSuccessful();
-    //     $this->assertSelectorTextContains('h5.trick-name', $trickName);
+        $crawler = $client->request('GET', '/100');
+        $this->assertSelectorTextContains('h5.trick-name', 'find');
+    }
+
+    public function testTrickShow()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'show';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
         
-    //     //** Delete trick */
-    //     /**get trick page uri */
-    //     $trickUri = $crawler->selectLink($trickName)->link()->getUri();
-    //     /**Go to trick page */
-    //     $crawler = $client->request('GET', $trickUri);
-    //     $this->assertResponseIsSuccessful();
-    //     $this->assertSelectorTextContains('h1', $trickName);
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1.trick-title', $trickName);
+    }
+
+    public function testCreateTrick()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/trick/create');
+        /**Get form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        /**Fill and submit form */
+        $form = $buttonCrawlerNode->form();
+        $trickName = 'trick a créer';
+        $form['trick[name]'] = $trickName;
+        $form['trick[description]'] = 'Contenu du trick créé...';
+        $form['trick[category]'] = '';
+        $client->submit($form);
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
         
-    //     /**Go to edit form */
-    //     $crawler = $client->request('GET', $trickUri.'/edit');
-    //     $this->assertResponseIsSuccessful();
-    //     $this->assertSelectorExists('.delete-trick-btn');
+        //**Check if trick is added in homepage */
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h5.trick-name', $trickName);
+    }
+
+    public function testEditTrick()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'edit';
+        $trickSlug = (string) $slugger->slug((string) $trickName)->lower();
+
+        $crawler = $client->request('GET', '/trick/'.$trickSlug.'/edit');
+
+        /**Fill and submit form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        $form = $buttonCrawlerNode->form();
+        $trickName .= ' modifié !';
+        $form['trick[name]'] = $trickName;
+        $form['trick[description]'] = 'Contenu du trick modifié...';
+        $client->submit($form);
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
+
+        /**Check if modifications are saved */
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h5.trick-name', $trickName);
+    }
+
+    public function testDeleteTrick()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'delete';
+        $trickSlug = (string) $slugger->slug((string) $trickName)->lower();
+
+        $crawler = $client->request('GET', '/trick/'.$trickSlug.'/edit');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.delete-trick-btn');
         
-    //     /**Click on delete btn */
-    //     $deleteBtn = $crawler->selectButton('Delete Trick');
-    //     $form = $deleteBtn->form();
-
-    //     /**set slug for route arg */
-    //     $slugger = new AsciiSlugger();
-    //     $slug = (string) $slugger->slug((string) $trickName)->lower();
-
-    //     $client->submit($form, [], ["slug" => $slug]);
+        /**Click on delete btn */
+        $deleteBtn = $crawler->selectButton('Delete Trick');
+        $form = $deleteBtn->form();
+        $client->submit($form, [], ["slug" => $trickSlug]);
         
-    //     //** Check redirection to home */
-    //     $client->followRedirect();
-    //     $this->assertResponseIsSuccessful();
-    //     $this->assertSelectorExists('h2.homepage-band-text');
-
-    //     //** Check if trick is deleted */
-    //     $crawler = $client->request('GET', $trickUri);
-    //     $this->assertResponseStatusCodeSame(404);
-            
-    // }
-
-    // public function testDisplayCommentList()
-    // {
-    //     $client = static::createClient();
-    //     /**Get create form */
-    //     $crawler = $client->request('GET', '/');
-    //     $trickUri = $crawler->filter('.trick-link')->attr('href');
-    //     $crawler = $client->request('GET', $trickUri);
-    //     // $this->assertResponseIsSuccessful();
-    //     // $this->assertSelectorExists('h1.trick-title');
-
-    //     // $this->assertSelectorExists('div.comments-block');
-    // }
-
+        //** Check redirection to home */
+        $client->followRedirect();
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('h2.homepage-band-text');
+        
+        //** Check if trick is deleted */
+        $crawler = $client->request('GET', '/trick/'.$trickSlug);
+        $this->assertResponseStatusCodeSame(404);
+    }
 }
