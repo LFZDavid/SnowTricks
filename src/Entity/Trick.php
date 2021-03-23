@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * errorPath="name",
  * message="Ce nom est déjà pris !"
  * )
+
  */
 class Trick
 {
@@ -30,10 +31,13 @@ class Trick
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
-     *  min = 3, 
-     *  max = 50, 
+     *  min = 3,
+     *  max = 50,
      *  minMessage = "Trop court! min :{{ limit }} caractères",
      *  maxMessage = "Trop long! max :{{ limit }} caractères",
+     * )
+     * @Assert\NotNull(
+     * message = "Ce champs ne peut pas être vide !"
      * )
      */
     private $name;
@@ -41,8 +45,11 @@ class Trick
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(
-     *  min = 3, 
+     *  min = 3,
      *  minMessage = "Trop court! min :{{ limit }}"
+     * )
+     * @Assert\NotNull(
+     * message = "Ce champs ne peut pas être vide !"
      * )
      */
     private $description;
@@ -219,5 +226,4 @@ class Trick
 
         return $this;
     }
-    
 }

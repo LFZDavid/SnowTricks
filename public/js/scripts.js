@@ -70,6 +70,7 @@ $(document).ready(function () {
         $collectionHolder.data('index', index + 1);
         var $newFormItem = $('<div class="row"></div>').append(newForm);
         ($newFormItem.find('input')[0]).setAttribute('placeholder', 'url...');
+        ($newFormItem.find('input')[0]).setAttribute('required', 'required');
         $collectionHolder.append($newFormItem);
         var idMedia = $newFormItem[0].children[0].id;
         $('#' + idMedia + '_url , #' + idMedia + '_file').hide();

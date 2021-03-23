@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -29,6 +30,14 @@ class TrickTest extends WebTestCase
         
         $crawler = $client->request('GET', '/100');
         $this->assertResponseIsSuccessful();
+    }
+
+    public function testUnexistsTrick()
+    {
+        $client = static::createClient();
+        $wrongSlug = 'this-is-a-wrong-slug';
+        $crawler = $client->request('GET', '/trick/'.$wrongSlug);
+        $this->assertResponseStatusCodeSame(404);
     }
 
     public function testFindTrickInHomepage()
@@ -72,6 +81,18 @@ class TrickTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5.trick-name', $trickName);
+    }
+
+    public function testIncompleteCreateTrickFormSubmit()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/trick/create');
+        /**Get form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        /**Fill and submit form */
+        $form = $buttonCrawlerNode->form();
+        $client->submit($form);
+        $this->assertSelectorExists('span.form-error-message');
     }
 
     public function testEditTrick()
@@ -120,7 +141,7 @@ class TrickTest extends WebTestCase
         //** Check redirection to home */
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('h2.homepage-band-text');
+        $this->assertSelectorExists('section#trick-list');
         
         //** Check if trick is deleted */
         $crawler = $client->request('GET', '/trick/'.$trickSlug);
