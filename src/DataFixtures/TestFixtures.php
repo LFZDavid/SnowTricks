@@ -43,8 +43,9 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
         "edit",
         "delete",
         "to-comment",
-        "have-one-comment",
-        "have-eleven-comments",
+        "has-no-comment",
+        "has-one-comment",
+        "has-eleven-comments",
     ];
 
     public static function getGroups(): array
@@ -90,24 +91,21 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
             $trick->setCategory($TrickCategory);
 
             /** Add Comment */
-            $nb_comments = rand(1, 10);
+            $nb_comments = rand(1, 20);
 
-            if ($trickType == 'have-no-comment') {
+            if ($trickType == 'has-no-comment') {
                 $nb_comments = 0;
-            } elseif ($trickType == 'have-one-comment') {
+            } elseif ($trickType == 'has-one-comment') {
                 $nb_comments = 1;
-            } elseif ($trickType == 'have-eleven-comment') {
+            } elseif ($trickType == 'has-eleven-comments') {
                 $nb_comments = 11;
             }
 
             for ($l=0; $l < $nb_comments; $l++) {
                 $comment = new Comment();
-                $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick '.$trick->getName().'.');
+                $comment->setContent('Contenu du commentaire n°'.($l+1).' au sujet du trick '.$trick->getName().'.');
                 $trick->addComment($comment);
             }
-
-
-
 
             $manager->persist($trick);
         }

@@ -16,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
 {
+    const DEFAULT_PAGINATE_CMTS = 10;
 
     /**
      * @Route("/trick/create", name="trick_create")
@@ -25,11 +26,11 @@ class TrickController extends AbstractController
         $trick = new Trick;
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imgFiles */
             $imgFiles = $form->get('medias')->getData();
             foreach ($imgFiles as $imgFile) {
-                if($file = $imgFile->getFile()) {
+                if ($file = $imgFile->getFile()) {
                     $imgFileName = $fileUploader->upload($file);
                     $imgFile->setUrl($imgFileName);
                 }
@@ -41,7 +42,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
         
-        return $this->render('trick/create.html.twig',[
+        return $this->render('trick/create.html.twig', [
             'formTrick' => $form->createView(),
         ]);
     }
@@ -53,12 +54,12 @@ class TrickController extends AbstractController
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imgFiles */
             $imgFiles = $form->get('medias')->getData();
             
             foreach ($imgFiles as $imgFile) {
-                if($file = $imgFile->getFile()) {
+                if ($file = $imgFile->getFile()) {
                     $imgFileName = $fileUploader->upload($file);
                     $imgFile->setUrl($imgFileName);
                 }
@@ -68,7 +69,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('trick/edit.html.twig',[
+        return $this->render('trick/edit.html.twig', [
             'trick' => $trick,
             'formTrick' => $form->createView(),
         ]);
@@ -82,22 +83,22 @@ class TrickController extends AbstractController
         //todo : check token
         // if($this->isCsrfTokenValid('delete'.$trick->getName(), $request->get('_token'))) {
 
-            $manager->remove($trick);
-            $manager->flush();
-            return $this->redirectToRoute('home');
+        $manager->remove($trick);
+        $manager->flush();
+        return $this->redirectToRoute('home');
         // }
 
         return new Response('token invalid', 500);
     }
 
     /**
-     * @Route("/trick/{slug}", name="trick_show", methods="GET")
+     * @Route("/trick/{slug}/{nb<\d+>}", name="trick_show", methods="GET")
      */
-    public function show(Trick $trick):Response
+    public function show(Trick $trick, int $nb = self::DEFAULT_PAGINATE_CMTS):Response
     {
-        return $this->render('trick/show.html.twig',[
+        return $this->render('trick/show.html.twig', [
             'trick' => $trick,
+            'commentPaginate' => $nb,
         ]);
     }
-
 }

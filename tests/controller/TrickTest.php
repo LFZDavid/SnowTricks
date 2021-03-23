@@ -14,20 +14,18 @@ class TrickTest extends WebTestCase
     public function testHomepageHaveLessThanSixteenTrick()
     {
         $client = static::createClient();
-
         $this->loadFixtures([
             'App\DataFixtures\TestFixtures'
         ], true);
 
         $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
-        $this->assertLessThan(16, 'h5.trick-title');
+        $this->assertLessThan(16, count($crawler->filter('h5.trick-title')));
     }
     
     public function testHomepagePagination()
     {
         $client = static::createClient();
-        
         $crawler = $client->request('GET', '/100');
         $this->assertResponseIsSuccessful();
     }
@@ -43,15 +41,14 @@ class TrickTest extends WebTestCase
     public function testFindTrickInHomepage()
     {
         $client = static::createClient();
-        
         $crawler = $client->request('GET', '/100');
-        $this->assertSelectorTextContains('h5.trick-name', 'find');
+        $find = $crawler->filter('h5.trick-name:contains("find")');
+        $this->assertEquals(1, count($find));
     }
 
     public function testTrickShow()
     {
         $client = static::createClient();
-
         $slugger = new AsciiSlugger();
         $trickName = 'show';
         $slug = (string) $slugger->slug((string) $trickName)->lower();
@@ -104,7 +101,6 @@ class TrickTest extends WebTestCase
         $trickSlug = (string) $slugger->slug((string) $trickName)->lower();
 
         $crawler = $client->request('GET', '/trick/'.$trickSlug.'/edit');
-
         /**Fill and submit form */
         $buttonCrawlerNode = $crawler->filter('form');
         $form = $buttonCrawlerNode->form();
@@ -146,5 +142,32 @@ class TrickTest extends WebTestCase
         //** Check if trick is deleted */
         $crawler = $client->request('GET', '/trick/'.$trickSlug);
         $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testTrickWithOneComment()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-one-comment';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.comments-block');
+        $this->assertSelectorExists('.comment');
+    }
+
+    public function testTrickCommentsPaginate()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-eleven-comments';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertLessThan(11, count($crawler->filter('div.comment')));
     }
 }

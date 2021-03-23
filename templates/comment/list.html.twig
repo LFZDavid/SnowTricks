@@ -1,0 +1,25 @@
+<div class="comments-block">
+	<div class="comment-list container">
+		{% for comment in trick.comments|sort((a) => a.id) %}
+			{% if loop.index <= commentPaginate %}
+				<div class="comment">
+					<div class="card">
+						<div class="card-header">
+							<strong class="comment-author">
+								Author
+							</strong>
+							<em class="comment-createdAt">
+								{{comment.createdAt|date('d/m/Y H:i')}}
+							</em>
+						</div>
+						<div class="card-body">
+							<p class="comment-content">
+								{{comment.content}}
+							</p>
+						</div>
+					</div>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
