@@ -154,11 +154,11 @@ class TrickTest extends WebTestCase
         
         $crawler = $client->request('GET', '/trick/'.$slug);
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('.comments-block');
         $this->assertSelectorExists('.comment');
+        $this->assertSelectorNotExists('a.load-more-btn');
     }
 
-    public function testTrickCommentsPaginate()
+    public function testTrickCommentsDefaultPaginate()
     {
         $client = static::createClient();
 
@@ -169,5 +169,20 @@ class TrickTest extends WebTestCase
         $crawler = $client->request('GET', '/trick/'.$slug);
         $this->assertResponseIsSuccessful();
         $this->assertLessThan(11, count($crawler->filter('div.comment')));
+    }
+
+    public function testTrickCommentsPaginateLoadMore()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-eleven-comments';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $link = $crawler->filter('a.load-more-btn')->first()->link();
+        $crawler = $client->click($link);
+
+        $this->assertGreaterThan(10, count($crawler->filter('div.comment')));
     }
 }
