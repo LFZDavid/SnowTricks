@@ -1,0 +1,14 @@
+<div class="row comment-form">
+	{{form_start(commentForm)}}
+	{{form_row(commentForm.content)}}
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary" id="comment_save" name="comment[save]">
+			Commenter
+		</button>
+	</div>
+	<div class="form-rest">
+		{{form_rest(commentForm)}}
+	</div>
+	{{form_end(commentForm)}}
+</div>

@@ -185,4 +185,18 @@ class TrickTest extends WebTestCase
 
         $this->assertGreaterThan(10, count($crawler->filter('div.comment')));
     }
+
+    public function testSubmitEmptyComment()
+    {
+        $client = static::createClient();
+        $slugger = new AsciiSlugger();
+        $trickName = 'to-comment';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $buttonCrawlerNode = $crawler->filter('form');
+        $form = $buttonCrawlerNode->form();
+        $client->submit($form);
+        $this->assertSelectorExists('span.form-error-message');
+
+    }
 }

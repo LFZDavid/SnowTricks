@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use DateTime;
 use App\Entity\Trick;
+use App\Entity\Comment;
 use App\Form\TrickType;
+use App\Form\CommentType;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,9 +98,17 @@ class TrickController extends AbstractController
      */
     public function show(Trick $trick, int $nb = self::DEFAULT_PAGINATE_CMTS):Response
     {
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment,[
+            'action' => $this->generateUrl('add_comment',[
+                'slug' => $trick->getSlug()
+            ]),
+            'method' => 'POST'
+        ]);
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentPaginate' => $nb,
+            'commentForm' => $commentForm->createView()
         ]);
     }
 }
