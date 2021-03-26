@@ -11,9 +11,9 @@
 			<i class="bi bi-trash-fill"></i>
 		</a>
 	</div>
-	{% if trick.medias is not empty %}
+	{% if trick.medias is not empty and trick.medias.first.url is defined %}
 		{% block main_img %}
-			<img class="main-img" src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
+			<img class="main-img" src="{{asset(trick.medias.first.url)}}" alt="{{trick.name}}" class="img-fluid">
 		{% endblock %}
 	{% else %}
 		<img src="{{asset(default_img_url)}}">
