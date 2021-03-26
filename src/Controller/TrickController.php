@@ -94,21 +94,29 @@ class TrickController extends AbstractController
     }
 
     /**
-     * @Route("/trick/{slug}/{nb<\d+>}", name="trick_show", methods="GET")
+     * @Route("/trick/{slug}/{nb<\d+>}", name="trick_show", methods={"GET","POST"})
      */
-    public function show(Trick $trick, int $nb = self::DEFAULT_PAGINATE_CMTS):Response
+    public function show(Trick $trick, int $nb = self::DEFAULT_PAGINATE_CMTS, Request $request, EntityManagerInterface $manager):Response
     {
         $comment = new Comment();
-        $commentForm = $this->createForm(CommentType::class, $comment,[
-            'action' => $this->generateUrl('add_comment',[
-                'slug' => $trick->getSlug()
-            ]),
-            'method' => 'POST'
-        ]);
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        
+        $commentForm->handleRequest($request);
+        if($commentForm->isSubmitted() && $commentForm->isValid()) {
+
+            $comment->setTrick($trick);
+
+            $manager->persist($comment);
+            $manager->flush();
+
+            return $this->redirectToRoute('trick_show', ['slug'=> $trick->getSlug()]);
+        }
+        
         return $this->render('trick/show.html.twig', [
             'trick' => $trick,
             'commentPaginate' => $nb,
             'commentForm' => $commentForm->createView()
         ]);
     }
+    
 }
