@@ -199,4 +199,21 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('span.form-error-message');
 
     }
+
+    public function testSubmitValidComment()
+    {
+        $client = static::createClient();
+        $slugger = new AsciiSlugger();
+        $trickName = 'to-comment';
+        $commentContent = 'Contenu du commentaire';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $buttonCrawlerNode = $crawler->filter('form');
+        $form = $buttonCrawlerNode->form();
+        $form['comment[content]'] = $commentContent;
+        $client->submit($form);
+        $client->followRedirect();
+        $this->assertSelectorNotExists('span.form-error-message');
+        $this->assertSelectorTextContains('.comment-content', $commentContent);
+    }
 }
