@@ -6,6 +6,7 @@ use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Comment;
 use App\Entity\Category;
+use App\DataFixtures\AppFixtures;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -13,30 +14,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-    private array $videos_link = [
-        "https://www.youtube.com/embed/SQyTWk7OxSI",
-        "https://www.youtube.com/embed/YFRl91m6WS8",
-        "https://www.youtube.com/embed/uQgslXubZ4o",
-        "https://www.youtube.com/embed/qsd8uaex-Is",
-        "https://www.youtube.com/embed/gbHU6J6PRRw",
-        "https://www.youtube.com/embed/GBknUJXw5qs",
-        "https://www.youtube.com/embed/cVKamPWu_Sc",
-        "https://www.youtube.com/embed/czpV-FOBHY4",
-        "https://www.youtube.com/embed/bcSZDS65eGs",
-        "https://www.youtube.com/embed/-kOsKKsJ_SE",
-    ];
-
-    private array $categories = [
-
-        "grab",
-        "rotation",
-        "flip",
-        "rotation désaxée",
-        "slide",
-        "one foot",
-        "old school"
-    ];
-
+   
     private array $tricks = [
         "find",
         "show",
@@ -46,6 +24,14 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
         "has-no-comment",
         "has-one-comment",
         "has-eleven-comments",
+        "trick test n°8",
+        "trick test n°7",
+        "trick test n°6",
+        "trick test n°5",
+        "trick test n°4",
+        "trick test n°3",
+        "trick test n°2",
+        "trick test n°1",
     ];
 
     public static function getGroups(): array
@@ -55,9 +41,8 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
 
     public function load(ObjectManager $manager)
     {
-
         /** Add categories */
-        foreach ($this->categories as $categoryName) {
+        foreach (AppFixtures::CATEGORIES as $categoryName) {
             $category = new Category();
             $category->setName($categoryName);
             $categoriesCollection[] = $category;
@@ -82,7 +67,7 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
                 $video = new Media();
                 $video
                 ->setType('video')
-                ->setUrl($this->videos_link[rand(0, 9)]);
+                ->setUrl(AppFixtures::VIDEOS_LINKS[array_rand(AppFixtures::VIDEOS_LINKS, 1)]);
                 $trick->addMedia($video);
             }
 

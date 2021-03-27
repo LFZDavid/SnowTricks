@@ -1,33 +1,31 @@
-<div class="comments-block">
-	<div class="comment-list container">
-		{% for comment in trick.comments|sort((a) => a.id) %}
-			{% if loop.index <= commentPaginate %}
-				<div class="comment">
-					<div class="comment-author-img-container">
-						<img src="https://picsum.photos/100" class="comment-author-img">
+<div class="comment-list container">
+	{% for comment in trick.comments|sort((a) => a.id) %}
+		{% if loop.index <= commentPaginate %}
+			<div class="comment">
+				<div class="comment-author-img-container">
+					<img src="https://picsum.photos/100" class="comment-author-img">
+				</div>
+				<div class="card">
+					<div class="card-header">
+						<strong class="comment-author">
+							Author
+						</strong>
+						<em class="comment-createdAt">
+							{{comment.createdAt|date('d/m/Y H:i')}}
+						</em>
 					</div>
-					<div class="card">
-						<div class="card-header">
-							<strong class="comment-author">
-								Author
-							</strong>
-							<em class="comment-createdAt">
-								{{comment.createdAt|date('d/m/Y H:i')}}
-							</em>
-						</div>
-						<div class="card-body">
-							<p class="comment-content">
-								{{comment.content}}
-							</p>
-						</div>
+					<div class="card-body">
+						<p class="comment-content">
+							{{comment.content}}
+						</p>
 					</div>
 				</div>
-			{% endif %}
-		{% endfor %}
-		{% if trick.comments|length > commentPaginate %}
-			<div class="comment-list-bottom">
-				<a href="{{asset('/trick/')}}{{trick.slug ~'/'}}{{commentPaginate + 10}}" class="btn btn-outline-primary load-more-btn">Load more...</a>
 			</div>
 		{% endif %}
-	</div>
+	{% endfor %}
+	{% if trick.comments|length > commentPaginate %}
+		<div class="comment-list-bottom">
+			<a href="{{asset('/trick/')}}{{trick.slug ~'/'}}{{commentPaginate + 10}}" class="btn btn-outline-primary load-more-btn">Load more...</a>
+		</div>
+	{% endif %}
 </div>

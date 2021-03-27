@@ -15,7 +15,7 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-    private $videos_link = [
+    const VIDEOS_LINKS = [
         "https://www.youtube.com/embed/SQyTWk7OxSI",
         "https://www.youtube.com/embed/YFRl91m6WS8",
         "https://www.youtube.com/embed/uQgslXubZ4o",
@@ -28,7 +28,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
         "https://www.youtube.com/embed/-kOsKKsJ_SE",
     ];
 
-    private array $categories = [
+    const CATEGORIES = [
         "grab",
         "rotation",
         "flip",
@@ -40,15 +40,15 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
 
     public static function getGroups(): array
     {
-        return ['dev', 'test'];
+        return ['dev'];
     }
 
     public function load(ObjectManager $manager)
     {
-        $slugger = new AsciiSlugger();
+        // $slugger = new AsciiSlugger();
 
         /** Add categories */
-        foreach ($this->categories as $categoryName) {
+        foreach (self::CATEGORIES as $categoryName) {
             $category = new Category();
             $category->setName($categoryName);
             $categoriesCollection[] = $category;
@@ -59,8 +59,8 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
             $trick
             ->setName('Trick n° '.$i)
             ->setDescription('Description du Trick n° '.$i);
-            $slug = (string) $slugger->slug((string) $trick->getName())->lower();
-            $trick->setSlug($slug);
+            // $slug = (string) $slugger->slug((string) $trick->getName())->lower();
+            // $trick->setSlug($slug);
             
             /** Add img */
             for ($j = 0; $j < rand(1, 3); $j++) {
@@ -76,7 +76,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
                 $video = new Media();
                 $video
                 ->setType('video')
-                ->setUrl($this->videos_link[rand(0, 9)]);
+                ->setUrl(self::VIDEOS_LINKS[array_rand(self::VIDEOS_LINKS, 1)]);
                 $trick->addMedia($video);
             }
             

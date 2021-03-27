@@ -61,7 +61,12 @@
 				</span>
 			{% endif %}
 		</div>
-		{% include "./comment/list.html.twig" %}
+		<div class="comment-form">
+			{% include "./comment/_form.html.twig" %}
+		</div>
+		<div class="comments-block">
+			{% include "./comment/list.html.twig" %}
+		</div>
 	</div>
 	{% include "trick/_delete_form.html.twig" %}
 {% endblock %}
