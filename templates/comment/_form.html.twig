@@ -1,11 +1,8 @@
-<div class="row comment-form">
-	{{form_start(commentForm)}}
-	{{form_row(commentForm.content)}}
-
-	<div class="form-group">
-		<button type="submit" class="btn btn-primary" id="comment_save">
-			Commenter
-		</button>
-	</div>
-	{{form_end(commentForm)}}
+{{form_start(commentForm)}}
+<div class="comment-form-inputs container">
+	{{form_widget(commentForm.content)}}
+	<button type="submit" class="btn btn-primary" id="comment_save">
+		Commenter
+	</button>
 </div>
+{{form_end(commentForm)}}

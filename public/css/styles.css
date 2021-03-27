@@ -218,6 +218,19 @@ section#homepage-img{
     margin-right: 10px;
 }
 
+/* COMMENT FORM */
+.comment-form-inputs {
+    margin-top: 30px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.comment-form-inputs:first-child {
+    margin-bottom: 10px;
+}
+
 /* FORM */
 
 .form-btns {
@@ -325,12 +338,27 @@ section#homepage-img{
     }
 
     /* COMMENTS */
-    .comment-list {
+    .comment-list,
+    .comment-form-inputs {
         padding: 20px 20%;
     }
 
+    /* COMMENT FORM*/
+    .comment-form-inputs {
+        flex-direction: row;
+        height: auto;
+    }
+
+    .comment-form-inputs:first-child {
+        flex:2;
+    }
+
+    .comment-form-inputs> .btn {
+        flex:1;
+        margin-left: 10px;
+    }
+
     /* FORM */
-    
     .trick-form {
         max-width: 70%;
     }

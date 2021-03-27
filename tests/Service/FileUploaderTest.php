@@ -36,7 +36,7 @@ class FileUploaderTest extends TestCase
         copy($this->publicDirectory.$this->backupFile, $this->publicDirectory.$this->testFilePath);
     }
 
-    public function testUploadFile()
+    public function testUploadFile(): void
     {
         $file = new UploadedFile(
             $this->publicDirectory.$this->testFilePath,
@@ -52,7 +52,7 @@ class FileUploaderTest extends TestCase
 
     }
 
-    public function testDeleteFile()
+    public function testDeleteFile(): void
     {
         $media = new Media();
         $media->setUrl($this->testFilePath);
