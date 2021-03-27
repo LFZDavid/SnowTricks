@@ -33,7 +33,6 @@ class FileUploader
         } catch (FileException $e) {
 
             return $e->getMessage();
-            //todo : handle exception and display message in front
         }
 
         return $this->imgRelativeDirectory. '/' . $fileName;
