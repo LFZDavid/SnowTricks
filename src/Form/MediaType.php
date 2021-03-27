@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class MediaType extends AbstractType
 {
@@ -33,6 +34,9 @@ class MediaType extends AbstractType
                 'attr' => [
                     'placeholder' => 'url',
                     'class' => "form-control trick-video",
+                ],
+                'constraints' => [
+                    new NotNull(null, 'Ce champs ne peut pas être vide!'),
                 ],
             ])
             ->add('file', FileType::class, [

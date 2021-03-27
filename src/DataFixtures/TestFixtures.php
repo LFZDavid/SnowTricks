@@ -2,7 +2,6 @@
 
 namespace App\DataFixtures;
 
-use DateTime;
 use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Comment;
@@ -10,12 +9,11 @@ use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
-class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
+class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-    private $videos_link = [
+    private array $videos_link = [
         "https://www.youtube.com/embed/SQyTWk7OxSI",
         "https://www.youtube.com/embed/YFRl91m6WS8",
         "https://www.youtube.com/embed/uQgslXubZ4o",
@@ -29,23 +27,34 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
     ];
 
     private array $categories = [
+
         "grab",
         "rotation",
         "flip",
         "rotation désaxée",
         "slide",
         "one foot",
-        "old school",
+        "old school"
+    ];
+
+    private array $tricks = [
+        "find",
+        "show",
+        "edit",
+        "delete",
+        "to-comment",
+        "has-no-comment",
+        "has-one-comment",
+        "has-eleven-comments",
     ];
 
     public static function getGroups(): array
     {
-        return ['dev', 'test'];
+        return ['test'];
     }
 
     public function load(ObjectManager $manager)
     {
-        $slugger = new AsciiSlugger();
 
         /** Add categories */
         foreach ($this->categories as $categoryName) {
@@ -54,14 +63,11 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
             $categoriesCollection[] = $category;
         }
 
-        for ($i = 1; $i<20;$i++) {
+        foreach ($this->tricks as $trickType) {
             $trick = new Trick();
-            $trick
-            ->setName('Trick n° '.$i)
-            ->setDescription('Description du Trick n° '.$i);
-            $slug = (string) $slugger->slug((string) $trick->getName())->lower();
-            $trick->setSlug($slug);
-            
+            $trick->setName($trickType)
+                ->setDescription('Description du trick '.$trickType);
+
             /** Add img */
             for ($j = 0; $j < rand(1, 3); $j++) {
                 $img = new Media();
@@ -70,7 +76,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
                 ->setUrl('https://picsum.photos/150/150?random='.rand(1, 60));
                 $trick->addMedia($img);
             }
-
+            
             /** Add video */
             for ($k=0; $k < rand(0, 3); $k++) {
                 $video = new Media();
@@ -79,15 +85,25 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
                 ->setUrl($this->videos_link[rand(0, 9)]);
                 $trick->addMedia($video);
             }
-            
+
             /** Add Category */
             $TrickCategory = $categoriesCollection[array_rand($categoriesCollection, 1)];
             $trick->setCategory($TrickCategory);
 
             /** Add Comment */
-            for ($l=0; $l < rand(0, 25); $l++) {
+            $nb_comments = rand(1, 20);
+
+            if ($trickType == 'has-no-comment') {
+                $nb_comments = 0;
+            } elseif ($trickType == 'has-one-comment') {
+                $nb_comments = 1;
+            } elseif ($trickType == 'has-eleven-comments') {
+                $nb_comments = 11;
+            }
+
+            for ($l=0; $l < $nb_comments; $l++) {
                 $comment = new Comment();
-                $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
+                $comment->setContent('Contenu du commentaire n°'.($l+1).' au sujet du trick '.$trick->getName().'.');
                 $trick->addComment($comment);
             }
 

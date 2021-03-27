@@ -20,6 +20,8 @@ class UpdateTrickListener
     public function preUpdate(Trick $trick): void
     {
         $slug = $this->slugger->slug($trick->getName())->lower();
-        $trick->setSlug($slug)->setUpdatedAt(new DateTime());
+        
+        $trick->setSlug($slug)
+              ->setUpdatedAt(new DateTime());
     }
 }

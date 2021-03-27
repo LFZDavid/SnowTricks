@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
@@ -20,9 +21,13 @@ class Media
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Url(
+     *  message = "'{{ value }}' n'est pas une url valide!",
+     * )
+     *
      */
     private ?string $url;
-
+    
     private ?UploadedFile $file;
 
     /**

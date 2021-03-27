@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * errorPath="name",
  * message="Ce nom est déjà pris !"
  * )
+
  */
 class Trick
 {
@@ -30,10 +31,13 @@ class Trick
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Length(
-     *  min = 3, 
-     *  max = 50, 
+     *  min = 3,
+     *  max = 50,
      *  minMessage = "Trop court! min :{{ limit }} caractères",
      *  maxMessage = "Trop long! max :{{ limit }} caractères",
+     * )
+     * @Assert\NotNull(
+     * message = "Ce champs ne peut pas être vide !"
      * )
      */
     private $name;
@@ -41,8 +45,11 @@ class Trick
     /**
      * @ORM\Column(type="text")
      * @Assert\Length(
-     *  min = 3, 
+     *  min = 3,
      *  minMessage = "Trop court! min :{{ limit }}"
+     * )
+     * @Assert\NotNull(
+     * message = "Ce champs ne peut pas être vide !"
      * )
      */
     private $description;
@@ -68,14 +75,20 @@ class Trick
     private $slug;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="tricks", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity=Category::class, cascade={"persist"})
      */
     private $category;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="trick", orphanRemoval=true, cascade={"persist"})
+     */
+    private $comments;
 
     public function __construct()
     {
         $this->createdAt = new DateTime();
         $this->medias = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -183,5 +196,34 @@ class Trick
 
         return $this;
     }
-    
+
+    /**
+     * @return Collection|Comment[]
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setTrick($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getTrick() === $this) {
+                $comment->setTrick(null);
+            }
+        }
+
+        return $this;
+    }
 }

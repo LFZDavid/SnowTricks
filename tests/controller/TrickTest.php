@@ -2,62 +2,73 @@
 
 namespace App\Tests;
 
-use DateTime;
-use App\Entity\Trick;
-use App\Repository\TrickRepository;
+use Liip\TestFixturesBundle\Test\FixturesTrait;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\String\Slugger\AsciiSlugger;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TrickTest extends WebTestCase
 {
-    // public function testTrickShow(): void
-    // {
-    //     $client = static::createClient();
-    //     $fakeTrick = new Trick();
-    //     $fakeTrick->setSlug('trick-n-19');
-    //     $crawler = $client->request(
-    //         'GET',
-    //         "/trick/".$fakeTrick->getSlug()
-    //     );
-    //     $this->assertResponseIsSuccessful();
-    //     $this->assertSelectorTextContains('h1','Trick n° 19');
+    use FixturesTrait;
 
-    // }
-
-    // public function testGetCreateForm(): void
-    // {
-    //     $client = static::createClient();
-    //     $crawler = $client->request('GET',"/trick/create");
-    //     $this->assertResponseIsSuccessful();
-    // }
-
-    // public function testGetEditForm(): void
-    // {
-    //     $client = static::createClient();
-    //     $fakeTrick = new Trick();
-    //     $fakeTrick->setSlug('trick-n-19');
-    //     $crawler = $client->request(
-    //         'GET',
-    //         "/trick/".$fakeTrick->getSlug()."/edit"
-    //     );
-    //     $this->assertResponseIsSuccessful();
-        
-    // }
-
-    public function testCreateAndDeleteTrick(): void
+    public function testHomepageHaveLessThanSixteenTrick()
     {
-        //**Create trick test */
-        $datetime = new DateTime();
         $client = static::createClient();
-        /**Get create form */
+        $this->loadFixtures([
+            'App\DataFixtures\TestFixtures'
+        ], true);
+
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertLessThan(16, count($crawler->filter('h5.trick-title')));
+    }
+    
+    public function testHomepagePagination()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/100');
+        $this->assertResponseIsSuccessful();
+    }
+
+    public function testUnexistsTrick()
+    {
+        $client = static::createClient();
+        $wrongSlug = 'this-is-a-wrong-slug';
+        $crawler = $client->request('GET', '/trick/'.$wrongSlug);
+        $this->assertResponseStatusCodeSame(404);
+    }
+
+    public function testFindTrickInHomepage()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/100');
+        $find = $crawler->filter('h5.trick-name:contains("find")');
+        $this->assertEquals(1, count($find));
+    }
+
+    public function testTrickShow()
+    {
+        $client = static::createClient();
+        $slugger = new AsciiSlugger();
+        $trickName = 'show';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1.trick-title', $trickName);
+    }
+
+    public function testCreateTrick()
+    {
+        $client = static::createClient();
         $crawler = $client->request('GET', '/trick/create');
         /**Get form */
         $buttonCrawlerNode = $crawler->filter('form');
         /**Fill and submit form */
         $form = $buttonCrawlerNode->form();
-        $trickName = 'trick Test'.rand(100000,999999);
+        $trickName = 'trick a créer';
         $form['trick[name]'] = $trickName;
-        $form['trick[description]'] = 'Contenu du trick test...'.$datetime->format('Y-m-d H:i');
+        $form['trick[description]'] = 'Contenu du trick créé...';
         $form['trick[category]'] = '';
         $client->submit($form);
         $client->followRedirect();
@@ -67,39 +78,111 @@ class TrickTest extends WebTestCase
         $crawler = $client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h5.trick-name', $trickName);
-        
-        //** Delete trick */
-        /**get trick page uri */
-        $trickUri = $crawler->selectLink($trickName)->link()->getUri();
-        /**Go to trick page */
-        $crawler = $client->request('GET', $trickUri);
+    }
+
+    public function testIncompleteCreateTrickFormSubmit()
+    {
+        $client = static::createClient();
+        $crawler = $client->request('GET', '/trick/create');
+        /**Get form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        /**Fill and submit form */
+        $form = $buttonCrawlerNode->form();
+        $client->submit($form);
+        $this->assertSelectorExists('span.form-error-message');
+    }
+
+    public function testEditTrick()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'edit';
+        $trickSlug = (string) $slugger->slug((string) $trickName)->lower();
+
+        $crawler = $client->request('GET', '/trick/'.$trickSlug.'/edit');
+        /**Fill and submit form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        $form = $buttonCrawlerNode->form();
+        $trickName .= ' modifié !';
+        $form['trick[name]'] = $trickName;
+        $form['trick[description]'] = 'Contenu du trick modifié...';
+        $client->submit($form);
+        $client->followRedirect();
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', $trickName);
-        
-        /**Go to edit form */
-        $crawler = $client->request('GET', $trickUri.'/edit');
+
+        /**Check if modifications are saved */
+        $crawler = $client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h5.trick-name', $trickName);
+    }
+
+    public function testDeleteTrick()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'delete';
+        $trickSlug = (string) $slugger->slug((string) $trickName)->lower();
+
+        $crawler = $client->request('GET', '/trick/'.$trickSlug.'/edit');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('.delete-trick-btn');
         
         /**Click on delete btn */
         $deleteBtn = $crawler->selectButton('Delete Trick');
         $form = $deleteBtn->form();
-
-        /**set slug for route arg */
-        $slugger = new AsciiSlugger();
-        $slug = (string) $slugger->slug((string) $trickName)->lower();
-
-        $client->submit($form, [], ["slug" => $slug]);
+        $client->submit($form, [], ["slug" => $trickSlug]);
         
         //** Check redirection to home */
         $client->followRedirect();
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorExists('h2.homepage-band-text');
-
+        $this->assertSelectorExists('section#trick-list');
+        
         //** Check if trick is deleted */
-        $crawler = $client->request('GET', $trickUri);
+        $crawler = $client->request('GET', '/trick/'.$trickSlug);
         $this->assertResponseStatusCodeSame(404);
-            
     }
 
+    public function testTrickWithOneComment()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-one-comment';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.comment');
+        $this->assertSelectorNotExists('a.load-more-btn');
+    }
+
+    public function testTrickCommentsDefaultPaginate()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-eleven-comments';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $this->assertResponseIsSuccessful();
+        $this->assertLessThan(11, count($crawler->filter('div.comment')));
+    }
+
+    public function testTrickCommentsPaginateLoadMore()
+    {
+        $client = static::createClient();
+
+        $slugger = new AsciiSlugger();
+        $trickName = 'has-eleven-comments';
+        $slug = (string) $slugger->slug((string) $trickName)->lower();
+        
+        $crawler = $client->request('GET', '/trick/'.$slug);
+        $link = $crawler->filter('a.load-more-btn')->first()->link();
+        $crawler = $client->click($link);
+
+        $this->assertGreaterThan(10, count($crawler->filter('div.comment')));
+    }
 }
