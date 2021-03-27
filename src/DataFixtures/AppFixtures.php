@@ -10,7 +10,6 @@ use App\Entity\Category;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
-use Symfony\Component\String\Slugger\AsciiSlugger;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
@@ -45,8 +44,6 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
 
     public function load(ObjectManager $manager)
     {
-        // $slugger = new AsciiSlugger();
-
         /** Add categories */
         foreach (self::CATEGORIES as $categoryName) {
             $category = new Category();
@@ -59,8 +56,6 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
             $trick
             ->setName('Trick n° '.$i)
             ->setDescription('Description du Trick n° '.$i);
-            // $slug = (string) $slugger->slug((string) $trick->getName())->lower();
-            // $trick->setSlug($slug);
             
             /** Add img */
             for ($j = 0; $j < rand(1, 3); $j++) {

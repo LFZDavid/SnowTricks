@@ -18,9 +18,6 @@ class CreateTrickListener
 
     public function prePersist(Trick $trick): void
     {
-        if (!$trick->getName()) {
-            return;
-        }
         $slug = $this->slugger->slug($trick->getName())->lower();
         $trick->setSlug($slug);
     }
