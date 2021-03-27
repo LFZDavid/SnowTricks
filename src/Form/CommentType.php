@@ -16,11 +16,7 @@ class CommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content', TextType::class, [
-                'constraints' => [
-                    new NotBlank(null, 'Ce champs ne doit pas être vide!', false)
-                ]
-            ])
+            ->add('content', TextType::class)
         ;
     }
 
