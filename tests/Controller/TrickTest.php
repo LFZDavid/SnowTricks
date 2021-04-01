@@ -201,7 +201,7 @@ class TrickTest extends WebTestCase
             "user[confirm_password]" => 'userpassword',
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
-        $this->assertResponseIsSuccessful();
+        $this->assertResponseRedirects();
     }
     
 }
