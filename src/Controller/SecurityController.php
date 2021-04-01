@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Service\AccountValidator;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,4 +34,20 @@ class SecurityController extends AbstractController
         ]);
         
     }
+
+    /**
+     * @Route("/signup_confirm", name="signup_confirm")
+     */
+    public function confirmCreation(Request $request, AccountValidator $accountValidator, EntityManagerInterface $manager, UserRepository $userRepository):Response
+    {
+        $user = $userRepository->findOneBy(['token' => $request->query->get('token')]);
+
+        if($user) {
+            $user->setActive(true);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute(('home'));
+    }
 }
+

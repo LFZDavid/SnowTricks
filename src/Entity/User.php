@@ -63,6 +63,42 @@ class User implements UserInterface
      */
     private $confirm_password;
 
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $active;
+
+    /**
+     * @var string $token Confirmation token
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $token;
+
+    public function getToken(): string
+    {
+        return $this->token;
+    }
+
+    public function setToken(string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    public function getActive(): bool
+    {
+        return $this->active;
+    }
+
+    public function setActive(bool $active): self
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
     public function getConfirmPassword(): string
     {
         return $this->confirm_password;

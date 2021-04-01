@@ -24,7 +24,8 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
             $user
                 ->setEmail('user-'.$i.'@test.com')
                 ->setPassword('user'.$i.'password')
-                ->setName('User '.$i);
+                ->setName('User '.$i)
+                ->setActive(true);
             $manager->persist($user);
         }
 
