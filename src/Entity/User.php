@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use App\Entity\Media;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use Symfony\Component\Validator\Constraints\EqualTo;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -21,6 +25,9 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(
+     *     message = "L'email '{{ value }}' n'est pas un email valide !"
+     * )
      */
     private $email;
 
@@ -32,14 +39,41 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotNull
+     * @Assert\Length(min="6", minMessage="Le mot de passe doit faire au moins 6 caractères !")
      */
     private $password;
-
+    
     /**
      * @var string
      * @ORM\Column(type="string", length=50, unique=true)
+     * @Assert\Length(
+     *      min="4", 
+     *      minMessage="Le pseudo doit faire au moins 4 caractères !",
+     *      max="50",
+     *      maxMessage="Quoi !? Le pseudo doit faire moins de 50 caractères !",
+     *  )
      */
     private $name;
+    
+    /**
+     * @var string
+     * @Assert\NotNull
+     * @EqualTo(propertyPath="password", message="Vous n'avez pas tapé le même mot de passe")
+     */
+    private $confirm_password;
+
+    public function getConfirmPassword(): string
+    {
+        return $this->confirm_password;
+    }
+
+    public function setConfirmPassword(string $confirm_password): self
+    {
+        $this->confirm_password = $confirm_password;
+
+        return $this;
+    }
 
     public function getId(): ?int
     {
