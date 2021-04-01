@@ -2,8 +2,9 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
+use App\Entity\Media;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
