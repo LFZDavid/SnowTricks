@@ -18,16 +18,14 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         
-        for ($i=0; $i < 10; $i++) { 
-
-            $user = new User();
-            $user
-                ->setEmail('user-'.$i.'@test.com')
-                ->setPassword('user'.$i.'password')
-                ->setName('User '.$i)
-                ->setActive(true);
+        $user = new User();
+        $i = rand(0,999);
+        $user
+            ->setEmail('user-'.$i.'@test.com')
+            ->setPassword('user'.$i.'password')
+            ->setName('User '.$i)
+            ->setActive(true);
             $manager->persist($user);
-        }
 
         $manager->flush();
     }

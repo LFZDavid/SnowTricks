@@ -28,6 +28,7 @@ class TrickController extends AbstractController
         $trick = new Trick;
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imgFiles */
             $imgFiles = $form->get('medias')->getData();
@@ -37,7 +38,7 @@ class TrickController extends AbstractController
                     $imgFile->setUrl($imgFileName);
                 }
             }
-            
+
             $manager->persist($trick);
             $manager->flush();
             

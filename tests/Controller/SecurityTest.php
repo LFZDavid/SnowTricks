@@ -69,17 +69,17 @@ class Security extends WebTestCase
         $this->assertResponseRedirects();
     }
 
-    public function testLogin()
-    {
-        $crawler = $this->client->request('GET', '/login');
-        $crawler = $this->client->submitForm('Connexion',[
-            "email" => 'user@test.com',
-            "password" => 'passwordTest',
-        ]);
-        $this->assertResponseRedirects();
-        $crawler = $this->client->request('GET', '/');
-        $this->assertSelectorExists('.logout-navlink');
-        $this->assertSelectorNotExists('.signup-navlink');
-        $this->assertSelectorNotExists('.login-navlink');
-    }
+    // public function testLogin()
+    // {
+    //     $crawler = $this->client->request('GET', '/login');
+    //     $crawler = $this->client->submitForm('Connexion',[
+    //         "email" => 'user@test.com',
+    //         "password" => 'passwordTest',
+    //     ]);
+    //     $this->assertResponseRedirects();
+    //     $crawler = $this->client->request('GET', '/');
+    //     $this->assertSelectorExists('.logout-navlink');
+    //     $this->assertSelectorNotExists('.signup-navlink');
+    //     $this->assertSelectorNotExists('.login-navlink');
+    // }
 }
