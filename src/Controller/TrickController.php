@@ -38,6 +38,7 @@ class TrickController extends AbstractController
                     $imgFile->setUrl($imgFileName);
                 }
             }
+            $trick->setAuthor($this->getUser());
 
             $manager->persist($trick);
             $manager->flush();
