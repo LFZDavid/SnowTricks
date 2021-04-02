@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Repository\UserRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\String\Slugger\AsciiSlugger;
@@ -11,6 +12,8 @@ class TrickTest extends WebTestCase
 {
     use FixturesTrait;
     private $client;
+    private $userRepository;
+    private $userTest;
 
 
     /**
@@ -19,13 +22,15 @@ class TrickTest extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+        $this->userRepository = static::$container->get(UserRepository::class);
+        $this->userTest = $this->userRepository->findOneByEmail('user@test.com');
     }
 
     public function testHomepageHaveLessThanSixteenTrick()
     {
-        $this->loadFixtures([
-            'App\DataFixtures\TestFixtures'
-        ], true);
+        // $this->loadFixtures([
+        //     'App\DataFixtures\TestFixtures'
+        // ], true);
 
         $crawler = $this->client->request('GET', '/');
         $this->assertResponseIsSuccessful();
@@ -61,6 +66,7 @@ class TrickTest extends WebTestCase
 
     public function testCreateTrick()
     {
+        $this->client->loginUser($this->userTest);
         $crawler = $this->client->request('GET', '/trick/create');
         /**Get form */
         $buttonCrawlerNode = $crawler->filter('form');
@@ -82,6 +88,7 @@ class TrickTest extends WebTestCase
 
     public function testIncompleteCreateTrickFormSubmit()
     {
+        $this->client->loginUser($this->userTest);
         $crawler = $this->client->request('GET', '/trick/create');
         /**Get form */
         $buttonCrawlerNode = $crawler->filter('form');
@@ -95,6 +102,7 @@ class TrickTest extends WebTestCase
     {
         $trickSlug = 'edit';
         $newTrickName = 'edit modifié !';
+        $this->client->loginUser($this->userTest);
 
         $crawler = $this->client->request('GET', '/trick/'.$trickSlug.'/edit');
         /**Fill and submit form */
@@ -114,6 +122,7 @@ class TrickTest extends WebTestCase
 
     public function testDeleteTrick()
     {
+        $this->client->loginUser($this->userTest);
         $trickSlug = 'delete';
         $crawler = $this->client->request('GET', '/trick/'.$trickSlug.'/edit');
         $this->assertResponseIsSuccessful();
@@ -155,6 +164,7 @@ class TrickTest extends WebTestCase
 
     public function testSubmitEmptyComment()
     {
+        $this->client->loginUser($this->userTest);
         $crawler = $this->client->request('GET', '/trick/to-comment');
         $buttonCrawlerNode = $crawler->filter('form');
         $form = $buttonCrawlerNode->form();
@@ -164,6 +174,7 @@ class TrickTest extends WebTestCase
 
     public function testSubmitValidComment()
     {
+        $this->client->loginUser($this->userTest);
         $commentContent = 'Contenu du commentaire';
         $crawler = $this->client->request('GET', '/trick/to-comment');
         $buttonCrawlerNode = $crawler->filter('form');
