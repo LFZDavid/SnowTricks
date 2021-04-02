@@ -31,7 +31,11 @@ class AccountValidator
             ->subject("Snowtricks - Validation de votre inscription")
             ->html($this->generateMailHtmlContent($url));
         
-        $this->mailer->send($email);
+        try {
+            $this->mailer->send($email);
+        } catch (\Throwable $th) {
+            throw $th->getMessage();
+        }
 
     }
 
