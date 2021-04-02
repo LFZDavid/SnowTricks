@@ -18,17 +18,26 @@
 						<i class="bi bi-bookmark-fill nav-link-icon"></i>
 					</a>
 				</li>
-				<li class="nav-link">
-					<a href="{{path('signUp')}}">
-						<span class="nav-link-text no_mobile">SignUp</span>
-						<i class="bi bi-box-arrow-in-right nav-link-icon"></i>
-					</a>
-				</li>
-				<li class="nav-link no_mobile">
-					<a href="{{path('app_login')}}">
-						<span class="nav-link-text no_mobile">SignIn</span>
-					</a>
-				</li>
+				{% if app.user %}
+					<li class="nav-link">
+						<a href="{{path('app_logout')}}" class="logout-navlink">
+							<span class="nav-link-text no_mobile">Deconnexion</span>
+							<i class="bi bi-box-arrow-in-right nav-link-icon" style="color:red;"></i>
+						</a>
+					</li>
+				{% else %}
+					<li class="nav-link">
+						<a href="{{path('signUp')}}" class="signup-navlink">
+							<span class="nav-link-text no_mobile">SignUp</span>
+							<i class="bi bi-box-arrow-in-right nav-link-icon"></i>
+						</a>
+					</li>
+					<li class="nav-link no_mobile">
+						<a href="{{path('app_login')}}" class="login-navlink">
+							<span class="nav-link-text no_mobile">SignIn</span>
+						</a>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
 	</div>

@@ -34,7 +34,7 @@ class AccountValidator
         try {
             $this->mailer->send($email);
         } catch (\Throwable $th) {
-            throw $th->getMessage();
+            throw $th;
         }
 
     }

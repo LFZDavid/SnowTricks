@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Comment;
