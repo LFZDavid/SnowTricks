@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Repository\UserRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -9,7 +10,8 @@ class Security extends WebTestCase
 {
     use FixturesTrait;
     private $client;
-
+    private $userRepository;
+    private $userTest;
 
     /**
      * This method is called before each test.
@@ -17,14 +19,12 @@ class Security extends WebTestCase
     protected function setUp(): void
     {
         $this->client = static::createClient();
+        $this->userRepository = static::$container->get(UserRepository::class);
+        $this->userTest = $this->userRepository->findOneByEmail('user@test.com');
     }
 
     public function testGetSignUpForm()
     {
-        $this->loadFixtures([
-            'App\DataFixtures\TestFixtures'
-        ], true);
-
         $crawler = $this->client->request('GET', '/user/signup');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('form');
@@ -58,6 +58,13 @@ class Security extends WebTestCase
         $this->assertResponseIsSuccessful();
     }
 
+    public function testNotAccessLoginFormForLoggedUser()
+    {
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/login');
+        $this->assertResponseRedirects();
+    }
+
     public function testWrongLoginFormSubmit()
     {
         $crawler = $this->client->request('GET', '/login');
@@ -68,18 +75,5 @@ class Security extends WebTestCase
         $this->assertSelectorNotExists('div.alert-danger');
         $this->assertResponseRedirects();
     }
-
-    // public function testLogin()
-    // {
-    //     $crawler = $this->client->request('GET', '/login');
-    //     $crawler = $this->client->submitForm('Connexion',[
-    //         "email" => 'user@test.com',
-    //         "password" => 'passwordTest',
-    //     ]);
-    //     $this->assertResponseRedirects();
-    //     $crawler = $this->client->request('GET', '/');
-    //     $this->assertSelectorExists('.logout-navlink');
-    //     $this->assertSelectorNotExists('.signup-navlink');
-    //     $this->assertSelectorNotExists('.login-navlink');
-    // }
+    
 }

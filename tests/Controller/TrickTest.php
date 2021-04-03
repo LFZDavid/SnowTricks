@@ -28,10 +28,6 @@ class TrickTest extends WebTestCase
 
     public function testHomepageHaveLessThanSixteenTrick()
     {
-        // $this->loadFixtures([
-        //     'App\DataFixtures\TestFixtures'
-        // ], true);
-
         $crawler = $this->client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         $this->assertLessThan(16, count($crawler->filter('h5.trick-title')));
