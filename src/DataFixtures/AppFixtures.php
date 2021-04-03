@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use DateTime;
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Comment;
@@ -44,6 +45,12 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
 
     public function load(ObjectManager $manager)
     {
+        $author = new User();
+        $author->setName('author')
+                ->setEmail('author@test.com')
+                ->setPassword('authortest')
+                ->setActive(true);
+
         /** Add categories */
         foreach (self::CATEGORIES as $categoryName) {
             $category = new Category();
@@ -55,7 +62,8 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
             $trick = new Trick();
             $trick
             ->setName('Trick n° '.$i)
-            ->setDescription('Description du Trick n° '.$i);
+            ->setDescription('Description du Trick n° '.$i)
+            ->setAuthor($author);
             
             /** Add img */
             for ($j = 0; $j < rand(1, 3); $j++) {
@@ -82,7 +90,8 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
             /** Add Comment */
             for ($l=0; $l < rand(0, 25); $l++) {
                 $comment = new Comment();
-                $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.');
+                $comment->setContent('Contenu du commentaire n°'.$l.' au sujet du trick n°'.$i.' : '.$trick->getName().'.')
+                ->setAuthor($author);
                 $trick->addComment($comment);
             }
 

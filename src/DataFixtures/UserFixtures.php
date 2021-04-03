@@ -18,14 +18,21 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
     public function load(ObjectManager $manager)
     {
         
-        $user = new User();
-        $user
-            ->setEmail('user@test.com')
-            ->setPassword('userpassword')
-            ->setName('UserTest')
-            ->setActive(true);
-            $manager->persist($user);
+        $users = [
+                "valid",
+                "notvalid",
+                "todelete",
+        ];
 
+        foreach ($users as $item) {
+            $user = new User();
+            $user
+                ->setEmail($item.'@test.com')
+                ->setPassword($item)
+                ->setName($item)
+                ->setActive($item !== 'notvalid' ? true : false);
+            $manager->persist($user);
+        }
         $manager->flush();
     }
 }

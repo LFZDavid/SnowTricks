@@ -23,7 +23,7 @@ class TrickTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->userRepository = static::$container->get(UserRepository::class);
-        $this->userTest = $this->userRepository->findOneByEmail('user@test.com');
+        $this->userTest = $this->userRepository->findOneByEmail('valid@test.com');
     }
 
     public function testHomepageHaveLessThanSixteenTrick()

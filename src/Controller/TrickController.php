@@ -109,7 +109,7 @@ class TrickController extends AbstractController
         
         $commentForm->handleRequest($request);
         if($commentForm->isSubmitted() && $commentForm->isValid()) {
-
+            $comment->setAuthor($this->getUser());
             $trick->addComment($comment);
 
             $manager->persist($comment);

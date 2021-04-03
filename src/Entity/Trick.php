@@ -86,7 +86,7 @@ class Trick
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class)
+     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist"})
      */
     private $author;
 
