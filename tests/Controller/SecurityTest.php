@@ -75,5 +75,15 @@ class Security extends WebTestCase
         $this->assertSelectorNotExists('div.alert-danger');
         $this->assertResponseRedirects();
     }
+
+    public function testLogoutBtn()
+    {
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/');
+        $this->assertNotNull($this->userTest);
+        $this->assertSelectorExists('.logout-navlink');
+        $this->client->clickLink('Deconnexion');
+        $this->assertSelectorNotExists('.logout-navLink');
+    }
     
 }
