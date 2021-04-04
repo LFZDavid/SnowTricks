@@ -413,6 +413,7 @@ section#homepage-img{
     .comment-form-inputs> .btn {
         flex:1;
         margin-left: 10px;
+        margin-top:auto;
     }
 
     /* FORM */
