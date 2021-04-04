@@ -9,8 +9,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AccountValidator
 {
-    private $urlGenerator;
-    private $mailer;
+    private UrlGeneratorInterface $urlGenerator;
+    private MailerInterface $mailer;
 
     public function __construct(UrlGeneratorInterface $urlGenerator, MailerInterface $mailer)
     {
@@ -39,7 +39,7 @@ class AccountValidator
 
     }
 
-    protected function generateMailHtmlContent($url): string
+    protected function generateMailHtmlContent(string $url): string
     {
         return '<h3>Bienvenue au club !</h3>
         <p>
