@@ -266,6 +266,55 @@ section#homepage-img{
     justify-content: space-between;
 }
 
+/* SIGNUP */
+.signup-form> .card-title {
+    text-align: center;
+}
+
+.signup-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh - var(--navbar-mobile-height))
+}
+
+.signup-form {
+    display: flex;
+    flex-direction: column;
+    border:solid 3px black;
+    padding: 30px 20px;
+    margin: 15px 10px;
+    flex:2;
+}
+
+.signup-form> .card-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.signup-form> .card-body> form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.signup-form> .card-body> form> .form-group> label {
+    display: flex;
+    justify-content: center;
+}
+
+#user_save {
+    width: 60%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.signin-link {
+    margin: 10px auto;
+}
+
 /* MEDIA QUERIES*/
 
 @media (max-width:992px){
@@ -366,6 +415,16 @@ section#homepage-img{
     .edit-trick-btns {
         
         margin-left: 30%;
+    }
+
+    /* SIGNUP */
+    .signup-page {
+        height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
+    }
+
+    .signup-form {
+        width: 40%;
+        margin: 30% auto;
     }
 
 }

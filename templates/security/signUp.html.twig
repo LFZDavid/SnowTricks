@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+
+{% set title = "Inscription" %}
+
+{% block title %}
+	{{parent()}}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="signup-page">
+		<div class="card signup-form">
+			<h1 class="card-title">{{ title }}</h1>
+			<div class="card-body">
+				{{form_start(signUpForm)}}
+				{{form_row(signUpForm.name)}}
+				{{form_row(signUpForm.email)}}
+				{{form_row(signUpForm.password)}}
+				{{form_row(signUpForm.confirm_password)}}
+				<button type="submit" class="btn btn-success" id="user_save">Enregistrer
+				</button>
+				{{form_end(signUpForm)}}
+				<a class="signin-link" href="#">Déjà inscrit ?</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

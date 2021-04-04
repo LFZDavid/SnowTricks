@@ -174,4 +174,34 @@ class TrickTest extends WebTestCase
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertSelectorTextContains('.comment-content', $commentContent);
     }
+
+    public function testGetSignUpForm()
+    {
+        $crawler = $this->client->request('GET', '/user/signup');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('form');
+    }
+    
+    public function testSubmitEmptySignUpForm()
+    {
+        $this->client->request('GET', '/user/signup');
+        $crawler = $this->client->submitForm('Enregistrer', [
+            "user[password]" => 'azeaze'
+        ]);
+        $this->assertSelectorExists('span.form-error-message');
+    }
+
+    public function testCreateUser()
+    {
+        $this->client->request('GET', '/user/signup');
+        $crawler = $this->client->submitForm('Enregistrer', [
+            "user[name]" => 'User Test',
+            "user[email]" => 'test@test.com',
+            "user[password]" => 'userpassword',
+            "user[confirm_password]" => 'userpassword',
+        ]);
+        $this->assertSelectorNotExists('span.form-error-message');
+        $this->assertResponseRedirects();
+    }
+    
 }
