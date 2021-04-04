@@ -111,6 +111,20 @@ section#homepage-img{
     justify-content: center;
 }
 
+.trick-list-item> .card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.trick-btns {
+    width: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 /* PAGES */
 
 .bg-block {

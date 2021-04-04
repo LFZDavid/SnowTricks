@@ -31,6 +31,18 @@ class HomeTest extends WebTestCase
         $this->assertSelectorExists('a.trick-link>h5.trick-name');
     }
 
+    public function testNotDisplayEditTrickBtnsIfNotLogged()
+    {
+        $crawler = $this->client->request('GET', '/');
+        $this->assertSelectorNotExists('.trick-btns');
+    }
+
+    public function testDisplayEditTrickBtnsIfLogged()
+    {
+        $crawler = $this->client->request('GET', '/');
+        $this->assertSelectorNotExists('.trick-btns');
+    }
+
     public function testHomepagePagination()
     {
         $crawler = $this->client->request('GET', '/100');
@@ -43,11 +55,5 @@ class HomeTest extends WebTestCase
         $find = $crawler->filter('h5.trick-name:contains("find")');
         $this->assertEquals(1, count($find));
     }
-
-    /** 
-     * todo: 
-     *   test Homepage 
-     *      assert edit btn on each trick
-     *      assert delete btn on each trick
-     */
+   
 }
