@@ -333,7 +333,8 @@ section#homepage-img{
 }
 
 .signin-link,
-.signup-link {
+.signup-link,
+.forgot-pwd-link {
     margin: 10px auto;
 }
 
