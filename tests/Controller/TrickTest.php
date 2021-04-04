@@ -231,6 +231,16 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('.comment-content', $commentContent);
     }
 
-    
+    // todo: assert comment author image 
+    public function testFindCommentDataInCommentList()
+    {
+        $trick = $this->trickRepository->findOneByName('has-one-comment');
+        $comment = $trick->getComments()[0];
+        $this->client->request('GET', '/trick/has-one-comment');
+        $this->assertSelectorTextContains('.comment-author', $comment->getAuthor()->getName());
+        $this->assertSelectorTextContains('.comment-createdAt', $comment->getCreatedAt()->format('d/m/Y H:i'));
+        $this->assertSelectorTextContains('.comment-content', $comment->getContent());
+
+    }
     
 }
