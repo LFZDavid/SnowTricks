@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Repository\TrickRepository;
 use App\Repository\UserRepository;
 use Liip\TestFixturesBundle\Test\FixturesTrait;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -14,6 +15,7 @@ class TrickTest extends WebTestCase
     private $client;
     private $userRepository;
     private $userTest;
+    private $trickRepository;
 
 
     /**
@@ -23,6 +25,7 @@ class TrickTest extends WebTestCase
     {
         $this->client = static::createClient();
         $this->userRepository = static::$container->get(UserRepository::class);
+        $this->trickRepository = static::$container->get(TrickRepository::class);
         $this->userTest = $this->userRepository->findOneByEmail('valid@test.com');
     }
 
@@ -35,11 +38,47 @@ class TrickTest extends WebTestCase
 
     public function testTrickShow()
     {
-        $crawler = $this->client->request('GET', '/trick/show');
+        $trick = $this->trickRepository->findOneByName('show');
+        $crawler = $this->client->request('GET', '/trick/'.$trick->getSlug());
         $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1.trick-title', 'show');
+        $this->assertSelectorTextContains('h1.trick-title', $trick->getName());
+        $this->assertSelectorTextContains('div.trick-desc', $trick->getDescription());
+        $this->assertSelectorTextContains('.category-badge', ucfirst($trick->getCategory()->getName()));
     }
 
+    public function testCreateFormNotAccessibleForNotLoggedUser()
+    {
+        $crawler = $this->client->request('GET', '/trick/create');
+        $this->assertSelectorNotExists('form');
+    }
+
+    public function testInputsInCreateTrickForm()
+    {
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/trick/create');
+        $this->assertSelectorExists('#trick_name');
+        $this->assertSelectorExists('#trick_description');
+        $this->assertSelectorExists('#trick_category');
+        $this->assertSelectorExists('.add_media_link');
+    }
+
+    public function testCantAddDuplicateTrick()
+    {
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/trick/create');
+        /**Get form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        /**Fill and submit form */
+        $form = $buttonCrawlerNode->form();
+        $trickName = 'find'; // Allready exist!
+        $form['trick[name]'] = $trickName;
+        $form['trick[description]'] = 'Contenu du trick créé...';
+        $form['trick[category]'] = '';
+        $this->client->submit($form);
+        $this->assertSelectorTextContains('span.form-error-message','Ce nom est déjà pris !');
+    }
+
+    //todo : assert flash message exist after add trick
     public function testCreateTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -74,12 +113,30 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('span.form-error-message');
     }
 
+    public function testEditFormNotAccessibleForNotLoggedUser()
+    {
+        $trickToEdit = $this->trickRepository->findOneByName('edit');
+        $crawler = $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
+        $this->assertSelectorNotExists('form');
+    }
+
+    public function testEditFormFieldsAreFulfilled()
+    {
+        $trickToEdit = $this->trickRepository->findOneByName('edit');
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
+
+        $this->assertInputValueSame('trick[name]', $trickToEdit->getName());
+        $this->assertSelectorTextContains('#trick_description', $trickToEdit->getDescription());
+    }
+
+    //todo : assert flash message exist after add trick
     public function testEditTrick()
     {
+
         $trickSlug = 'edit';
         $newTrickName = 'edit modifié !';
         $this->client->loginUser($this->userTest);
-
         $crawler = $this->client->request('GET', '/trick/'.$trickSlug.'/edit');
         /**Fill and submit form */
         $buttonCrawlerNode = $crawler->filter('form');

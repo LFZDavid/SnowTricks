@@ -28,6 +28,7 @@ class HomeTest extends WebTestCase
         $crawler = $this->client->request('GET', '/');
         $this->assertResponseIsSuccessful();
         $this->assertLessThan(16, count($crawler->filter('h5.trick-title')));
+        $this->assertSelectorExists('a.trick-link>h5.trick-name');
     }
 
     public function testHomepagePagination()
@@ -46,7 +47,6 @@ class HomeTest extends WebTestCase
     /** 
      * todo: 
      *   test Homepage 
-     *      tricks names are a link
      *      assert edit btn on each trick
      *      assert delete btn on each trick
      */
