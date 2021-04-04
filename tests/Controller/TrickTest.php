@@ -26,31 +26,11 @@ class TrickTest extends WebTestCase
         $this->userTest = $this->userRepository->findOneByEmail('valid@test.com');
     }
 
-    public function testHomepageHaveLessThanSixteenTrick()
-    {
-        $crawler = $this->client->request('GET', '/');
-        $this->assertResponseIsSuccessful();
-        $this->assertLessThan(16, count($crawler->filter('h5.trick-title')));
-    }
-    
-    public function testHomepagePagination()
-    {
-        $crawler = $this->client->request('GET', '/100');
-        $this->assertResponseIsSuccessful();
-    }
-
     public function testUnexistsTrick()
     {
         $wrongSlug = 'this-is-a-wrong-slug';
         $crawler = $this->client->request('GET', '/trick/'.$wrongSlug);
         $this->assertResponseStatusCodeSame(404);
-    }
-
-    public function testFindTrickInHomepage()
-    {
-        $crawler = $this->client->request('GET', '/100');
-        $find = $crawler->filter('h5.trick-name:contains("find")');
-        $this->assertEquals(1, count($find));
     }
 
     public function testTrickShow()
