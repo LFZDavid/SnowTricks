@@ -28,6 +28,7 @@ class User implements UserInterface
      * @Assert\Email(
      *     message = "L'email '{{ value }}' n'est pas un email valide !"
      * )
+     * @Assert\NotBlank
      */
     private $email;
 
