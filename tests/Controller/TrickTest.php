@@ -172,6 +172,18 @@ class TrickTest extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testCommentFormIfNotLogged()
+    {
+        $trick = $this->trickRepository->findOneByName('has-no-comment');
+        $crawler = $this->client->request('GET', '/trick/'.$trick->getSlug());
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorNotExists('.comment-form>form');
+        $this->assertSelectorExists('.disclaimer-comment');
+        $this->assertSelectorExists('.signup-link');
+        $this->assertSelectorExists('.signin-link');
+
+    }
+
     public function testTrickWithOneComment()
     {
         $this->client->request('GET', '/trick/has-one-comment');
