@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -43,7 +44,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/signup_confirm", name="signup_confirm")
      */
-    public function confirmCreation(Request $request, AccountValidator $accountValidator, EntityManagerInterface $manager, UserRepository $userRepository):Response
+    public function confirmCreation(Request $request, EntityManagerInterface $manager, UserRepository $userRepository):Response
     {
         $user = $userRepository->findOneBy(['token' => $request->query->get('token')]);
 
@@ -95,18 +96,15 @@ class SecurityController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            
-            /** @var UploadedFile $imgFile */
             $imgFile = $form->get('avatar')->getData();
-
             if ($file = $form->get('avatar')->get('file')->getData()) {
                 if($user->getAvatar()->getUrl()) {
                     $fileUploader->deleteAvatarFile($user->getAvatar());
                 }
                 $imgFileName = $fileUploader->upload($file);
                 $imgFile->setUrl($imgFileName);
+                $manager->persist($imgFile);
             }
-                       
             $manager->flush();
 
             return $this->redirectToRoute('home');
@@ -115,6 +113,52 @@ class SecurityController extends AbstractController
         return $this->render('security/account.html.twig',[
             'accountForm' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/security/lost_pwd", name="lost_pwd")
+     */
+    public function lostPwd(Request $request, AccountValidator $accountValidator, UserRepository $userRepository):Response
+    {
+       $form = $this->createFormBuilder()
+            ->add('username', TextType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $submitedName = $form->get('username')->getData();
+            $user = $userRepository->findOneBy([
+                'name' => $submitedName,
+            ]);
+
+            if(!$user) {
+                // todo : message user doesn't exist
+            }
+            
+            if(!$user->getActive()) {
+                // todo : message account not active
+            }
+            
+            if($user->getEmail()) {
+
+                $accountValidator->sendResetPwdMail($user);
+                // todo : message mail sent
+                return $this->redirectToRoute('app_login');
+            }
+
+        }
+
+        return $this->render('security/lost_pwd.html.twig', [
+            'lostPwdForm' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/security/reset_pwd", name="reset_pwd")
+     */
+    public function resetPwd(Request $request, UserRepository $userRepository):Response
+    {
+        return $this->redirectToRoute('app_login');
     }
 }
 

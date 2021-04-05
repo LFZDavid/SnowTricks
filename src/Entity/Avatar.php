@@ -19,9 +19,9 @@ class Avatar
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private  $url;
+    private ?string $url;
 
     private ?UploadedFile $file;
 
