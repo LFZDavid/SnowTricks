@@ -6,6 +6,7 @@
 parameters:
     public_directory: '%kernel.project_dir%/public'
     img_relative_directory: '/img/tricks'
+    avatar_relative_directory: '/img/users'
 
 services:
     # default configuration for services in *this* file
@@ -36,6 +37,11 @@ services:
         arguments:
             $publicDirectory: '%public_directory%'
             $imgRelativeDirectory: '%img_relative_directory%'
+
+    App\Service\AvatarFileUploader:
+        arguments:
+            $publicDirectory: '%public_directory%'
+            $imgRelativeDirectory: '%avatar_relative_directory%'
     
     App\EventListener\DeleteImgListener:
         tags:

@@ -1,9 +1,14 @@
 <div class="comment-list container">
 	{% for comment in trick.comments|sort((a) => a.id) %}
 		{% if loop.index <= commentPaginate %}
+			{% if comment.author.avatar %}
+				{% set url_avatar = comment.author.avatar.url %}
+			{% else %}
+				{% set url_avatar = "/img/users/default.png" %}
+			{% endif %}
 			<div class="comment">
 				<div class="comment-author-img-container">
-					<img src="https://picsum.photos/100" class="comment-author-img">
+					<img src="{{url_avatar}}" class="comment-author-img">
 				</div>
 				<div class="card">
 					<div class="card-header">

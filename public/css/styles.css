@@ -344,6 +344,19 @@ section#homepage-img{
     margin: 10px auto;
 }
 
+/* ACCOUNT */
+.account-avatar-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.account-avatar-img {
+    max-height: 100px;
+    max-width: 100px;
+    border-radius: 50%;
+    margin: auto;
+}
+
 /* MEDIA QUERIES*/
 
 @media (max-width:992px){
@@ -447,15 +460,15 @@ section#homepage-img{
         margin-left: 30%;
     }
 
-    /* SIGNUP */
+    /* SIGNUP / SIGNIN / ACCOUNT */
     .signup-page,
-    .signup-page,
+    .signin-page,
     .account-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
 
     .signup-form,
-    .signup-form,
+    .signin-form,
     .account-form {
         width: 40%;
         margin: 30% auto;

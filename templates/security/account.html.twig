@@ -2,20 +2,30 @@
 
 {% set title = "Mon compte" %}
 
+{% if app.user.avatar %}
+	{% set url_avatar = app.user.avatar.url %}
+{% else %}
+	{% set url_avatar = "/img/users/default.png" %}
+{% endif %}
+
+
 {% block title %}
 	{{parent()}}
 	{{ title }}
 {% endblock %}
 
 {% block body %}
-
 	<div class="account-page">
 		<div class="card account-form">
 			<h1 class="card-title">{{ title }}</h1>
+			<div class="account-avatar-container">
+				<img src="{{url_avatar}}" class="account-avatar-img">
+			</div>
 			<div class="card-body">
 				{{form_start(accountForm)}}
 				{{form_row(accountForm.name)}}
 				{{form_row(accountForm.email)}}
+				{{form_row(accountForm.avatar)}}
 				<button type="submit" class="btn btn-success" id="user_save">Enregistrer
 				</button>
 				{{form_end(accountForm)}}
