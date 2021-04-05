@@ -287,7 +287,8 @@ section#homepage-img{
 }
 
 .signup-page,
-.signin-page {
+.signin-page,
+.account-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -295,7 +296,8 @@ section#homepage-img{
 }
 
 .signup-form,
-.signin-form {
+.signin-form,
+.account-form {
     display: flex;
     flex-direction: column;
     border:solid 3px black;
@@ -305,14 +307,16 @@ section#homepage-img{
 }
 
 .signup-form> .card-body,
-.signin-form> .card-body {
+.signin-form> .card-body,
+.account-form> .card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
 .signup-form> .card-body> form,
-.signin-form> .card-body> form {
+.signup-form> .card-body> form,
+.account-form> .card-body> form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -320,13 +324,15 @@ section#homepage-img{
 }
 
 .signup-form> .card-body> form> .form-group> label,
-.signin-form> .card-body> form> .form-group> label {
+.signup-form> .card-body> form> .form-group> label,
+.account-form> .card-body> form> .form-group> label {
     display: flex;
     justify-content: center;
 }
 
 #user_save,
-.signin-form> .card-body> form> button {
+.signin-form> .card-body> form> button,
+.account-form> .card-body> form> button {
     width: 60%;
     margin-right: auto;
     margin-left: auto;
@@ -443,12 +449,14 @@ section#homepage-img{
 
     /* SIGNUP */
     .signup-page,
-    .signin-page {
+    .signup-page,
+    .account-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
 
     .signup-form,
-    .signin-form {
+    .signup-form,
+    .account-form {
         width: 40%;
         margin: 30% auto;
     }

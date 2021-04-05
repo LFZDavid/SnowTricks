@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% set title = "Mon compte" %}
+
+{% block title %}
+	{{parent()}}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+
+	<div class="account-page">
+		<div class="card account-form">
+			<h1 class="card-title">{{ title }}</h1>
+			<div class="card-body">
+				{{form_start(accountForm)}}
+				{{form_row(accountForm.name)}}
+				{{form_row(accountForm.email)}}
+				<button type="submit" class="btn btn-success" id="user_save">Enregistrer
+				</button>
+				{{form_end(accountForm)}}
+				<a class="forgot-pwd-link" href="#">Reset mot de passe</a>
+			</div>
+		</div>
+	</div>
+{% endblock %}

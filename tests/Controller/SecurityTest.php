@@ -86,4 +86,36 @@ class Security extends WebTestCase
         $this->assertSelectorNotExists('.logout-navLink');
     }
     
+    public function testCantGetAccountFormIfNotLogged()
+    {
+        $crawler = $this->client->request('GET', '/user/account');
+        $this->assertResponseRedirects();
+    }
+
+    public function testAccountForm()
+    {
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/user/account');
+        $this->assertResponseIsSuccessful();
+        $this->assertInputValueSame('account[name]', $this->userTest->getName());
+        $this->assertInputValueSame('account[email]', $this->userTest->getEmail());
+        $this->assertSelectorExists('.forgot-pwd-link');
+    }
+
+    public function testUpdateUser()
+    {
+        $this->client->loginUser($this->userTest);
+        $newName = $this->userTest->getName().' modifié';
+        $crawler = $this->client->request('GET', '/user/account');
+        $crawler = $this->client->submitForm('Enregistrer', [
+            "account[name]" => $newName,
+            "account[email]" => $this->userTest->getEmail(),
+        ]);
+        $this->assertSelectorNotExists('span.form-error-message');
+        $this->assertResponseRedirects();
+        
+        $crawler = $this->client->request('GET', '/user/account');
+        $this->assertInputValueSame('account[name]', $newName);
+    }
+    
 }
