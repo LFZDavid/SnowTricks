@@ -129,18 +129,14 @@ class SecurityController extends AbstractController
             $submitedName = $form->get('username')->getData();
             $user = $userRepository->findOneBy([
                 'name' => $submitedName,
+                'active' => true,
             ]);
 
             if(!$user) {
-                // todo : message user doesn't exist
+                // todo : message user doesn't exist or not active
             }
             
-            if(!$user->getActive()) {
-                // todo : message account not active
-            }
-            
-            if($user->getEmail()) {
-
+            if($user && $user->getEmail()) {
                 $accountValidator->sendResetPwdMail($user);
                 // todo : message mail sent
                 return $this->redirectToRoute('app_login');
