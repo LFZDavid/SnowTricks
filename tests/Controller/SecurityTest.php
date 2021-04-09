@@ -25,7 +25,7 @@ class Security extends WebTestCase
 
     public function testGetSignUpForm()
     {
-        $crawler = $this->client->request('GET', '/user/signup');
+        $this->client->request('GET', '/user/signup');
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('form');
     }
@@ -33,7 +33,7 @@ class Security extends WebTestCase
     public function testSubmitEmptySignUpForm()
     {
         $this->client->request('GET', '/user/signup');
-        $crawler = $this->client->submitForm('Enregistrer', [
+        $this->client->submitForm('Enregistrer', [
             "user[password]" => 'azeaze'
         ]);
         $this->assertSelectorExists('span.form-error-message');
@@ -54,22 +54,22 @@ class Security extends WebTestCase
 
     public function testgetLoginForm()
     {
-        $crawler = $this->client->request('GET', '/login');
+        $this->client->request('GET', '/login');
         $this->assertResponseIsSuccessful();
     }
 
     public function testNotAccessLoginFormForLoggedUser()
     {
         $this->client->loginUser($this->userTest);
-        $crawler = $this->client->request('GET', '/login');
-        $this->assertResponseRedirects();
+        $this->client->request('GET', '/login');
+        $this->assertResponseIsSuccessful();
     }
 
     public function testWrongLoginFormSubmit()
     {
-        $crawler = $this->client->request('GET', '/login');
-        $crawler = $this->client->submitForm('Connexion',[
-            "email" => 'wrong@test.com',
+        $this->client->request('GET', '/login');
+        $this->client->submitForm('Connexion',[
+            "name" => 'wrongName',
             "password" => 'wrongpassword',
         ]);
         $this->assertSelectorNotExists('div.alert-danger');
@@ -88,14 +88,14 @@ class Security extends WebTestCase
     
     public function testCantGetAccountFormIfNotLogged()
     {
-        $crawler = $this->client->request('GET', '/user/account');
+        $this->client->request('GET', '/user/account');
         $this->assertResponseRedirects();
     }
 
     public function testAccountForm()
     {
         $this->client->loginUser($this->userTest);
-        $crawler = $this->client->request('GET', '/user/account');
+        $this->client->request('GET', '/user/account');
         $this->assertResponseIsSuccessful();
         $this->assertInputValueSame('account[name]', $this->userTest->getName());
         $this->assertInputValueSame('account[email]', $this->userTest->getEmail());
@@ -106,19 +106,18 @@ class Security extends WebTestCase
     {
         $this->client->loginUser($this->userTest);
         $newName = $this->userTest->getName().' modifié';
-        $crawler = $this->client->request('GET', '/user/account');
-        $crawler = $this->client->submitForm('Enregistrer', [
+        $this->client->request('GET', '/user/account');
+        $this->client->submitForm('Enregistrer', [
             "account[name]" => $newName,
             "account[email]" => $this->userTest->getEmail(),
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertResponseRedirects();
         
-        $crawler = $this->client->request('GET', '/user/account');
+        $this->client->request('GET', '/user/account');
         $this->assertInputValueSame('account[name]', $newName);
     }
     
-
     public function testGetForgotPwdForm()
     {
         $crawler = $this->client->request('GET', '/security/lost_pwd');

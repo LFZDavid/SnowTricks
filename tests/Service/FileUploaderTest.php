@@ -11,11 +11,11 @@ use Symfony\Component\String\Slugger\AsciiSlugger;
 class FileUploaderTest extends TestCase
 {
 
-    private $service;
-    private $publicDirectory;
-    private $imgRelativeDirectory;
-    private $backupFile;
-    private $testFilePath;
+    private FileUploader $service;
+    private string $publicDirectory;
+    private string $imgRelativeDirectory;
+    private string $backupFile;
+    private string $testFilePath;
 
     /**
      * This method is called before each test.
