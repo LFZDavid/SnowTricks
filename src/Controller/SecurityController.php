@@ -88,9 +88,7 @@ class SecurityController extends AbstractController
     public function edit(Request $request, EntityManagerInterface $manager, AvatarFileUploader $fileUploader): Response
     {
         $user = $this->getUser();
-        if($user == null) {
-            $this->redirectToRoute('app_login');
-        }
+        
         $user->setConfirmPassword($user->getPassword());        
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
@@ -103,7 +101,6 @@ class SecurityController extends AbstractController
                 }
                 $imgFileName = $fileUploader->upload($file);
                 $imgFile->setUrl($imgFileName);
-                $manager->persist($imgFile);
             }
             $manager->flush();
 
