@@ -23,6 +23,9 @@ class Security extends WebTestCase
         $this->userTest = $this->userRepository->findOneByEmail('valid@test.com');
     }
 
+    /**
+     * Check route and if form is prensent
+     */
     public function testGetSignUpForm()
     {
         $this->client->request('GET', '/user/signup');
@@ -30,6 +33,9 @@ class Security extends WebTestCase
         $this->assertSelectorExists('form');
     }
     
+    /**
+     * Test if errors is displayed whene submit incomplete infos
+     */
     public function testSubmitEmptySignUpForm()
     {
         $this->client->request('GET', '/user/signup');
@@ -39,6 +45,11 @@ class Security extends WebTestCase
         $this->assertSelectorExists('span.form-error-message');
     }
 
+    /**
+     * Test if create user works
+     * no error message is displayed
+     * Redirection if success
+     */
     public function testCreateUser()
     {
         $this->client->request('GET', '/user/signup');
@@ -52,17 +63,27 @@ class Security extends WebTestCase
         $this->assertResponseRedirects();
     }
 
+    /**
+     * Check route and if form is prensent
+     */
     public function testgetLoginForm()
     {
         $this->client->request('GET', '/login');
         $this->assertResponseIsSuccessful();
     }
 
-    public function testNotAccessLoginFormForLoggedUser()
+    /**
+     * Check if login form works and redirect to home
+     */
+    public function testLoginUser()
     {
-        $this->client->loginUser($this->userTest);
         $this->client->request('GET', '/login');
-        $this->assertResponseIsSuccessful();
+        $this->client->submitForm('Connexion', [
+            'name' => 'valid',
+            'password' => 'valid',
+        ]);
+        $this->assertSelectorNotExists('span.form-error-message');
+        $this->assertResponseRedirects('/');
     }
 
     public function testWrongLoginFormSubmit()
@@ -79,7 +100,7 @@ class Security extends WebTestCase
     public function testLogoutBtn()
     {
         $this->client->loginUser($this->userTest);
-        $crawler = $this->client->request('GET', '/');
+        $this->client->request('GET', '/');
         $this->assertNotNull($this->userTest);
         $this->assertSelectorExists('.logout-navlink');
         $this->client->clickLink('Deconnexion');
@@ -120,7 +141,7 @@ class Security extends WebTestCase
     
     public function testGetForgotPwdForm()
     {
-        $crawler = $this->client->request('GET', '/security/lost_pwd');
+        $this->client->request('GET', '/security/lost_pwd');
         $this->assertResponseIsSuccessful();
     }
 
