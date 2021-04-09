@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% set title = "Réinitialisation du mot de passe" %}
+
+{% block title %}
+	{{parent()}}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="reset_pwd-page">
+		<div class="card reset_pwd-form">
+			<h1 class="card-title">{{ title }}</h1>
+			<div class="card-body">
+				{{form_start(resetPwdForm)}}
+				{{form_row(resetPwdForm.password)}}
+				<button type="submit" class="btn btn-success" id="reset_pwd_submit">Enregistrer
+				</button>
+				{{form_end(resetPwdForm)}}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

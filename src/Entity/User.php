@@ -58,13 +58,6 @@ class User implements UserInterface
     private $name;
     
     /**
-     * @var string
-     * @Assert\NotNull
-     * @EqualTo(propertyPath="password", message="Vous n'avez pas tapé le même mot de passe")
-     */
-    private $confirmPassword;
-
-    /**
      * @var bool
      * @ORM\Column(type="boolean")
      */
@@ -101,18 +94,6 @@ class User implements UserInterface
     public function setActive(bool $active): self
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getConfirmPassword(): string
-    {
-        return $this->confirmPassword;
-    }
-
-    public function setConfirmPassword(string $confirmPassword): self
-    {
-        $this->confirmPassword = $confirmPassword;
 
         return $this;
     }
