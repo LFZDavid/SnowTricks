@@ -76,6 +76,11 @@ class User implements UserInterface
      */
     private $token;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Avatar::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private ?Avatar $avatar;
+
     public function getToken(): string
     {
         return $this->token;
@@ -202,5 +207,27 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getAvatar(): ?Avatar
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Avatar $avatar): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($avatar === null && $this->avatar !== null) {
+            $this->avatar->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($avatar !== null && $avatar->getUser() !== $this) {
+            $avatar->setUser($this);
+        }
+
+        $this->avatar = $avatar;
+
+        return $this;
     }
 }

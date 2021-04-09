@@ -9,9 +9,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileUploader
 {
-    private string $publicDirectory;
-    private SluggerInterface $slugger;
-    private string $imgRelativeDirectory;
+    protected string $publicDirectory;
+    protected SluggerInterface $slugger;
+    protected string $imgRelativeDirectory;
 
     public function __construct(string $publicDirectory, string $imgRelativeDirectory, SluggerInterface $slugger)
     {

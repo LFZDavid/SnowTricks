@@ -4,12 +4,16 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\AccountType;
 use App\Service\AccountValidator;
 use App\Repository\UserRepository;
+use App\Service\AvatarFileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -74,6 +78,43 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    /**
+     * @Route("/user/account", name="account")
+     * @IsGranted("ROLE_USER")
+     */
+    public function edit(Request $request, EntityManagerInterface $manager, AvatarFileUploader $fileUploader): Response
+    {
+        $user = $this->getUser();
+        if($user == null) {
+            $this->redirectToRoute('app_login');
+        }
+        $user->setConfirmPassword($user->getPassword());        
+        $form = $this->createForm(AccountType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            
+            /** @var UploadedFile $imgFile */
+            $imgFile = $form->get('avatar')->getData();
+
+            if ($file = $form->get('avatar')->get('file')->getData()) {
+                if($user->getAvatar()->getUrl()) {
+                    $fileUploader->deleteAvatarFile($user->getAvatar());
+                }
+                $imgFileName = $fileUploader->upload($file);
+                $imgFile->setUrl($imgFileName);
+            }
+                       
+            $manager->flush();
+
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('security/account.html.twig',[
+            'accountForm' => $form->createView(),
+        ]);
     }
 }
 
