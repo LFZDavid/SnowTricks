@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TrickController extends AbstractController
@@ -22,12 +23,14 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/create", name="trick_create")
+     * @IsGranted("ROLE_USER")
      */
     public function create(Request $request, SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
         $trick = new Trick;
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $imgFiles */
             $imgFiles = $form->get('medias')->getData();
@@ -37,7 +40,8 @@ class TrickController extends AbstractController
                     $imgFile->setUrl($imgFileName);
                 }
             }
-            
+            $trick->setAuthor($this->getUser());
+
             $manager->persist($trick);
             $manager->flush();
             
@@ -51,6 +55,7 @@ class TrickController extends AbstractController
         
     /**
      * @Route("/trick/{slug}/edit", name="trick_edit")
+     * @IsGranted("ROLE_USER")
      */
     public function edit(Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
@@ -79,6 +84,7 @@ class TrickController extends AbstractController
 
     /**
      * @Route("/trick/{slug}/delete", name="trick_delete", methods="DELETE")
+     * @IsGranted("ROLE_USER")
      */
     public function delete(Trick $trick, Request $request, EntityManagerInterface $manager):Response
     {
@@ -103,7 +109,7 @@ class TrickController extends AbstractController
         
         $commentForm->handleRequest($request);
         if($commentForm->isSubmitted() && $commentForm->isValid()) {
-
+            $comment->setAuthor($this->getUser());
             $trick->addComment($comment);
 
             $manager->persist($comment);

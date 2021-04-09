@@ -111,6 +111,20 @@ section#homepage-img{
     justify-content: center;
 }
 
+.trick-list-item> .card-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.trick-btns {
+    width: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
 /* PAGES */
 
 .bg-block {
@@ -266,19 +280,22 @@ section#homepage-img{
     justify-content: space-between;
 }
 
-/* SIGNUP */
-.signup-form> .card-title {
+/* SIGNUP / SIGNIN */
+.signup-form> .card-title, 
+.signin-form> .card-title {
     text-align: center;
 }
 
-.signup-page {
+.signup-page,
+.signin-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: calc(100vh - var(--navbar-mobile-height))
 }
 
-.signup-form {
+.signup-form,
+.signin-form {
     display: flex;
     flex-direction: column;
     border:solid 3px black;
@@ -287,31 +304,37 @@ section#homepage-img{
     flex:2;
 }
 
-.signup-form> .card-body{
+.signup-form> .card-body,
+.signin-form> .card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.signup-form> .card-body> form {
+.signup-form> .card-body> form,
+.signin-form> .card-body> form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
 
-.signup-form> .card-body> form> .form-group> label {
+.signup-form> .card-body> form> .form-group> label,
+.signin-form> .card-body> form> .form-group> label {
     display: flex;
     justify-content: center;
 }
 
-#user_save {
+#user_save,
+.signin-form> .card-body> form> button {
     width: 60%;
     margin-right: auto;
     margin-left: auto;
 }
 
-.signin-link {
+.signin-link,
+.signup-link,
+.forgot-pwd-link {
     margin: 10px auto;
 }
 
@@ -405,6 +428,7 @@ section#homepage-img{
     .comment-form-inputs> .btn {
         flex:1;
         margin-left: 10px;
+        margin-top:auto;
     }
 
     /* FORM */
@@ -418,11 +442,13 @@ section#homepage-img{
     }
 
     /* SIGNUP */
-    .signup-page {
+    .signup-page,
+    .signin-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
 
-    .signup-form {
+    .signup-form,
+    .signin-form {
         width: 40%;
         margin: 30% auto;
     }

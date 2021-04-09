@@ -85,6 +85,11 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, cascade={"persist"})
+     */
+    private $author;
+
     public function __construct()
     {
         $this->createdAt = new DateTime();
@@ -224,6 +229,18 @@ class Trick
                 $comment->setTrick(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): self
+    {
+        $this->author = $author;
 
         return $this;
     }

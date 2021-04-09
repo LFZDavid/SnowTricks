@@ -62,7 +62,16 @@
 			{% endif %}
 		</div>
 		<div class="comment-form container">
-			{% include "./comment/_form.html.twig" %}
+			{% if app.user %}
+				{% include "./comment/_form.html.twig" %}
+			{% else %}
+				<div class="disclaimer-comment">
+					<strong>Vous devez être connecter pour laisser un commentaire</strong><br>
+					<a class="signup-link" href="{{path('signUp')}}">S'inscrire</a>
+					/
+					<a class="signin-link" href="{{path('app_login')}}">Se connecter</a>
+				</div>
+			{% endif %}
 		</div>
 		<div class="comments-block">
 			{% include "./comment/list.html.twig" %}

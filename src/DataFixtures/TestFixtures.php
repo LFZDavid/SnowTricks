@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Media;
 use App\Entity\Trick;
 use App\Entity\Comment;
@@ -41,6 +42,13 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
 
     public function load(ObjectManager $manager)
     {
+
+        $author = new User();
+        $author->setName('author')
+                ->setEmail('author@test.com')
+                ->setPassword('authortest')
+                ->setActive(true);
+
         /** Add categories */
         foreach (AppFixtures::CATEGORIES as $categoryName) {
             $category = new Category();
@@ -51,7 +59,8 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
         foreach ($this->tricks as $trickType) {
             $trick = new Trick();
             $trick->setName($trickType)
-                ->setDescription('Description du trick '.$trickType);
+                ->setDescription('Description du trick '.$trickType)
+                ->setAuthor($author);
 
             /** Add img */
             for ($j = 0; $j < rand(1, 3); $j++) {
@@ -88,7 +97,8 @@ class TestFixtures extends Fixture implements FixtureGroupInterface, FixtureInte
 
             for ($l=0; $l < $nb_comments; $l++) {
                 $comment = new Comment();
-                $comment->setContent('Contenu du commentaire n°'.($l+1).' au sujet du trick '.$trick->getName().'.');
+                $comment->setContent('Contenu du commentaire n°'.($l+1).' au sujet du trick '.$trick->getName().'.')
+                ->setAuthor($author);
                 $trick->addComment($comment);
             }
 

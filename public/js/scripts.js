@@ -86,7 +86,6 @@ $(document).ready(function () {
 
     /** Display media input field img/video */
 
-
     $(document).on('change', '.media-type', function (e) {
 
         /**hide all fields */
@@ -104,7 +103,14 @@ $(document).ready(function () {
 
     });
 
-    /** Trigger Delete Trick btn */
+    /** Trigger Delete Trick btn from homepage */
+    $(document).on('click', '.fake-delete-trick-home-btn', (e) => {
+        e.preventDefault();
+        trickslug = e.target.dataset.trickslug;
+        $('#delete-trick-' + trickslug).find('form').find('button.delete-trick-btn').trigger('click');
+    });
+
+    /** Trigger Delete Trick btn from edit form*/
     $(document).on('click', '.fake-delete-trick-btn, #delete-trick-from-show-btn', function (e) {
         e.preventDefault();
         $('.delete-trick-btn').trigger('click');

@@ -12,23 +12,27 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 
     public static function getGroups(): array
     {
-        return ['test'];
+        return ['dev','test'];
     }
 
     public function load(ObjectManager $manager)
     {
         
-        for ($i=0; $i < 10; $i++) { 
+        $users = [
+                "valid",
+                "notvalid",
+                "todelete",
+        ];
 
+        foreach ($users as $item) {
             $user = new User();
             $user
-                ->setEmail('user-'.$i.'@test.com')
-                ->setPassword('user'.$i.'password')
-                ->setName('User '.$i)
-                ->setActive(true);
+                ->setEmail($item.'@test.com')
+                ->setPassword($item)
+                ->setName($item)
+                ->setActive($item !== 'notvalid' ? true : false);
             $manager->persist($user);
         }
-
         $manager->flush();
     }
 }
