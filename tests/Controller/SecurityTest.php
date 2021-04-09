@@ -36,7 +36,7 @@ class Security extends WebTestCase
     /**
      * Test if errors is displayed whene submit incomplete infos
      */
-    public function testSubmitEmptySignUpForm()
+    public function testIncompleteSubmitSignUpForm()
     {
         $this->client->request('GET', '/user/signup');
         $this->client->submitForm('Enregistrer', [
@@ -53,7 +53,7 @@ class Security extends WebTestCase
     public function testCreateUser()
     {
         $this->client->request('GET', '/user/signup');
-        $crawler = $this->client->submitForm('Enregistrer', [
+        $this->client->submitForm('Enregistrer', [
             "user[name]" => 'User Create Test',
             "user[email]" => 'create@test.com',
             "user[password][first]" => 'userpassword',
@@ -61,6 +61,10 @@ class Security extends WebTestCase
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertResponseRedirects();
+
+        /** Assert New user is added in database */
+        $createdUser = $this->userRepository->findOneByEmail('create@test.com');
+        $this->assertNotNull($createdUser);
     }
 
     /**
@@ -104,6 +108,8 @@ class Security extends WebTestCase
         $this->assertNotNull($this->userTest);
         $this->assertSelectorExists('.logout-navlink');
         $this->client->clickLink('Deconnexion');
+
+        /** Check if logout btn is not display */
         $this->assertSelectorNotExists('.logout-navLink');
     }
     
