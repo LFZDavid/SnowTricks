@@ -13,15 +13,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/user/signup", name="signUp")
+     * @Security("is_anonymous()", statusCode=403, message="Vous ne pouvez pas vous inscrire en étant connecté !")
      */
     public function create(Request $request, EntityManagerInterface $manager): Response
     {
@@ -58,12 +60,13 @@ class SecurityController extends AbstractController
 
     /**
      * @Route("/login", name="app_login")
+     * @Security("is_anonymous()", statusCode=403, message="Vous êtes déjà connecté!")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('home');
-        }
+        // if ($this->getUser()) {
+        //     return $this->redirectToRoute('home');
+        // }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
