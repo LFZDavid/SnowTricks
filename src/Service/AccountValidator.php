@@ -29,7 +29,7 @@ class AccountValidator
             ->from('no-reply@snowtricks.com')
             ->to($user->getEmail())
             ->subject("Snowtricks - Validation de votre inscription")
-            ->html($this->generateMailHtmlContent($url));
+            ->html($this->generateActivationMailHtmlContent($url));
         
         try {
             $this->mailer->send($email);
@@ -39,12 +39,40 @@ class AccountValidator
 
     }
 
-    protected function generateMailHtmlContent(string $url): string
+    public function sendResetPwdMail(User $user): void
+    {
+        $url = $this->urlGenerator->generate('reset_pwd', [
+            'token' => $user->getToken()
+        ],UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $email = (new Email())
+            ->from('no-reply@snowtricks.com')
+            ->to($user->getEmail())
+            ->subject("Snowtricks - Réinitilalisation de votre mot de passe")
+            ->html($this->generateResetPwdMailHtmlContent($url));
+        
+        try {
+            $this->mailer->send($email);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    protected function generateActivationMailHtmlContent(string $url): string
     {
         return '<h3>Bienvenue au club !</h3>
         <p>
         Pour finaliser votre inscription, cliquez sur le lien suivant :
         <a href="'.$url.'">Valider mon inscription</a>
+        </p>';
+    }
+
+    protected function generateResetPwdMailHtmlContent(string $url): string
+    {
+        return '<h3>Réinitialisation de votre mot de passe</h3>
+        <p>
+        Pour réinitialiser votre mot de passe, cliquez sur le lien suivant :
+        <a href="'.$url.'">Réinitialiser votre mot de passe</a>
         </p>';
     }
 }

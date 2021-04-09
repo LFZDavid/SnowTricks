@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% set title = "Mot de passe perdu" %}
+
+{% block title %}
+	{{parent()}}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="lost_pwd-page">
+		<div class="card lost_pwd-form">
+			<h1 class="card-title">{{ title }}</h1>
+			<div class="card-body">
+				{{form_start(lostPwdForm)}}
+				{{form_row(lostPwdForm.username)}}
+				<button type="submit" class="btn btn-success" id="lost_pwd_submit">Enregistrer
+				</button>
+				{{form_end(lostPwdForm)}}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

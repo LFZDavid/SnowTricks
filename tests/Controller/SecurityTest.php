@@ -118,4 +118,11 @@ class Security extends WebTestCase
         $this->assertInputValueSame('account[name]', $newName);
     }
     
+
+    public function testGetForgotPwdForm()
+    {
+        $crawler = $this->client->request('GET', '/security/lost_pwd');
+        $this->assertResponseIsSuccessful();
+    }
+
 }
