@@ -78,7 +78,6 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('span.form-error-message','Ce nom est déjà pris !');
     }
 
-    //todo : assert flash message exist after add trick
     public function testCreateTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -94,6 +93,9 @@ class TrickTest extends WebTestCase
         $this->client->submit($form);
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
+
+        /** Check success message */
+        $this->assertSelectorExists('.alert-success');
         
         //**Check if trick is added in homepage */
         $crawler = $this->client->request('GET', '/');

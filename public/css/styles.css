@@ -53,6 +53,13 @@
     color: black;
 }
 
+/* FLASH MESSAGES */
+.flash-messages {
+    position:absolute;
+    right: 0;
+}
+
+
 /* HOMEPAGE */
 section#homepage-img{
     height: 94vh;

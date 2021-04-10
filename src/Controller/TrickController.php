@@ -45,6 +45,7 @@ class TrickController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
             
+            $this->addFlash('success', 'Nouveau trick ajouté avec succès!');
             return $this->redirectToRoute('home');
         }
         
