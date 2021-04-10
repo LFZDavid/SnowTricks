@@ -132,7 +132,6 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('#trick_description', $trickToEdit->getDescription());
     }
 
-    //todo : assert flash message exist after add trick
     public function testEditTrick()
     {
 
@@ -148,6 +147,9 @@ class TrickTest extends WebTestCase
         $this->client->submit($form);
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
+
+        /** Check success message */
+        $this->assertSelectorExists('.alert-success');
 
         /**Check if modifications are saved */
         $crawler = $this->client->request('GET', '/');

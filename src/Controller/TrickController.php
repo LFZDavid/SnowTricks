@@ -74,6 +74,7 @@ class TrickController extends AbstractController
             }
 
             $manager->flush();
+            $this->addFlash('success', 'Modifications enregistrées avec succès!');
             return $this->redirectToRoute('home');
         }
 
