@@ -61,6 +61,10 @@ class Security extends WebTestCase
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertResponseRedirects();
+        
+        /** Check success message */
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
 
         /** Assert New user is added in database */
         $createdUser = $this->userRepository->findOneByEmail('create@test.com');

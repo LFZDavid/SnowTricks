@@ -35,6 +35,7 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
+            $this->addFlash('success', 'Les informations ont été enregistrées avec succès!</br>Vous allez recevoir un mail pour <strong>activer votre compte</strong>');
             return $this->redirectToRoute('home');
         }
         
