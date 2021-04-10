@@ -129,6 +129,9 @@ class Security extends WebTestCase
         $this->assertSelectorExists('.logout-navlink');
         $this->client->clickLink('Deconnexion');
 
+        $this->client->followRedirect();
+        $this->assertResponseRedirects('/');
+        
         /** Check if logout btn is not display */
         $this->assertSelectorNotExists('.logout-navLink');
     }
@@ -180,6 +183,33 @@ class Security extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
+    public function testNotActiveUsernameSubmitForgotPwdForm()
+    {
+        $this->client->request('GET', '/security/lost_pwd');
+        $this->client->submitForm('Réinitialiser mon mot de passe', [
+            "form[username]" => 'notvalid',
+        ]);
+        /** Check success message */
+        $this->assertSelectorExists('.alert-danger');
+    }
+
+    /**
+     * Test submit forgot password with good infos
+     */
+    public function testSubmitForgotPwdForm()
+    {
+        
+        $this->client->request('GET', '/security/lost_pwd');
+        $this->client->submitForm('Réinitialiser mon mot de passe', [
+            "form[username]" => $this->userTest->getName(),
+        ]);
+        $this->assertSelectorNotExists('span.form-error-message');
+        $this->assertResponseRedirects();
+        /** Check success message */
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
+    }
+
     /**
      * Test get reset_password form submit
      */
@@ -221,6 +251,9 @@ class Security extends WebTestCase
         $this->assertNotEquals($this->userTest->getPassword(), $updatedUser->getPassword());
         $this->assertResponseRedirects();
         $this->assertSelectorNotExists('span.form-error-message');
+        /** Check success message */
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
 
     }
 
