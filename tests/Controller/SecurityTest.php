@@ -61,7 +61,7 @@ class Security extends WebTestCase
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertResponseRedirects();
-        
+
         /** Check success message */
         $this->client->followRedirect();
         $this->assertSelectorExists('.alert-success');
@@ -69,6 +69,19 @@ class Security extends WebTestCase
         /** Assert New user is added in database */
         $createdUser = $this->userRepository->findOneByEmail('create@test.com');
         $this->assertNotNull($createdUser);
+    }
+
+    public function testAccountValidation()
+    {
+        $accountToValid = $this->userRepository->findOneByName('tovalid');
+        $url = "/signup_confirm/".$accountToValid->getToken();
+        $this->client->request('GET', $url);
+        $this->assertResponseRedirects();
+
+        /** Check success message */
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
+
     }
 
     /**
@@ -92,6 +105,9 @@ class Security extends WebTestCase
         ]);
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertResponseRedirects('/');
+        /** Check success message */
+        $this->client->followRedirect();
+        $this->assertSelectorExists('.alert-success');
     }
 
     public function testWrongLoginFormSubmit()

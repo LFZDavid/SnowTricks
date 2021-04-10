@@ -46,15 +46,14 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/signup_confirm", name="signup_confirm")
+     * @Route("/signup_confirm/{token}", name="signup_confirm")
      */
-    public function confirmCreation(Request $request, EntityManagerInterface $manager, UserRepository $userRepository):Response
+    public function confirmCreation(Request $request, EntityManagerInterface $manager, User $user):Response
     {
-        $user = $userRepository->findOneBy(['token' => $request->query->get('token')]);
-
         if($user) {
             $user->setActive(true);
             $manager->flush();
+            $this->addFlash('success', 'Félicitation, votre compte à été activé !');
         }
 
         return $this->redirectToRoute(('home'));
