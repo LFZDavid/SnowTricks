@@ -235,6 +235,8 @@ class TrickTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertSelectorNotExists('span.form-error-message');
         $this->assertSelectorTextContains('.comment-content', $commentContent);
+        /** Check success message */
+        $this->assertSelectorExists('.alert-success');
     }
 
     public function testFindCommentDataInCommentList()
