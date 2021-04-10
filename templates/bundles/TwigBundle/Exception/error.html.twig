@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% set title = "Erreur :-(" %}
+
+{% block title %}
+	{{parent()}}
+	{{ title }}
+{% endblock %}
+
+{% block body %}
+	<div class="lost_pwd-page">
+		<div class="card lost_pwd-form">
+			<h1 class="card-title">{{ title }}</h1>
+			<div class="card-body">
+				<p>Oups Une erreur est survenue...
+					<br>
+					<a href="{{ path('home') }}">
+						Retour à l'accueil
+					</a>
+				</p>
+			</div>
+		</p>
+	</div>
+</div>{% endblock %}
