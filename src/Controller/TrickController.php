@@ -92,6 +92,7 @@ class TrickController extends AbstractController
     {
         $manager->remove($trick);
         $manager->flush();
+        $this->addFlash('danger', 'Le Trick à été supprimé!');
         return $this->redirectToRoute('home');
     }
 

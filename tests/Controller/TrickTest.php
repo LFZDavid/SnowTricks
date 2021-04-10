@@ -171,6 +171,8 @@ class TrickTest extends WebTestCase
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
         $this->assertSelectorExists('section#trick-list');
+        /** Check success message */
+        $this->assertSelectorExists('.alert-danger');
         //** Check if trick is deleted */
         $crawler = $this->client->request('GET', '/trick/'.$trickSlug);
         $this->assertResponseStatusCodeSame(404);
