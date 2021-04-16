@@ -451,11 +451,18 @@ section#homepage-img{
     .comment-form-inputs:first-child {
         flex:2;
     }
+    .comment-form-inputs>.form-group {
+        width: 100%;
+    }
 
     .comment-form-inputs> .btn {
         flex:1;
         margin-left: 10px;
         margin-top:auto;
+    }
+
+    #comment_save {
+        max-width: 120px;
     }
 
     /* FORM */
@@ -468,7 +475,7 @@ section#homepage-img{
         margin-left: 30%;
     }
 
-    /* SIGNUP / SIGNIN / ACCOUNT / LostPwd*/
+    /* SECURITY */
     .security-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
@@ -476,5 +483,10 @@ section#homepage-img{
     .security-form {
         width: 40%;
         margin: 30% auto;
+    }
+
+    .security-form> .card-title {
+        margin-top: -150px;
+        margin-bottom: 100px;
     }
 }
