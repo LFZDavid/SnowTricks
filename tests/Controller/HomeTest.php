@@ -37,10 +37,14 @@ class HomeTest extends WebTestCase
         $this->assertSelectorNotExists('.trick-btns');
     }
 
+    /**
+     * Assert edit and delete btns are present on homepage if user is logged
+     */
     public function testDisplayEditTrickBtnsIfLogged()
     {
-        $crawler = $this->client->request('GET', '/');
-        $this->assertSelectorNotExists('.trick-btns');
+        $this->client->loginUser($this->userTest);
+        $this->client->request('GET', '/');
+        $this->assertSelectorExists('.trick-btns');
     }
 
     public function testHomepagePagination()
