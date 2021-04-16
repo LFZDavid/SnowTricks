@@ -292,7 +292,7 @@ section#homepage-img{
     justify-content: space-between;
 }
 
-/* SIGNUP / SIGNIN */
+/* SECURITY PAGES */
 .security-form> .card-title {
     text-align: center;
 }
@@ -336,6 +336,7 @@ section#homepage-img{
     width: 60%;
     margin-right: auto;
     margin-left: auto;
+    margin-top: 20px;
 }
 
 .signin-link,
