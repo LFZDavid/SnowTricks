@@ -204,6 +204,29 @@ class TrickTest extends WebTestCase
     }
 
     /**
+     * Error
+     * Check if can't give a name that allready exist
+     */
+    public function testDuplicateNameOnEditTrick()
+    {
+
+        $trickSlug = 'edit';
+        $newTrickName = 'find';
+        $this->client->loginUser($this->userTest);
+        $crawler = $this->client->request('GET', '/trick/'.$trickSlug.'/edit');
+        /**Fill and submit form */
+        $buttonCrawlerNode = $crawler->filter('form');
+        $form = $buttonCrawlerNode->form();
+        $form['trick[name]'] = $newTrickName;
+        $form['trick[description]'] = 'Contenu du trick modifié...';
+        $this->client->submit($form);
+
+        /** Check error message */
+        $this->assertSelectorExists('span.form-error-message');
+        
+    }
+
+    /**
      * Success
      * Check if delete trick works
      */
