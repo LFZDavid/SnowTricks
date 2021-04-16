@@ -11,7 +11,7 @@ class AvatarFileUploader extends FileUploader
     public function deleteAvatarFile(Avatar $avatar)
     {
         $file = $this->publicDirectory . $avatar->getUrl();
-        if(file_exists($file)) {
+        if(file_exists($file) && $avatar->getUrl() != '/img/users/default.png') {
             unlink($file);
         }
     }

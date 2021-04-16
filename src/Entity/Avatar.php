@@ -21,7 +21,7 @@ class Avatar
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $url;
+    private ?string $url = '/img/users/default.png';
 
     private ?UploadedFile $file;
 
