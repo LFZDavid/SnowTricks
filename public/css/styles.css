@@ -293,29 +293,18 @@ section#homepage-img{
 }
 
 /* SIGNUP / SIGNIN */
-.signup-form> .card-title, 
-.lost_pwd-form> .card-title, 
-.reset_pwd-form> .card-title, 
-.signin-form> .card-title {
+.security-form> .card-title {
     text-align: center;
 }
 
-.signup-page,
-.signin-page,
-.lost_pwd-page,
-.reset_pwd-page,
-.account-page {
+.security-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     height: calc(100vh - var(--navbar-mobile-height))
 }
 
-.signup-form,
-.signin-form,
-.lost_pwd-form,
-.reset_pwd-form,
-.account-form {
+.security-form {
     display: flex;
     flex-direction: column;
     border:solid 3px black;
@@ -324,42 +313,26 @@ section#homepage-img{
     flex:2;
 }
 
-.signup-form> .card-body,
-.signin-form> .card-body,
-.lost_pwd-form> .card-body,
-.reset_pwd-form> .card-body,
-.account-form> .card-body {
+.security-form> .card-body {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 }
 
-.signup-form> .card-body> form,
-.signin-form> .card-body> form,
-.lost_pwd-form> .card-body> form,
-.reset_pwd-form> .card-body> form,
-.account-form> .card-body> form {
+.security-form> .card-body> form {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
 }
 
-.signup-form> .card-body> form> .form-group> label,
-.signup-form> .card-body> form> .form-group> label,
-.lost_pwd-form> .card-body> form> .form-group> label,
-.reset_pwd-form> .card-body> form> .form-group> label,
-.account-form> .card-body> form> .form-group> label {
+.security-form> .card-body> form> .form-group> label {
     display: flex;
     justify-content: center;
 }
 
 #user_save,
-.signin-form> .card-body> form> button,
-.signup-form> .card-body> form> button,
-.lost_pwd-form> .card-body> form> button,
-.reset_pwd-form> .card-body> form> button,
-.account-form> .card-body> form> button {
+.security-form> .card-body> form> button {
     width: 60%;
     margin-right: auto;
     margin-left: auto;
@@ -490,19 +463,11 @@ section#homepage-img{
     }
 
     /* SIGNUP / SIGNIN / ACCOUNT / LostPwd*/
-    .signup-page,
-    .signin-page,
-    .lost_pwd-page,
-    .reset_pwd-page,
-    .account-page {
+    .security-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
 
-    .signup-form,
-    .signin-form,
-    .lost_pwd-form,
-    .reset_pwd-form,
-    .account-form {
+    .security-form {
         width: 40%;
         margin: 30% auto;
     }
