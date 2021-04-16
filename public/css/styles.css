@@ -132,6 +132,11 @@ section#homepage-img{
     flex-wrap: wrap;
 }
 
+.create-trick-btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 /* PAGES */
 
 .bg-block {
