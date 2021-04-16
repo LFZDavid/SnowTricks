@@ -49,7 +49,7 @@
 				Créé le :
 				{{trick.createdAt|date('d/m/Y')}}
 			</span>
-			{% if trick.updatedAt %}
+			{% if trick.updatedAt != trick.createdAt %}
 				<span class="badge bg-success updated-at-badge">
 					Mis à jour le :
 					{{trick.updatedAt|date('d/m/Y')}}
