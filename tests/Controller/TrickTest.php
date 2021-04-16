@@ -29,39 +29,63 @@ class TrickTest extends WebTestCase
         $this->userTest = $this->userRepository->findOneByEmail('valid@test.com');
     }
 
+    /** *** Test Tick Show *** */
+
+    /**
+     * Error
+     * Check if error code is returned on trying to get a wrong trick page
+     */
     public function testUnexistsTrick()
     {
         $wrongSlug = 'this-is-a-wrong-slug';
-        $crawler = $this->client->request('GET', '/trick/'.$wrongSlug);
+        $this->client->request('GET', '/trick/'.$wrongSlug);
         $this->assertResponseStatusCodeSame(404);
     }
 
+    /**
+     * Success
+     * Show trick and check if every infos is present in the page
+     */
     public function testTrickShow()
     {
         $trick = $this->trickRepository->findOneByName('show');
-        $crawler = $this->client->request('GET', '/trick/'.$trick->getSlug());
+        $this->client->request('GET', '/trick/'.$trick->getSlug());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('h1.trick-title', $trick->getName());
         $this->assertSelectorTextContains('div.trick-desc', $trick->getDescription());
         $this->assertSelectorTextContains('.category-badge', ucfirst($trick->getCategory()->getName()));
     }
 
+    /** *** Test Create Trick *** */
+
+    /**
+     * Error
+     * Can't access to create form if not logged
+     */
     public function testCreateFormNotAccessibleForNotLoggedUser()
     {
-        $crawler = $this->client->request('GET', '/trick/create');
+        $this->client->request('GET', '/trick/create');
         $this->assertSelectorNotExists('form');
     }
 
+    /**
+     * Success
+     * Check if create form is complete
+     */
     public function testInputsInCreateTrickForm()
     {
         $this->client->loginUser($this->userTest);
-        $crawler = $this->client->request('GET', '/trick/create');
+        $this->client->request('GET', '/trick/create');
         $this->assertSelectorExists('#trick_name');
         $this->assertSelectorExists('#trick_description');
         $this->assertSelectorExists('#trick_category');
         $this->assertSelectorExists('.add_media_link');
     }
 
+    /**
+     * Error
+     * Check if create a duplicate Trick return error
+     */
     public function testCantAddDuplicateTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -78,6 +102,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('span.form-error-message','Ce nom est déjà pris !');
     }
 
+    /**
+     * Success
+     * Check if submit complete create form works
+     */
     public function testCreateTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -103,6 +131,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('h5.trick-name', $trickName);
     }
 
+     /**
+     * Error
+     * Check if submit incomplete create form return errors
+     */
     public function testIncompleteCreateTrickFormSubmit()
     {
         $this->client->loginUser($this->userTest);
@@ -115,23 +147,37 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('span.form-error-message');
     }
 
+    /** *** Test Edit Trick *** */
+
+    /**
+     * Error
+     * Can't access to edit form if not logged
+     */
     public function testEditFormNotAccessibleForNotLoggedUser()
     {
         $trickToEdit = $this->trickRepository->findOneByName('edit');
-        $crawler = $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
+        $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
         $this->assertSelectorNotExists('form');
     }
 
+    /**
+     * Success
+     * Edit form fields are filled with trick datas
+     */
     public function testEditFormFieldsAreFulfilled()
     {
         $trickToEdit = $this->trickRepository->findOneByName('edit');
         $this->client->loginUser($this->userTest);
-        $crawler = $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
+        $this->client->request('GET', '/trick/'.$trickToEdit->getSlug().'/edit');
 
         $this->assertInputValueSame('trick[name]', $trickToEdit->getName());
         $this->assertSelectorTextContains('#trick_description', $trickToEdit->getDescription());
     }
 
+    /**
+     * Success
+     * Check if submit complete edit form works
+     */
     public function testEditTrick()
     {
 
@@ -157,6 +203,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('h5.trick-name', $newTrickName);
     }
 
+    /**
+     * Success
+     * Check if delete trick works
+     */
     public function testDeleteTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -178,10 +228,16 @@ class TrickTest extends WebTestCase
         $this->assertResponseStatusCodeSame(404);
     }
 
+    /** *** Comments *** */
+
+    /**
+     * Error
+     * Can't access to comment form if not logged
+     */
     public function testCommentFormIfNotLogged()
     {
         $trick = $this->trickRepository->findOneByName('has-no-comment');
-        $crawler = $this->client->request('GET', '/trick/'.$trick->getSlug());
+        $this->client->request('GET', '/trick/'.$trick->getSlug());
         $this->assertResponseIsSuccessful();
         $this->assertSelectorNotExists('.comment-form>form');
         $this->assertSelectorExists('.disclaimer-comment');
@@ -190,6 +246,11 @@ class TrickTest extends WebTestCase
 
     }
 
+    /**
+     * Success
+     * Check if trick's comment is present in the trick show page
+     * Check pagination (less than 10 comments doesn't show "Load more..." button)
+     */
     public function testTrickWithOneComment()
     {
         $this->client->request('GET', '/trick/has-one-comment');
@@ -198,6 +259,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorNotExists('a.load-more-btn');
     }
 
+    /**
+     * Success
+     * Check pagination (more than 10 comments show "Load more..." button)
+     */
     public function testTrickCommentsDefaultPaginate()
     {
         $crawler = $this->client->request('GET', '/trick/has-eleven-comments');
@@ -205,6 +270,10 @@ class TrickTest extends WebTestCase
         $this->assertLessThan(11, count($crawler->filter('div.comment')));
     }
 
+    /**
+     * Success
+     * Check pagination click on "Load more..." button display more comments
+     */
     public function testTrickCommentsPaginateLoadMore()
     {
         $crawler = $this->client->request('GET', '/trick/has-eleven-comments');
@@ -213,6 +282,10 @@ class TrickTest extends WebTestCase
         $this->assertGreaterThan(10, count($crawler->filter('div.comment')));
     }
 
+    /**
+     * Error
+     * Can't submit empty comment
+     */
     public function testSubmitEmptyComment()
     {
         $this->client->loginUser($this->userTest);
@@ -223,6 +296,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('span.form-error-message');
     }
 
+    /**
+     * Success
+     * Comment form works
+     */
     public function testSubmitValidComment()
     {
         $this->client->loginUser($this->userTest);
@@ -239,6 +316,10 @@ class TrickTest extends WebTestCase
         $this->assertSelectorExists('.alert-success');
     }
 
+    /**
+     * Success
+     * Created comment is present in show trick page
+     */
     public function testFindCommentDataInCommentList()
     {
         $trick = $this->trickRepository->findOneByName('has-one-comment');

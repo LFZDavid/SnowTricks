@@ -1,5 +1,5 @@
 <div class="comment-list container">
-	{% for comment in trick.comments|sort((a) => a.id) %}
+	{% for comment in trick.comments %}
 		{% if loop.index <= commentPaginate %}
 			{% if comment.author.avatar %}
 				{% set url_avatar = comment.author.avatar.url %}
