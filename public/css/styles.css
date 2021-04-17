@@ -391,11 +391,19 @@ section#homepage-img{
         flex-direction: row;
         justify-content: space-evenly;
     }
-
+    
 }
 
 /* desktop */
 @media (min-width: 992px) {
+
+    .navbar{
+        min-height: var(--navbar-height);
+        background-color: var(--color-snow-white);
+        width: 100%;
+        
+    }
+
     .nav-link::after{
         content: "|";
     }
@@ -476,13 +484,15 @@ section#homepage-img{
     }
 
     /* SECURITY */
+
     .security-page {
-        height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
+        height: calc(100vh - var(--footer-height) - var(--navbar-height));
     }
 
     .security-form {
         width: 40%;
-        margin: 30% auto;
+        margin: 30px auto;
+        max-height: 50vh;
     }
 
     .security-form> .card-title {
