@@ -41,7 +41,7 @@ class FileUploader
     public function deleteFile(Media $media)
     {
         $file = $this->publicDirectory . $media->getUrl();
-        if(file_exists($file)) {
+        if(file_exists($file) && $media->getUrl() != '/img/tricks/default.jpg') {
             unlink($file);
         }
     }

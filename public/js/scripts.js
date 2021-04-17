@@ -91,14 +91,12 @@ $(document).ready(function () {
         /**hide all fields */
         var idMedia = this.parentNode.parentNode.getAttribute('id');
 
-        if (this.value == 1) { //image
-            $('#' + idMedia + '_url').hide();
-            $('#' + idMedia + '_url').removeAttr('required');
-            $('#' + idMedia + '_file').slideDown();
-        } else if (this.value == 2) { //video
-            $('#' + idMedia + '_file').hide();
-            $('#' + idMedia + '_url').slideDown();
-            $('#' + idMedia + '_url').attr('required', 'required');
+        typeToShow = this.value == 1 ? "file" : this.value == 2 ? "url" : "";
+        typeToHide = this.value == 1 ? "url" : this.value == 2 ? "file" : "";
+
+        if (typeToHide !== typeToHide !== "") {
+            $('#' + idMedia + '_' + typeToHide).removeAttr('required').hide();
+            $('#' + idMedia + '_' + typeToShow).attr('required', 'required').slideDown();
         }
 
     });
