@@ -283,6 +283,7 @@ section#homepage-img{
 /* SIGNUP / SIGNIN */
 .signup-form> .card-title, 
 .lost_pwd-form> .card-title, 
+.reset_pwd-form> .card-title, 
 .signin-form> .card-title {
     text-align: center;
 }
@@ -290,6 +291,7 @@ section#homepage-img{
 .signup-page,
 .signin-page,
 .lost_pwd-page,
+.reset_pwd-page,
 .account-page {
     display: flex;
     flex-direction: column;
@@ -300,6 +302,7 @@ section#homepage-img{
 .signup-form,
 .signin-form,
 .lost_pwd-form,
+.reset_pwd-form,
 .account-form {
     display: flex;
     flex-direction: column;
@@ -312,6 +315,7 @@ section#homepage-img{
 .signup-form> .card-body,
 .signin-form> .card-body,
 .lost_pwd-form> .card-body,
+.reset_pwd-form> .card-body,
 .account-form> .card-body {
     display: flex;
     flex-direction: column;
@@ -319,8 +323,9 @@ section#homepage-img{
 }
 
 .signup-form> .card-body> form,
-.signup-form> .card-body> form,
+.signin-form> .card-body> form,
 .lost_pwd-form> .card-body> form,
+.reset_pwd-form> .card-body> form,
 .account-form> .card-body> form {
     display: flex;
     flex-direction: column;
@@ -331,6 +336,7 @@ section#homepage-img{
 .signup-form> .card-body> form> .form-group> label,
 .signup-form> .card-body> form> .form-group> label,
 .lost_pwd-form> .card-body> form> .form-group> label,
+.reset_pwd-form> .card-body> form> .form-group> label,
 .account-form> .card-body> form> .form-group> label {
     display: flex;
     justify-content: center;
@@ -338,7 +344,9 @@ section#homepage-img{
 
 #user_save,
 .signin-form> .card-body> form> button,
+.signup-form> .card-body> form> button,
 .lost_pwd-form> .card-body> form> button,
+.reset_pwd-form> .card-body> form> button,
 .account-form> .card-body> form> button {
     width: 60%;
     margin-right: auto;
@@ -347,6 +355,7 @@ section#homepage-img{
 
 .signin-link,
 .signup-link,
+.reset_pwd-link,
 .lost_pwd-link {
     margin: 10px auto;
 }
@@ -471,6 +480,7 @@ section#homepage-img{
     .signup-page,
     .signin-page,
     .lost_pwd-page,
+    .reset_pwd-page,
     .account-page {
         height: calc(100vh - (var(--navbar-height) + var(--footer-height)));
     }
@@ -478,6 +488,7 @@ section#homepage-img{
     .signup-form,
     .signin-form,
     .lost_pwd-form,
+    .reset_pwd-form,
     .account-form {
         width: 40%;
         margin: 30% auto;

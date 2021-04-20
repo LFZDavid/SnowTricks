@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\AccountType;
+use App\Form\ResetPwdType;
 use App\Service\AccountValidator;
 use App\Repository\UserRepository;
 use App\Service\AvatarFileUploader;
@@ -18,6 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class SecurityController extends AbstractController
 {
@@ -86,7 +88,6 @@ class SecurityController extends AbstractController
     {
         $user = $this->getUser();
         
-        $user->setConfirmPassword($user->getPassword());        
         $form = $this->createForm(AccountType::class, $user);
         $form->handleRequest($request);
 
@@ -144,11 +145,26 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/security/reset_pwd", name="reset_pwd")
+     * @Route("/security/reset_pwd/{token}", name="reset_pwd")
      */
-    public function resetPwd(Request $request, UserRepository $userRepository):Response
+    public function resetPwd(Request $request, User $user, EntityManagerInterface $manager,UserPasswordEncoderInterface $encoder):Response
     {
-        return $this->redirectToRoute('app_login');
+        if(!$user->getActive()) {
+            return new Response('Vous ne pouvez pas réinitilaliser votre mot de passe si votre compte n\'est pas activé!', 403);
+        }
+        $form = $this->createForm(ResetPwdType::class, $user);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
+
+            $manager->flush();
+            // todo : message pwd reset success
+            return $this->redirectToRoute('home');
+        }
+        return $this->render('security/reset_pwd.html.twig',[
+            'resetPwdForm' => $form->createView(),
+        ]);
     }
 }
 
