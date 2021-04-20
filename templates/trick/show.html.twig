@@ -29,7 +29,7 @@
 			{% block medias %}
 				<div class="row">
 					{% for media in trick.medias.toArray %}
-						<div class="col-lg-2 col-md-6 col-sm-12 trick-media">
+						<div class="col-lg-4 col-md-6 col-sm-12 trick-media">
 							{% if media.type == 'img' %}
 								<img class="img-thumbnail" src=" {{asset(media.url)}} ">
 							{% elseif media.type == 'video' %}
@@ -49,7 +49,7 @@
 				Créé le :
 				{{trick.createdAt|date('d/m/Y')}}
 			</span>
-			{% if trick.updatedAt %}
+			{% if trick.updatedAt != trick.createdAt %}
 				<span class="badge bg-success updated-at-badge">
 					Mis à jour le :
 					{{trick.updatedAt|date('d/m/Y')}}
@@ -65,7 +65,7 @@
 			{% if app.user %}
 				{% include "./comment/_form.html.twig" %}
 			{% else %}
-				<div class="disclaimer-comment">
+				<div class="disclaimer-comment alert alert-secondary">
 					<strong>Vous devez être connecter pour laisser un commentaire</strong><br>
 					<a class="signup-link" href="{{path('signUp')}}">S'inscrire</a>
 					/

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class FileUploader
 {
+    const DEFAULT_IMG_URL = '/img/tricks/default.jpg';
     protected string $publicDirectory;
     protected SluggerInterface $slugger;
     protected string $imgRelativeDirectory;
@@ -41,7 +42,7 @@ class FileUploader
     public function deleteFile(Media $media)
     {
         $file = $this->publicDirectory . $media->getUrl();
-        if(file_exists($file)) {
+        if(file_exists($file) && $media->getUrl() != self::DEFAULT_IMG_URL) {
             unlink($file);
         }
     }

@@ -15,28 +15,10 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInterface
 {
-    const VIDEOS_LINKS = [
-        "https://www.youtube.com/embed/SQyTWk7OxSI",
-        "https://www.youtube.com/embed/YFRl91m6WS8",
-        "https://www.youtube.com/embed/uQgslXubZ4o",
-        "https://www.youtube.com/embed/qsd8uaex-Is",
-        "https://www.youtube.com/embed/gbHU6J6PRRw",
-        "https://www.youtube.com/embed/GBknUJXw5qs",
-        "https://www.youtube.com/embed/cVKamPWu_Sc",
-        "https://www.youtube.com/embed/czpV-FOBHY4",
-        "https://www.youtube.com/embed/bcSZDS65eGs",
-        "https://www.youtube.com/embed/-kOsKKsJ_SE",
-    ];
+    
+    const VIDEOS_LINKS = ["SQyTWk7OxSI", "YFRl91m6WS8", "uQgslXubZ4o","qsd8uaex-Is","gbHU6J6PRRw","GBknUJXw5qs","cVKamPWu_Sc","czpV-FOBHY4","bcSZDS65eGs","-kOsKKsJ_SE"];
 
-    const CATEGORIES = [
-        "grab",
-        "rotation",
-        "flip",
-        "rotation désaxée",
-        "slide",
-        "one foot",
-        "old school",
-    ];
+    const CATEGORIES = ["grab","rotation","flip","rotation désaxée","slide","one foot","old school",];
 
     public static function getGroups(): array
     {
@@ -79,7 +61,7 @@ class AppFixtures extends Fixture implements FixtureGroupInterface, FixtureInter
                 $video = new Media();
                 $video
                 ->setType('video')
-                ->setUrl(self::VIDEOS_LINKS[array_rand(self::VIDEOS_LINKS, 1)]);
+                ->setUrl("https://www.youtube.com/embed/" . self::VIDEOS_LINKS[array_rand(self::VIDEOS_LINKS, 1)]);
                 $trick->addMedia($video);
             }
             

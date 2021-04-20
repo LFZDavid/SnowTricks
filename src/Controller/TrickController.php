@@ -25,7 +25,7 @@ class TrickController extends AbstractController
      * @Route("/trick/create", name="trick_create")
      * @IsGranted("ROLE_USER")
      */
-    public function create(Request $request, SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader): Response
+    public function create(Request $request, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
         $trick = new Trick;
         $form = $this->createForm(TrickType::class, $trick);
@@ -58,7 +58,7 @@ class TrickController extends AbstractController
      * @Route("/trick/{slug}/edit", name="trick_edit")
      * @IsGranted("ROLE_USER")
      */
-    public function edit(Trick $trick, Request $request, SluggerInterface $slugger, EntityManagerInterface $manager, FileUploader $fileUploader): Response
+    public function edit(Trick $trick, Request $request, EntityManagerInterface $manager, FileUploader $fileUploader): Response
     {
         $form = $this->createForm(TrickType::class, $trick);
         $form->handleRequest($request);
@@ -88,7 +88,7 @@ class TrickController extends AbstractController
      * @Route("/trick/{slug}/delete", name="trick_delete", methods="DELETE")
      * @IsGranted("ROLE_USER")
      */
-    public function delete(Trick $trick, Request $request, EntityManagerInterface $manager):Response
+    public function delete(Trick $trick,EntityManagerInterface $manager):Response
     {
         $manager->remove($trick);
         $manager->flush();

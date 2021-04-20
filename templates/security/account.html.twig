@@ -15,8 +15,8 @@
 {% endblock %}
 
 {% block body %}
-	<div class="account-page">
-		<div class="card account-form">
+	<div class="security-page">
+		<div class="card security-form">
 			<h1 class="card-title">{{ title }}</h1>
 			<div class="account-avatar-container">
 				<img src="{{url_avatar}}" class="account-avatar-img">
@@ -29,7 +29,7 @@
 				<button type="submit" class="btn btn-success" id="user_save">Enregistrer
 				</button>
 				{{form_end(accountForm)}}
-				<a class="forgot-pwd-link" href="#">Reset mot de passe</a>
+				<a class="lost_pwd-link" href="#">Reset mot de passe</a>
 			</div>
 		</div>
 	</div>

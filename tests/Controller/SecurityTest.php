@@ -149,7 +149,7 @@ class Security extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertInputValueSame('account[name]', $this->userTest->getName());
         $this->assertInputValueSame('account[email]', $this->userTest->getEmail());
-        $this->assertSelectorExists('.forgot-pwd-link');
+        $this->assertSelectorExists('.lost_pwd-link');
     }
 
     public function testUpdateUser()
