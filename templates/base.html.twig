@@ -25,10 +25,14 @@
 	<body>
 		<div id="main">
 			{% include "/includes/header.html.twig" %}
-			<div id="body-block"> {% block body %}{% endblock %}
+			<div id="body-block">
+				<div class="flash-modal">
+					{% include "/includes/flash_modal.html.twig" %}
 				</div>
-				{% include "/includes/footer.html.twig" %}
+				{% block body %}{% endblock %}
 			</div>
-		</body>
+			{% include "/includes/footer.html.twig" %}
+		</div>
+	</body>
 
-	</html>
+</html>

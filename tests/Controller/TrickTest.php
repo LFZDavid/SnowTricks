@@ -78,7 +78,6 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('span.form-error-message','Ce nom est déjà pris !');
     }
 
-    //todo : assert flash message exist after add trick
     public function testCreateTrick()
     {
         $this->client->loginUser($this->userTest);
@@ -94,6 +93,9 @@ class TrickTest extends WebTestCase
         $this->client->submit($form);
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
+
+        /** Check success message */
+        $this->assertSelectorExists('.alert-success');
         
         //**Check if trick is added in homepage */
         $crawler = $this->client->request('GET', '/');
@@ -130,7 +132,6 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('#trick_description', $trickToEdit->getDescription());
     }
 
-    //todo : assert flash message exist after add trick
     public function testEditTrick()
     {
 
@@ -146,6 +147,9 @@ class TrickTest extends WebTestCase
         $this->client->submit($form);
         $this->client->followRedirect();
         $this->assertResponseIsSuccessful();
+
+        /** Check success message */
+        $this->assertSelectorExists('.alert-success');
 
         /**Check if modifications are saved */
         $crawler = $this->client->request('GET', '/');
@@ -231,7 +235,6 @@ class TrickTest extends WebTestCase
         $this->assertSelectorTextContains('.comment-content', $commentContent);
     }
 
-    // todo: assert comment author image 
     public function testFindCommentDataInCommentList()
     {
         $trick = $this->trickRepository->findOneByName('has-one-comment');

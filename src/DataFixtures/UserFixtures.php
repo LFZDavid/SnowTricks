@@ -21,6 +21,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
         $users = [
                 "valid",
                 "notvalid",
+                "tovalid",
                 "todelete",
         ];
 

@@ -23,7 +23,7 @@ class UserType extends AbstractType
                 'invalid_message' => 'Vous n\'avez pas tapé le même mot de passe',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Nouveau mot de passe'],
+                'first_options'  => ['label' => 'Mot de passe'],
                 'second_options' => ['label' => 'Confirmation'],
             ])
         ;

@@ -45,6 +45,7 @@ class TrickController extends AbstractController
             $manager->persist($trick);
             $manager->flush();
             
+            $this->addFlash('success', 'Nouveau trick ajouté avec succès!');
             return $this->redirectToRoute('home');
         }
         
@@ -73,6 +74,7 @@ class TrickController extends AbstractController
             }
 
             $manager->flush();
+            $this->addFlash('success', 'Modifications enregistrées avec succès!');
             return $this->redirectToRoute('home');
         }
 
@@ -88,15 +90,9 @@ class TrickController extends AbstractController
      */
     public function delete(Trick $trick, Request $request, EntityManagerInterface $manager):Response
     {
-        //todo : check token
-        // if($this->isCsrfTokenValid('delete'.$trick->getName(), $request->get('_token'))) {
-
         $manager->remove($trick);
         $manager->flush();
         return $this->redirectToRoute('home');
-        // }
-
-        return new Response('token invalid', 500);
     }
 
     /**

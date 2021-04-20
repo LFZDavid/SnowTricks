@@ -35,6 +35,7 @@ class SecurityController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
+            $this->addFlash('success', 'Les informations ont été enregistrées avec succès!</br>Vous allez recevoir un mail pour <strong>activer votre compte</strong>');
             return $this->redirectToRoute('home');
         }
         
@@ -45,15 +46,14 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/signup_confirm", name="signup_confirm")
+     * @Route("/signup_confirm/{token}", name="signup_confirm")
      */
-    public function confirmCreation(Request $request, EntityManagerInterface $manager, UserRepository $userRepository):Response
+    public function confirmCreation(Request $request, EntityManagerInterface $manager, User $user):Response
     {
-        $user = $userRepository->findOneBy(['token' => $request->query->get('token')]);
-
         if($user) {
             $user->setActive(true);
             $manager->flush();
+            $this->addFlash('success', 'Félicitation, votre compte à été activé !');
         }
 
         return $this->redirectToRoute(('home'));
@@ -78,6 +78,15 @@ class SecurityController extends AbstractController
     public function logout()
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+    }
+
+    /**
+     * @Route("/security/logged_out", name="logged_out")
+     */
+    public function redirectAfterLoggedOut()
+    {
+        $this->addFlash('danger', 'Déconnecté!');
+        return $this->redirectToRoute('home');
     }
 
     /**
@@ -128,12 +137,12 @@ class SecurityController extends AbstractController
             ]);
 
             if(!$user) {
-                // todo : message user doesn't exist or not active
+                $this->addFlash('danger', 'Aucun utilisateur actif correspondant!');
             }
             
             if($user && $user->getEmail()) {
                 $accountValidator->sendResetPwdMail($user);
-                // todo : message mail sent
+                $this->addFlash('success', 'Vous allez recevoir un mail pour <strong>réinitialiser votre mot de passe.</strong>');
                 return $this->redirectToRoute('app_login');
             }
 
@@ -159,7 +168,7 @@ class SecurityController extends AbstractController
             $user->setPassword($hash);
 
             $manager->flush();
-            // todo : message pwd reset success
+            $this->addFlash('success', 'Votre mot de passe à été mis à jour!');
             return $this->redirectToRoute('home');
         }
         return $this->render('security/reset_pwd.html.twig',[
