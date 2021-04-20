@@ -13,7 +13,7 @@ class Avatar
 {
 
     const DEFAULT_IMG_URL = '/img/users/default.png';
-    
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -24,7 +24,7 @@ class Avatar
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $url = '/img/users/default.png';
+    private ?string $url = self::DEFAULT_IMG_URL;
 
     private ?UploadedFile $file;
 
