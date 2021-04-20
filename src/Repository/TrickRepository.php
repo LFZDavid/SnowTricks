@@ -19,27 +19,4 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    // public function findOneBySlug(string $slug): ?Trick
-    // {
-    //     return $this->createQueryBuilder('t')
-    //         ->innerJoin('t.comments', 'c')
-    //         ->where('t.slug = :slug')
-    //         ->setParameter('slug', $slug)
-    //         // ->orderBy('c.createdAt', 'DESC')
-    //         ->getQuery()
-    //         ->getOneOrNullResult()
-    //     ;
-    // }
-
-    /*
-    public function findOneBySomeField($value): ?Category
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

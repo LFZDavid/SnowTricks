@@ -70,7 +70,7 @@ class LoginFromAuthenticator extends AbstractLoginFormAuthenticator
      *
      * @throws \LogicException
      */
-    protected function addFlash(string $type, $message, Session $session): void
+    protected function addFlash(string $type, string $message, Session $session): void
     {
         $session->getFlashBag()->add($type, $message);
     }
