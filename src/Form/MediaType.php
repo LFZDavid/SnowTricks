@@ -35,9 +35,6 @@ class MediaType extends AbstractType
                     'placeholder' => 'url',
                     'class' => "form-control trick-video",
                 ],
-                'constraints' => [
-                    new NotNull(null, 'Ce champs ne peut pas être vide!'),
-                ],
             ])
             ->add('file', FileType::class, [
                 'label' => false,

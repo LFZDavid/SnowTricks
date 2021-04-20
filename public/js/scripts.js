@@ -39,12 +39,13 @@ $(document).ready(function () {
         $('#div_' + mediaId).toggleClass('col-md-2').find('.upload-input').slideToggle();
 
         var typeValue = $('#' + mediaId + '_type')[0].value;
-        if (typeValue == 1) {
-            $('#' + mediaId + '_url').hide();
-            $('#' + mediaId + '_file').slideDown();
-        } else if (typeValue == 2) {
-            $('#' + mediaId + '_file').hide();
-            $('#' + mediaId + '_url').slideDown();
+
+        typeToShow = typeValue == 1 ? "file" : typeValue == 2 ? "url" : "";
+        typeToHide = typeValue == 1 ? "url" : typeValue == 2 ? "file" : "";
+
+        if (typeToHide !== typeToHide !== "") {
+            $('#' + mediaId + '_' + typeToHide).removeAttr('required').hide();
+            $('#' + mediaId + '_' + typeToShow).attr('required', 'required').slideDown();
         }
 
     });
