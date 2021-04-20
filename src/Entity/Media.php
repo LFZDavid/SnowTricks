@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Media
 {
+
+    const DEFAULT_IMG_URL = '/img/users/default.png';
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

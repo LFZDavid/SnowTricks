@@ -11,6 +11,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Avatar
 {
+
+    const DEFAULT_IMG_URL = '/img/users/default.png';
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
