@@ -43,8 +43,7 @@ git clone https://github.com/LFZDavid/SnowTricks.git
     ```
     php bin/console doctrine:migrations:migrate
    ``` 
-   * Import datas : 
-   use `database/snowtricks.sql` on your favorite database manager _(ex : [phpmyadmin](https://www.phpmyadmin.net/))_
+
 4. ### Set mailer connection :
     *   In `.env` file
     ```
