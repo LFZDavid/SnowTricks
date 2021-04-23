@@ -174,6 +174,7 @@ final class Version20210423143700 extends AbstractMigration
         ("https://www.youtube.com/embed/EFBct2TWKdk", "10", "video")
         ');
 
+        // comment  
         $comments_content = [
             "Super !",
             "Impressionnant !",
@@ -188,16 +189,12 @@ final class Version20210423143700 extends AbstractMigration
         ];
 
         for ($i=0; $i < 300; $i++) { 
-            $this->addSql('INSERT INTO comment (trick_id, content, created_at, author_id) VALUES
-                ("' . rand(1,10) . '",
-                "'. $comments_content[array_rand($comments_content)] . '",
-                "2020-' . rand(1,12) . '-' . rand(1,28) . ' 15-00-00",
-                "'.rand(1,8).'")
-            ');
+            $values[] = '("' . rand(1,10) . '",
+            "'. $comments_content[array_rand($comments_content)] . '",
+            "2020-' . rand(1,12) . '-' . rand(1,28) . ' 15-00-00",
+            "'.rand(1,8).'")';
         }
-
-        // comment
-        
+        $this->addSql('INSERT INTO comment (trick_id, content, created_at, author_id) VALUES '.implode(",", $values));
     }
 
     public function down(Schema $schema) : void
