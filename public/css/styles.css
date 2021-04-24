@@ -204,7 +204,8 @@ section#homepage-img{
 }
 
 .trick-media> embed,
-.trick-media> img{
+.trick-media> img,
+.media-contain> img{
     min-height: 200px;
 }
 

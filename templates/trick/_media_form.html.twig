@@ -2,7 +2,7 @@
 	{% for media in formTrick.medias %}
 		{% set is_image = media.vars.value.type == 'img' %}
 		{% set is_video = media.vars.value.type == 'video' %}
-		<div class="col-md-2" id="div_{{media.vars.id}}">
+		<div class="col-md-3" id="div_{{media.vars.id}}">
 			<div class="media-contain">
 				{% if loop.first and is_image %}
 					<span class="badge bg-success main-img-badge">Main</span>
