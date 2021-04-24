@@ -43,6 +43,7 @@ git clone https://github.com/LFZDavid/SnowTricks.git
     ```
     php bin/console doctrine:migrations:migrate
    ``` 
+   _`les données de démonstrations sont présents dans la dernière migration`_
 
 4. ### Set mailer connection :
     *   In `.env` file
@@ -50,3 +51,13 @@ git clone https://github.com/LFZDavid/SnowTricks.git
     MAILER_DSN=smtp://user:pass@smtp.example.com
     ```
 ---
+
+5. _(optionnel)_ Installer un jeu de données de test/dev
+    * Fixtures pour test unitaires et fonctionnels
+        ```
+        php bin/console d:f:l --env=test --group=test
+        ```
+    * Fixtures pour dev
+        ```
+        php bin/console d:f:l --env=dev --group=dev
+        ```
