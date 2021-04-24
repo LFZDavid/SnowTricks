@@ -1,14 +1,16 @@
 {% extends '/trick/base.html.twig' %}
 
 {% block trick_content %}
-	<div class="card edit-trick-btns edit-trick-btns-main">
-		<a href="{{path("trick_edit", {'slug':trick.slug})}}">
-			<i class="bi bi-pencil-fill"></i>
-		</a>
-		<a href="{{path("trick_edit", {'slug':trick.slug})}}" id="delete-trick-from-show-btn">
-			<i class="bi bi-trash-fill"></i>
-		</a>
-	</div>
+	{% if app.user %}
+		<div class="card edit-trick-btns edit-trick-btns-main">
+			<a href="{{path("trick_edit", {'slug':trick.slug})}}">
+				<i class="bi bi-pencil-fill"></i>
+			</a>
+			<a href="{{path("trick_edit", {'slug':trick.slug})}}" id="delete-trick-from-show-btn">
+				<i class="bi bi-trash-fill"></i>
+			</a>
+		</div>
+	{% endif %}
 	{% if trick.medias is not empty and trick.medias[0].type == "img" %}
 		{% block main_img %}
 			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
