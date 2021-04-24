@@ -17,16 +17,12 @@ class HomeController extends AbstractController
      */
     public function index(int $nb = self::DEFAULT_PAGINATE, TrickRepository $repo): Response
     {
-        $tricks = $repo->findBy(
-            [],
-            [
-                "updatedAt"=>"DESC",
-            ],
-            $nb
-        );
+        $tricks = $repo->findBy([],["updatedAt"=>"DESC",],$nb);
+        $tricksCount = $repo->count([]);
 
         return $this->render('home/index.html.twig', [
             'tricks' => $tricks,
+            'display_load_more_btn' => $nb < $tricksCount
         ]);
     }
 }

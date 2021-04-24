@@ -47,9 +47,11 @@
 						</div>
 					</div>
 				{% endfor %}
-				<div class="trick-list-bottom">
-					<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
-				</div>
+				{% if display_load_more_btn %}
+					<div class="trick-list-bottom">
+						<a class="btn btn-outline-primary load-more-btn" href="{{asset('/')}}{{tricks|length + 15}}#trick-list">Load more...</a>
+					</div>
+				{% endif %}
 				<div class="create-trick-btn-container">
 					<a class="btn btn-outline-secondary" href="{{path("trick_create")}}">
 						Ajouter un Trick
