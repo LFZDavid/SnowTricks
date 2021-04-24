@@ -23,11 +23,7 @@
 				{% for trick in tricks %}
 					<div class="col-md-2 col-xs-10 {{ (loop.index)%5 == 1 ? 'offset-md-1' : '' }}">
 						<div class="card trick-list-item">
-							{% if trick.medias is not empty %}
-								<img class="card-img-top" src="{{asset(trick.medias[0].url)}}">
-							{% else %}
-								<img class="card-img-top" src="{{asset('/img/tricks/default.jpg')}}">
-							{% endif %}
+							<img src="{{asset(trick.getFirstImgUrl)}}" class="card-img-top">
 							<div class="card-body trick-card-body">
 								<a class="trick-link" href="{{path("trick_show", {"slug":trick.slug})}}">
 									<h5 class="card-title trick-name">

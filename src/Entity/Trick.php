@@ -246,4 +246,16 @@ class Trick
 
         return $this;
     }
+
+    public function getFirstImgUrl(): string
+    {
+        if($this->medias && !empty($this->medias)){
+            foreach ($this->medias as $media) {
+                if ($media->getType() == 'img') {
+                    return $media->getUrl();
+                }
+            }
+        }
+        return Media::DEFAULT_IMG_URL;
+    }
 }

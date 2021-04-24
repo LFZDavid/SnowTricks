@@ -11,13 +11,7 @@
 			</a>
 		</div>
 	{% endif %}
-	{% if trick.medias is not empty and trick.medias[0].type == "img" %}
-		{% block main_img %}
-			<img src="{{asset(trick.medias[0].url)}}" alt="{{trick.name}}" class="img-fluid">
-		{% endblock %}
-	{% else %}
-		<img src="{{asset('/img/tricks/default.jpg')}}">
-	{% endif %}
+	<img src="{{asset(trick.getFirstImgUrl)}}" alt="{{trick.name}}" class="img-fluid">
 	<div class="card-title-band">
 		<h1 class="card-title trick-title">{{title}}</h1>
 	</div>
