@@ -200,6 +200,12 @@ section#homepage-img{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    margin-bottom: 20px;
+}
+
+.trick-media> embed,
+.trick-media> img{
+    min-height: 200px;
 }
 
 .trick-infos {
