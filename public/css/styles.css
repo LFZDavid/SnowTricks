@@ -212,6 +212,7 @@ section#homepage-img{
 .trick-infos {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .trick-infos> span {
